@@ -2,30 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using TCGWorld.Utilities;
 
 /// <summary>
 /// Handles loading card images from remote URLs.
 /// </summary>
-public class CardImageLoader : MonoBehaviour
+public class CardImageLoader : SingletonBehaviour<CardImageLoader>
 {
-    // Singleton pattern
-    public static CardImageLoader Instance { get; private set; }
     
     // Static dictionary to cache downloaded sprites to avoid re-downloading
     private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
     
-    private void Awake()
+    // Initialize in the inspector to make this singleton persist across scenes
+    private void Reset()
     {
-        // Singleton setup
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        _dontDestroyOnLoad = true;
+    }
+    
+    protected override void OnAwake()
+    {
+        // Any additional initialization can go here
     }
     
     /// <summary>

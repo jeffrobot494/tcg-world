@@ -5,16 +5,16 @@ using System.Linq;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TCGWorld.Utilities;
+using TCGWorld.Interfaces;
 
 /// <summary>
 /// MainGame serves as the central controller for the Trading Card Game platform.
 /// This script handles core game functionality, including turn management,
 /// rule interpretation, and game state management.
 /// </summary>
-public class MainGame : MonoBehaviour
+public class MainGame : SingletonBehaviour<MainGame>
 {
-    // Singleton pattern for easy access
-    public static MainGame Instance { get; private set; }
     
     // Game state
     [System.Serializable]
@@ -35,7 +35,7 @@ public class MainGame : MonoBehaviour
     public GameObject cardZonePrefab; // Prefab for creating card zones
     public Transform zonesContainer; // Parent transform for created zones
     public TextAsset cardListJson; // JSON file containing the card list
-    public PlayerDeckManager deckManager; // Reference to the PlayerDeckManager in the scene
+    // Removed direct reference since we'll use the singleton pattern
     
     // Player configuration
     [Header("Players")]
@@ -51,31 +51,11 @@ public class MainGame : MonoBehaviour
     // Reference to the rules interpreter
     private GameRulesInterpreter rulesInterpreter;
     
-    // Initialize the singleton
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-        
-        // Check for required references
-        if (deckManager == null)
-        {
-            Debug.LogError("PlayerDeckManager reference is missing! Please assign it in the Inspector.");
-        }
-        
-        // Find or create the rules interpreter
-        rulesInterpreter = FindObjectOfType<GameRulesInterpreter>();
-        if (rulesInterpreter == null)
-        {
-            GameObject interpreterObj = new GameObject("Rules Interpreter");
-            rulesInterpreter = interpreterObj.AddComponent<GameRulesInterpreter>();
-        }
+    // Override OnAwake from SingletonBehaviour
+    protected override void OnAwake()
+    {        
+        // Access the rules interpreter using our new singleton pattern and interface
+        rulesInterpreter = GameRulesInterpreter.Instance;
     }
     
     // Start is called before the first frame update
@@ -336,12 +316,7 @@ public class MainGame : MonoBehaviour
     // Initialize player cards (decks, hands, etc.)
     private void InitializePlayerCards()
     {
-        // Check if we have a reference to the PlayerDeckManager
-        if (deckManager == null)
-        {
-            Debug.LogError("PlayerDeckManager reference is missing! Please assign it in the Inspector.");
-            return;
-        }
+        PlayerDeckManager deckManager = PlayerDeckManager.Instance;
         
         // Ensure the cards are loaded
         if (cardListJson != null && deckManager.cardsJsonFile == null)
@@ -551,6 +526,13 @@ public class MainGame : MonoBehaviour
     {
         Player currentPlayer = players[currentPlayerIndex];
         
+        // Use the rules interpreter to validate the card play
+        if (!rulesInterpreter.ValidateCardPlay(card, targetZone, currentPlayer.currentResources))
+        {
+            Debug.LogWarning("Cannot play this card - invalid play according to game rules!");
+            return;
+        }
+        
         // Check if it's the right player's turn
         if (card.ownerPlayerId != currentPlayer.id)
         {
@@ -558,10 +540,10 @@ public class MainGame : MonoBehaviour
             return;
         }
         
-        // Check if player has enough resources
-        if (currentPlayer.currentResources < card.cost)
+        // Check if current phase allows playing cards
+        if (!IsActionAllowedInCurrentPhase("playCard"))
         {
-            Debug.LogWarning("Not enough resources to play this card!");
+            Debug.LogWarning("You can't play cards in this phase!");
             return;
         }
         

@@ -5,11 +5,12 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine.UI;
+using TCGWorld.Utilities;
 
 /// <summary>
 /// Manages player decks by loading cards from a JSON file and constructing decks.
 /// </summary>
-public class PlayerDeckManager : MonoBehaviour
+public class PlayerDeckManager : SingletonBehaviour<PlayerDeckManager>
 {
     [System.Serializable]
     public class CardData
@@ -31,27 +32,15 @@ public class PlayerDeckManager : MonoBehaviour
         public List<CardData> cards = new List<CardData>();
     }
 
-    // Singleton pattern
-    public static PlayerDeckManager Instance { get; private set; }
-
     // Path to the card data file relative to Assets folder
     public TextAsset cardsJsonFile;
 
     // The loaded card collection
     private CardCollection cardCollection;
 
-    private void Awake()
+    // Override OnAwake method from SingletonBehaviour instead of using Awake
+    protected override void OnAwake()
     {
-        // Singleton setup
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         // Load cards from JSON file
         LoadCards();
     }
@@ -273,16 +262,8 @@ public class PlayerDeckManager : MonoBehaviour
         // Load artwork from URL
         if (!string.IsNullOrEmpty(cardData.artworkUrl))
         {
-            // Find or create a CardImageLoader
-            CardImageLoader imageLoader = FindObjectOfType<CardImageLoader>();
-            if (imageLoader == null)
-            {
-                GameObject loaderObj = new GameObject("Card Image Loader");
-                imageLoader = loaderObj.AddComponent<CardImageLoader>();
-            }
-            
-            // Request the artwork
-            imageLoader.LoadCardArt(cardData.artworkUrl, (sprite) => {
+            // Use the CardImageLoader singleton
+            CardImageLoader.Instance.LoadCardArt(cardData.artworkUrl, (sprite) => {
                 // When download completes, set the sprite
                 if (cardComponent != null) // Check if card still exists
                 {

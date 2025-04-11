@@ -4,14 +4,14 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TCGWorld.Utilities;
+using TCGWorld.Interfaces;
 
 /// <summary>
 /// Utility class for loading, parsing, and interpreting game rules from JSON.
 /// </summary>
-public class GameRulesInterpreter : MonoBehaviour
+public class GameRulesInterpreter : SingletonBehaviour<GameRulesInterpreter>, IGameRule
 {
-    // Singleton pattern
-    public static GameRulesInterpreter Instance { get; private set; }
     
     // The loaded game rules
     private JObject gameRules;
@@ -23,17 +23,10 @@ public class GameRulesInterpreter : MonoBehaviour
     public JObject TurnStructure { get; private set; }
     public JArray WinConditions { get; private set; }
     
-    private void Awake()
+    // The OnAwake method from SingletonBehaviour replaces the Awake method
+    protected override void OnAwake()
     {
-        // Singleton setup
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        // No specific initialization needed here
     }
     
     /// <summary>
@@ -231,5 +224,58 @@ public class GameRulesInterpreter : MonoBehaviour
         }
         
         return false;
+    }
+    
+    /// <summary>
+    /// Validate if a card can be played to a specific zone (concrete implementation)
+    /// </summary>
+    public bool ValidateCardPlay(Card card, CardZone targetZone, int playerResources)
+    {
+        // Check if player has enough resources
+        if (card.cost > playerResources)
+        {
+            return false;
+        }
+        
+        // Validate card type can be played to this zone
+        string zoneName = targetZone.zoneName;
+        
+        // Only certain card types can be played to the field
+        if (zoneName == "Field")
+        {
+            // Simplified example - in a full implementation, 
+            // this would check against rules loaded from JSON
+            if (card.cardType != "Creature" && card.cardType != "Structure")
+            {
+                return false;
+            }
+        }
+        
+        // Basic capacity check
+        if (targetZone.Cards.Count >= 7 && zoneName == "Field")
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /// <summary>
+    /// Validate if a card can be played to a specific container
+    /// Implements IGameRule.ValidateCardPlay
+    /// </summary>
+    bool IGameRule.ValidateCardPlay(ICard card, ICardContainer targetContainer, int playerResources)
+    {
+        // Basic validation: Make sure it's a Card object
+        Card concreteCard = card as Card;
+        CardZone concreteZone = targetContainer as CardZone;
+        
+        if (concreteCard == null || concreteZone == null)
+        {
+            Debug.LogError("Card validation failed: Invalid card or container type");
+            return false;
+        }
+        
+        return ValidateCardPlay(concreteCard, concreteZone, playerResources);
     }
 }

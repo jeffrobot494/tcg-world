@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TCGWorld.Interfaces;
+using System.Linq;
 
 /// <summary>
 /// Represents a zone or collection of cards in the Trading Card Game.
 /// Examples include: deck, hand, play area, discard pile, etc.
 /// </summary>
-public class CardZone : MonoBehaviour
+public class CardZone : MonoBehaviour, ICardContainer
 {
     // Zone identification
     public string zoneName;
@@ -28,10 +30,17 @@ public class CardZone : MonoBehaviour
     // The actual cards in this zone
     private List<Card> cards = new List<Card>();
     
-    // Public access to cards (read-only)
+    // Original property for backward compatibility
     public IReadOnlyList<Card> Cards => cards.AsReadOnly();
     
-    // Card management methods
+    // ICardContainer implementation
+    string ICardContainer.Name => zoneName;
+    bool ICardContainer.IsPublic => isPublic;
+    int ICardContainer.OwnerID => ownerPlayerId;
+    int ICardContainer.Count => cards.Count;
+    List<ICard> ICardContainer.Cards => cards.Cast<ICard>().ToList();
+    
+    // Original method for backward compatibility (keep this)
     public void AddCard(Card card, int position = -1)
     {
         // Check if zone is at capacity
@@ -61,6 +70,21 @@ public class CardZone : MonoBehaviour
         card.FlipCard(faceUp);
     }
     
+    // ICardContainer implementation
+    bool ICardContainer.AddCard(ICard card)
+    {
+        Card concreteCard = card as Card;
+        if (concreteCard == null)
+        {
+            Debug.LogError($"Cannot add card to {zoneName}: card is not of type Card.");
+            return false;
+        }
+        
+        AddCard(concreteCard);
+        return true;
+    }
+    
+    // Original method for backward compatibility
     public Card RemoveCard(int index)
     {
         if (index < 0 || index >= cards.Count)
@@ -78,6 +102,7 @@ public class CardZone : MonoBehaviour
         return removedCard;
     }
     
+    // Original method for backward compatibility
     public Card RemoveCard(Card card)
     {
         int index = cards.IndexOf(card);
@@ -90,6 +115,7 @@ public class CardZone : MonoBehaviour
         return RemoveCard(index);
     }
     
+    // Original method for backward compatibility
     public Card DrawCard()
     {
         if (cards.Count == 0)
@@ -101,6 +127,7 @@ public class CardZone : MonoBehaviour
         return RemoveCard(0);
     }
     
+    // Original method for backward compatibility
     public void ShuffleCards()
     {
         if (!isOrderable)
@@ -121,7 +148,7 @@ public class CardZone : MonoBehaviour
         UpdateCardPositions();
     }
     
-    // Update the visual positions of all cards in the zone
+    // Original method for backward compatibility
     public void UpdateCardPositions()
     {
         for (int i = 0; i < cards.Count; i++)
@@ -132,5 +159,30 @@ public class CardZone : MonoBehaviour
             // Move the card to its position in the zone
             cards[i].MoveToPosition(position, rotation, Vector3.one);
         }
+    }
+    
+    // Interface implementations
+    bool ICardContainer.RemoveCard(ICard card)
+    {
+        Card concreteCard = card as Card;
+        if (concreteCard == null) return false;
+        
+        Card result = RemoveCard(concreteCard);
+        return result != null;
+    }
+    
+    ICard ICardContainer.DrawCard()
+    {
+        return DrawCard();
+    }
+    
+    void ICardContainer.ShuffleCards()
+    {
+        ShuffleCards();
+    }
+    
+    void ICardContainer.UpdateLayout()
+    {
+        UpdateCardPositions();
     }
 }

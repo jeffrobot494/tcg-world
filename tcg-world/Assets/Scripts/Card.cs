@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro; // Include TextMeshPro namespace if you're using it
+using TCGWorld.Interfaces;
 
 /// <summary>
 /// Represents a single card in the Trading Card Game.
 /// This class stores all the information about a card, including its attributes, effects,
 /// and visual representation.
 /// </summary>
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour, ICard
 {
     // Core card information
     public int id;
@@ -28,6 +29,20 @@ public class Card : MonoBehaviour
         }
     }
     
+    // ICard interface implementation - map to existing properties
+    public int ID => id;
+    public string Name => cardName;
+    public string Description => description;
+    public int OwnerID => ownerPlayerId;
+    public bool IsFaceUp => isFaceUp;
+    
+    // ICard.Artwork implementation
+    public Sprite Artwork 
+    {
+        get { return artwork; }
+        set { artwork = value; }
+    }
+    
     // Game properties (these could vary by game type)
     public int cost;
     public int attack;
@@ -42,6 +57,13 @@ public class Card : MonoBehaviour
     // Runtime references
     public CardZone currentZone;
     public int ownerPlayerId;
+    
+    // ICard interface implementation
+    public ICardContainer CurrentContainer 
+    { 
+        get { return currentZone; } 
+        set { currentZone = value as CardZone; } 
+    }
     
     // UI Component references (optional, will be found if they exist)
     [Header("UI Components")]
@@ -58,11 +80,18 @@ public class Card : MonoBehaviour
     private Vector3 targetScale;
     private float moveSpeed = 5f;
     
-    // Methods for card behavior
+    // Methods for card behavior - implementing ICard interface
     public void FlipCard(bool faceUp)
     {
         isFaceUp = faceUp;
         // Animation and visual update logic would go here
+    }
+    
+    // Implements ICard.UpdateVisuals()
+    public void UpdateVisuals()
+    {
+        UpdateCardText();
+        ApplyArtwork();
     }
     
     public void MoveToPosition(Vector3 position, Quaternion rotation, Vector3 scale, float speed = 5f)

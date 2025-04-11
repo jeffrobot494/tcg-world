@@ -57,7 +57,8 @@ public class PlayerDeckManager : MonoBehaviour
     }
 
     // Load cards from the JSON file
-    private void LoadCards()
+    // Make this method public so it can be called after assigning cardsJsonFile at runtime if needed
+    public void LoadCards()
     {
         // First check if a direct file reference was assigned in the inspector
         if (cardsJsonFile != null)

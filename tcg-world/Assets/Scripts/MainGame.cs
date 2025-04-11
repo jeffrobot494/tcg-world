@@ -35,6 +35,7 @@ public class MainGame : MonoBehaviour
     public GameObject cardZonePrefab; // Prefab for creating card zones
     public Transform zonesContainer; // Parent transform for created zones
     public TextAsset cardListJson; // JSON file containing the card list
+    public PlayerDeckManager deckManager; // Reference to the PlayerDeckManager in the scene
     
     // Player configuration
     [Header("Players")]
@@ -60,6 +61,12 @@ public class MainGame : MonoBehaviour
         else
         {
             Instance = this;
+        }
+        
+        // Check for required references
+        if (deckManager == null)
+        {
+            Debug.LogError("PlayerDeckManager reference is missing! Please assign it in the Inspector.");
         }
         
         // Find or create the rules interpreter
@@ -329,8 +336,19 @@ public class MainGame : MonoBehaviour
     // Initialize player cards (decks, hands, etc.)
     private void InitializePlayerCards()
     {
-        // Get or create the PlayerDeckManager
-        PlayerDeckManager deckManager = GetOrCreateDeckManager();
+        // Check if we have a reference to the PlayerDeckManager
+        if (deckManager == null)
+        {
+            Debug.LogError("PlayerDeckManager reference is missing! Please assign it in the Inspector.");
+            return;
+        }
+        
+        // Ensure the cards are loaded
+        if (cardListJson != null && deckManager.cardsJsonFile == null)
+        {
+            deckManager.cardsJsonFile = cardListJson;
+            deckManager.LoadCards(); // Explicitly call LoadCards since we're assigning the JSON file after Awake
+        }
         
         foreach (Player player in players)
         {
@@ -368,24 +386,6 @@ public class MainGame : MonoBehaviour
                 }
             }
         }
-    }
-    
-    // Find or create the PlayerDeckManager
-    private PlayerDeckManager GetOrCreateDeckManager()
-    {
-        PlayerDeckManager deckManager = FindObjectOfType<PlayerDeckManager>();
-        if (deckManager == null)
-        {
-            GameObject deckManagerObj = new GameObject("Deck Manager");
-            deckManager = deckManagerObj.AddComponent<PlayerDeckManager>();
-            
-            // If we have a direct reference to the card list JSON, assign it
-            if (cardListJson != null)
-            {
-                deckManager.cardsJsonFile = cardListJson;
-            }
-        }
-        return deckManager;
     }
     
     // Begin a player's turn

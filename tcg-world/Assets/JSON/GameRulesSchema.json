@@ -1,0 +1,255 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCG Game Rules",
+  "description": "Schema for defining trading card game rules",
+  "type": "object",
+  "required": ["gameInfo", "cardProperties", "zones", "turnStructure", "winConditions"],
+  "properties": {
+    "gameInfo": {
+      "type": "object",
+      "required": ["name", "description", "playerCount", "initialPlayerHealth"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the card game"
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the game"
+        },
+        "playerCount": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 4,
+          "description": "The number of players the game supports"
+        },
+        "initialPlayerHealth": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Starting health/life points for each player"
+        }
+      }
+    },
+    "cardProperties": {
+      "type": "object",
+      "description": "Defines the properties that cards can have in this game",
+      "required": ["baseProperties", "types", "customProperties"],
+      "properties": {
+        "baseProperties": {
+          "type": "array",
+          "description": "Basic properties that all cards have",
+          "items": {
+            "type": "string",
+            "enum": ["name", "cost", "attack", "health", "description"]
+          }
+        },
+        "types": {
+          "type": "array",
+          "description": "Types of cards in the game",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["Creature", "Spell", "Item"]]
+        },
+        "customProperties": {
+          "type": "array",
+          "description": "Game-specific properties for cards",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "description"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the property"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["integer", "string", "boolean"],
+                "description": "Data type of the property"
+              },
+              "description": {
+                "type": "string",
+                "description": "What this property represents"
+              },
+              "defaultValue": {
+                "description": "Default value for this property"
+              }
+            }
+          }
+        }
+      }
+    },
+    "zones": {
+      "type": "array",
+      "description": "Areas where cards can exist during the game",
+      "items": {
+        "type": "object",
+        "required": ["name", "perPlayer", "isPublic", "isOrdered", "maxCards"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the zone"
+          },
+          "perPlayer": {
+            "type": "boolean",
+            "description": "Whether each player has their own instance of this zone"
+          },
+          "isPublic": {
+            "type": "boolean",
+            "description": "Whether cards in this zone are visible to all players"
+          },
+          "isOrdered": {
+            "type": "boolean",
+            "description": "Whether the order of cards in this zone matters"
+          },
+          "maxCards": {
+            "type": "integer",
+            "description": "Maximum number of cards allowed in this zone (-1 for unlimited)"
+          },
+          "startingCards": {
+            "type": "integer",
+            "description": "Number of cards that start in this zone at game start",
+            "default": 0
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "name": "Deck",
+            "perPlayer": true,
+            "isPublic": false,
+            "isOrdered": true,
+            "maxCards": -1,
+            "startingCards": 40
+          },
+          {
+            "name": "Hand",
+            "perPlayer": true,
+            "isPublic": false,
+            "isOrdered": false,
+            "maxCards": 10,
+            "startingCards": 0
+          },
+          {
+            "name": "Field",
+            "perPlayer": true,
+            "isPublic": true,
+            "isOrdered": false,
+            "maxCards": 7,
+            "startingCards": 0
+          },
+          {
+            "name": "Discard",
+            "perPlayer": true,
+            "isPublic": true,
+            "isOrdered": true,
+            "maxCards": -1,
+            "startingCards": 0
+          }
+        ]
+      ]
+    },
+    "turnStructure": {
+      "type": "object",
+      "required": ["phases", "firstPlayerDraws", "normalDrawCount", "resourceSystem"],
+      "properties": {
+        "phases": {
+          "type": "array",
+          "description": "Phases in each player's turn",
+          "items": {
+            "type": "object",
+            "required": ["name", "description", "allowedActions"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the phase"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of what happens in this phase"
+              },
+              "allowedActions": {
+                "type": "array",
+                "description": "Actions that can be taken during this phase",
+                "items": {
+                  "type": "string",
+                  "enum": ["drawCard", "playCard", "attack", "useAbility", "moveCard"]
+                }
+              }
+            }
+          }
+        },
+        "firstPlayerDraws": {
+          "type": "integer",
+          "description": "Number of cards the first player draws at game start",
+          "minimum": 0
+        },
+        "normalDrawCount": {
+          "type": "integer",
+          "description": "Number of cards drawn at the start of each turn",
+          "minimum": 0
+        },
+        "resourceSystem": {
+          "type": "object",
+          "description": "System for resources like mana or energy",
+          "required": ["type", "startingAmount", "maxAmount", "gainPerTurn"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type of resource system",
+              "enum": ["mana", "energy", "none", "custom"]
+            },
+            "startingAmount": {
+              "type": "integer",
+              "description": "Resources at game start",
+              "minimum": 0
+            },
+            "maxAmount": {
+              "type": "integer",
+              "description": "Maximum resources a player can have",
+              "minimum": 0
+            },
+            "gainPerTurn": {
+              "type": "integer",
+              "description": "Resources gained each turn",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "winConditions": {
+      "type": "array",
+      "description": "Conditions that determine when a player wins",
+      "items": {
+        "type": "object",
+        "required": ["type", "description"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of win condition",
+            "enum": ["healthReduction", "deckDepletion", "specificCard", "custom"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the win condition"
+          },
+          "threshold": {
+            "type": "integer",
+            "description": "Numeric threshold for the win condition, if applicable"
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "type": "healthReduction",
+            "description": "Reduce opponent's health to zero or below",
+            "threshold": 0
+          }
+        ]
+      ]
+    }
+  }
+}

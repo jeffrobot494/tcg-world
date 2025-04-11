@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCG World Card Collection Schema",
+  "description": "Schema for defining collections of trading card game cards in a standardized format",
+  "type": "object",
+  "required": ["cards"],
+  "properties": {
+    "cards": {
+      "type": "array",
+      "description": "Array of card objects",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "cost", "description"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the card",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the card"
+          },
+          "type": {
+            "type": "string",
+            "description": "Category of the card",
+            "enum": ["Creature", "Spell", "Item", "Artifact", "Land", "Hero"]
+          },
+          "cost": {
+            "type": "integer",
+            "description": "Resource cost to play the card",
+            "minimum": 0
+          },
+          "attack": {
+            "type": "integer",
+            "description": "Attack/damage value of the card (primarily for creatures)",
+            "minimum": 0,
+            "default": 0
+          },
+          "health": {
+            "type": "integer",
+            "description": "Health/defense value of the card (primarily for creatures)",
+            "minimum": 0,
+            "default": 0
+          },
+          "description": {
+            "type": "string",
+            "description": "Text description of the card's effects or flavor text"
+          },
+          "artworkUrl": {
+            "type": "string",
+            "description": "URL for the card's artwork image",
+            "format": "uri"
+          },
+          "rarity": {
+            "type": "string",
+            "description": "Rarity level of the card",
+            "enum": ["Common", "Uncommon", "Rare", "Epic", "Legendary"],
+            "default": "Common"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Keywords or categories for filtering and rule processing",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "properties": {
+            "type": "object",
+            "description": "Game-specific properties that can vary by game type",
+            "additionalProperties": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            }
+          },
+          "effects": {
+            "type": "array",
+            "description": "Effects that the card produces when played or triggered",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of effect",
+                  "enum": ["damage", "heal", "draw", "buff", "debuff", "summon", "transform", "destroy", "return", "custom"]
+                },
+                "trigger": {
+                  "type": "string",
+                  "description": "When the effect is triggered",
+                  "enum": ["on_play", "on_attack", "on_damage", "start_of_turn", "end_of_turn", "on_death", "custom"],
+                  "default": "on_play"
+                },
+                "target": {
+                  "type": "string",
+                  "description": "Target of the effect",
+                  "enum": ["any", "player", "opponent", "self", "single_creature", "all_creatures", "all_friendly_creatures", "all_enemy_creatures", "random_creature", "custom"]
+                },
+                "value": {
+                  "type": "integer",
+                  "description": "Numerical value of the effect (damage amount, heal amount, etc.)",
+                  "minimum": 0
+                },
+                "attack": {
+                  "type": "integer",
+                  "description": "Attack value modifier for buff/debuff effects"
+                },
+                "health": {
+                  "type": "integer",
+                  "description": "Health value modifier for buff/debuff effects"
+                },
+                "duration": {
+                  "type": "integer",
+                  "description": "Duration of the effect in turns (if temporary)",
+                  "minimum": 1
+                },
+                "condition": {
+                  "type": "object",
+                  "description": "Condition that must be met for the effect to trigger",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "Type of condition"
+                    },
+                    "parameters": {
+                      "type": "object",
+                      "description": "Parameters specific to the condition type"
+                    }
+                  }
+                },
+                "customParameters": {
+                  "type": "object",
+                  "description": "Custom parameters for game-specific effects"
+                }
+              }
+            }
+          },
+          "requirements": {
+            "type": "object",
+            "description": "Requirements that must be met to play the card",
+            "properties": {
+              "minimumHandSize": {
+                "type": "integer",
+                "description": "Minimum number of cards required in hand",
+                "minimum": 0
+              },
+              "minimumFieldSize": {
+                "type": "integer",
+                "description": "Minimum number of cards required on the player's field",
+                "minimum": 0
+              },
+              "maximumFieldSize": {
+                "type": "integer",
+                "description": "Maximum allowed cards on the player's field",
+                "minimum": 0
+              },
+              "specificCardsInPlay": {
+                "type": "array",
+                "description": "Specific cards that must be in play",
+                "items": {
+                  "type": "integer",
+                  "description": "Card ID that must be in play"
+                }
+              },
+              "playerHealthThreshold": {
+                "type": "integer",
+                "description": "Player health must be at or below this value",
+                "minimum": 1
+              },
+              "opponentHealthThreshold": {
+                "type": "integer",
+                "description": "Opponent health must be at or below this value",
+                "minimum": 1
+              },
+              "custom": {
+                "type": "object",
+                "description": "Custom requirements specific to the game"
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the card",
+            "properties": {
+              "set": {
+                "type": "string",
+                "description": "Card set or expansion name"
+              },
+              "artist": {
+                "type": "string",
+                "description": "Name of the artist who created the card artwork"
+              },
+              "flavorText": {
+                "type": "string",
+                "description": "Optional thematic text that doesn't affect gameplay"
+              },
+              "releaseDate": {
+                "type": "string",
+                "description": "Date when the card was released",
+                "format": "date"
+              },
+              "versions": {
+                "type": "array",
+                "description": "Different versions of the card (alternate art, promo, etc.)",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "versionId": {
+                      "type": "string",
+                      "description": "Identifier for this specific version"
+                    },
+                    "versionName": {
+                      "type": "string",
+                      "description": "Name of this version (e.g., 'Promo', 'Alternate Art')"
+                    },
+                    "artworkUrl": {
+                      "type": "string",
+                      "description": "URL for this version's artwork",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

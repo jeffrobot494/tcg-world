@@ -25,7 +25,10 @@ public class CardZone : MonoBehaviour, ICardContainer
     public Vector3 layoutDirection = Vector3.right;
     public float cardSpacing = 0.5f;
     public bool faceUp = false;
-    public Vector3 defaultRotation = Vector3.zero;
+    public Vector3 defaultRotation = new Vector3(90, 0, 0); // Changed from Vector3.zero to lay flat on X,Z plane
+    
+    // Reference to collider
+    private BoxCollider zoneCollider;
     
     // The actual cards in this zone
     private List<Card> cards = new List<Card>();
@@ -39,6 +42,11 @@ public class CardZone : MonoBehaviour, ICardContainer
     int ICardContainer.OwnerID => ownerPlayerId;
     int ICardContainer.Count => cards.Count;
     List<ICard> ICardContainer.Cards => cards.Cast<ICard>().ToList();
+    
+    void Awake()
+    {
+        Debug.Log($"[ZONE] Initializing zone: {zoneName}");
+    }
     
     // Original method for backward compatibility (keep this)
     public void AddCard(Card card, int position = -1)
@@ -159,7 +167,9 @@ public class CardZone : MonoBehaviour, ICardContainer
     {
         for (int i = 0; i < cards.Count; i++)
         {
-            Vector3 position = layoutOrigin + (layoutDirection * i * cardSpacing);
+            // Position calculation now considers X,Z plane
+            // For a horizontal layout on X,Z plane, we use:
+            Vector3 position = layoutOrigin + (new Vector3(layoutDirection.x, 0, layoutDirection.z) * i * cardSpacing);
             Quaternion rotation = Quaternion.Euler(defaultRotation);
             
             // Use Vector3.one since we'll handle actual card size in the CardVisuals component

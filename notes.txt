@@ -8,3 +8,9 @@ Change cards from using the image, to being generated in engine so i can see whi
 Go over the remaining optimizations in the context of:
 	the design goals and requirements of our application
 	AI agent development style
+	Online multiplayer
+Decks will come in JSON format, so let's add some of those to Assets so we can start working the proper way.
+Do a first draft of NLP -> JSON rules. How difficult is it?
+Attempt to do NLP -> JSON rules. How difficult is that?
+Define game setup for CardBattler and make sure it looks right. 
+Play through a game of CardBattler.

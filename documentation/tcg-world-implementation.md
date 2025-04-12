@@ -30,7 +30,8 @@ This document outlines the current implementation status of the TCG World platfo
 - ✅ **Card zones** with layout management (CardZone.cs)
 - ✅ **Drawing and playing mechanics**
 - ✅ **Zone transitions** (move cards between zones)
-- ✅ **Visual card representation**
+- ✅ **Visual card representation** 
+- ✅ **X,Z plane layout** for card display
 - ❌ Complex card effects (not implemented)
 - ❌ Card targeting (not implemented)
 
@@ -52,14 +53,15 @@ This document outlines the current implementation status of the TCG World platfo
 
 ### AI System
 
-- ✅ **Simple AI opponent** with basic decision making
-- ❌ Strategic AI (not implemented)
+- ⚠️ **Placeholder AI logic** - extremely basic "play highest cost card" mechanic
+- ❌ Actual strategic AI (not implemented)
 - ❌ LLM-powered AI (not implemented)
 
 ### User Interface
 
 - ✅ **Basic gameplay visualization**
 - ✅ **Card display and manipulation**
+- ✅ **3D card rendering** on X,Z plane with top-down camera
 - ❌ Card creation interface (not implemented)
 - ❌ Game rule editor (not implemented)
 - ❌ Deck builder (not implemented)
@@ -207,70 +209,66 @@ Cards are currently defined in this JSON format:
 
 ## Class Reference
 
-### MainGame.cs
-- Central controller for the game
-- Manages turn flow, player actions, and game state
-- Creates and configures game elements based on rules
+### Core Game Logic
+- **MainGame.cs**: Central controller that manages turn flow, player actions, and state
+- **GameRulesInterpreter.cs**: Loads/parses JSON rules and validates gameplay actions
 
-### GameRulesInterpreter.cs
-- Loads and parses JSON rule files
-- Provides rule information to other components
-- Validates gameplay actions against rules
+### Card System
+- **Card.cs**: Represents a single card with properties and behaviors
+- **CardZone.cs**: Manages card collections (deck, hand, field, etc.)
+- **PlayerDeckManager.cs**: Loads card definitions and creates instances
+- **CardImageLoader.cs**: Downloads and caches remote card artwork
 
-### Card.cs
-- Represents a single card in the game
-- Stores card properties and handles visuals
-- Implements ICard interface
+### Visual Components
+- **CardVisuals.cs**: Handles 3D card representation on the X,Z plane
+- **CameraSetup.cs**: Configures camera for top-down view of the game board
+- **CardVisualFixer.cs**: Utility to fix card visual scaling issues
 
-### CardZone.cs
-- Manages collections of cards (deck, hand, field, etc.)
-- Handles card organization and layout
-- Implements ICardContainer interface
+### Utility Classes
+- **SingletonBehaviour.cs**: Base class for singleton pattern implementation
 
-### PlayerDeckManager.cs
-- Loads card definitions from JSON
-- Creates card instances from data
-- Builds player decks
+### Interfaces
+- **ICard.cs**: Interface for card objects
+- **ICardContainer.cs**: Interface for zones and card collections
+- **IGameRule.cs**: Interface for rule interpretation
 
-### CardImageLoader.cs
-- Downloads and caches card artwork
-- Applies images to card objects
+## Current Limitations
 
-### Interfaces/
-- ICard.cs: Interface for card objects
-- ICardContainer.cs: Interface for zones and collections
-- IGameRule.cs: Interface for rule interpretation
+- The implemented AI player is extremely rudimentary - it simply plays the highest cost card it can afford with no strategy
+- Card effects defined in JSON are not fully processed - only basic card properties are used
+- Cards are rendered but lack sophisticated visual effects and animations
+- No support for multiplayer gameplay
+- No persistence of game state between sessions
+- No user creation tools or editors
 
 ## Next Development Priorities
 
 1. **Enhanced Effect System**:
-   - Implement more sophisticated effect resolution
+   - Implement effect resolution for cards based on JSON definitions
    - Add targeting and selection mechanisms
-   - Create a proper effect queue for ordering
+   - Create effect queue for proper ordering
 
-2. **LLM Integration**:
-   - Build the JSON rule generation system
-   - Implement card effect description processing
-   - Develop the AI opponent system
+2. **Improve AI Player**:
+   - Implement basic strategic decision making
+   - Consider board state when making plays
+   - Add combat logic
 
-3. **Lua Script System**:
-   - Implement the Lua runtime environment
-   - Develop the core API
-   - Create integration with the JSON rule system
+3. **User Interface Improvements**:
+   - Enhanced card visuals
+   - Better feedback for player actions
+   - Game state visualization
 
-4. **User Interface Improvements**:
-   - Card creation interface
-   - Deck building tools
-   - Game rule editor
+4. **Future Integration Work**:
+   - Build foundation for LLM integration
+   - Prepare for Lua scripting system
 
 ## Notes for Developers
 
-- The current implementation focuses on the core game engine fundamentals
-- The code uses a component-based design with clear interfaces
-- Use the SingletonBehaviour pattern for service-type components
-- Override OnAwake() instead of Awake() when using this pattern
+- The core game engine is functional but basic - it loads JSON and creates a playable game but with limited mechanics
+- Cards are properly parented to their zones in the hierarchy
+- Cards are displayed flat on the X,Z plane with the camera looking down
+- Use SingletonBehaviour<T> for service-type components and override OnAwake() instead of Awake()
 - Access singleton instances via ComponentName.Instance
-- Follow the existing code style and patterns when adding new features
-- Add robust error handling for user-provided data (JSON parsing, etc.)
-- Maintain backward compatibility with existing rule formats
-- Add new features incrementally, with clear documentation
+- Card dimensions are standardized at 1x1.4 units (width x length) with 0.1 unit thickness
+- Cards are positioned using layoutOrigin and layoutDirection in the CardZone class
+- The project uses Newtonsoft.Json for parsing JSON data

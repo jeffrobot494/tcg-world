@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
+// UI imports removed
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TCGWorld.Utilities;
@@ -50,6 +50,10 @@ public class MainGame : SingletonBehaviour<MainGame>
     
     // Reference to the rules interpreter
     private GameRulesInterpreter rulesInterpreter;
+    
+    // Public accessors
+    public Player CurrentPlayer => players[currentPlayerIndex];
+    public string CurrentPhase => currentPhase;
     
     // Override OnAwake from SingletonBehaviour
     protected override void OnAwake()
@@ -194,6 +198,17 @@ public class MainGame : SingletonBehaviour<MainGame>
         
         zoneObj.name = uniqueZoneName;
         
+        // Add a box collider for mouse interaction if it doesn't have one
+        BoxCollider collider = zoneObj.GetComponent<BoxCollider>();
+        if (collider == null)
+        {
+            collider = zoneObj.AddComponent<BoxCollider>();
+            // Make the collider relatively thin but wide enough to cover the zone area
+            collider.size = new Vector3(5f, 0.1f, 5f);
+            // Offset it slightly to sit just above the zone plane
+            collider.center = new Vector3(0f, 0.05f, 0f);
+        }
+        
         // Add and configure the CardZone component
         CardZone zoneComponent = zoneObj.GetComponent<CardZone>();
         if (zoneComponent == null)
@@ -222,6 +237,8 @@ public class MainGame : SingletonBehaviour<MainGame>
         zone.layoutOrigin = Vector3.zero;
         zone.layoutDirection = Vector3.right;
         zone.cardSpacing = 1.2f;
+        // Default rotation (90 degrees around X-axis to lay flat on X,Z plane)
+        zone.defaultRotation = new Vector3(90, 0, 0);
         
         // Configure based on zone type and player
         switch (zoneName)
@@ -237,12 +254,12 @@ public class MainGame : SingletonBehaviour<MainGame>
                     if (player.id == 1) // Human player
                     {
                         zone.layoutOrigin = new Vector3(-7, 0, -5);
-                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
+                        // Already rotated by default to lay flat on X,Z plane
                     }
                     else // AI player
                     {
                         zone.layoutOrigin = new Vector3(7, 0, 5);
-                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
+                        zone.defaultRotation = new Vector3(90, 180, 0); // Rotated to face player while still flat on X,Z
                     }
                 }
                 break;
@@ -258,12 +275,12 @@ public class MainGame : SingletonBehaviour<MainGame>
                     if (player.id == 1) // Human player
                     {
                         zone.layoutOrigin = new Vector3(-4, 0, -8);
-                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
+                        // Already rotated by default to lay flat on X,Z plane
                     }
                     else // AI player
                     {
                         zone.layoutOrigin = new Vector3(-4, 0, 8);
-                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
+                        zone.defaultRotation = new Vector3(90, 180, 0); // Rotated to face player while still flat on X,Z
                     }
                 }
                 break;
@@ -279,12 +296,12 @@ public class MainGame : SingletonBehaviour<MainGame>
                     if (player.id == 1) // Human player
                     {
                         zone.layoutOrigin = new Vector3(-4, 0, -3);
-                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
+                        // Already rotated by default to lay flat on X,Z plane
                     }
                     else // AI player
                     {
                         zone.layoutOrigin = new Vector3(-4, 0, 3);
-                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
+                        zone.defaultRotation = new Vector3(90, 180, 0); // Rotated to face player while still flat on X,Z
                     }
                 }
                 break;
@@ -300,12 +317,12 @@ public class MainGame : SingletonBehaviour<MainGame>
                     if (player.id == 1) // Human player
                     {
                         zone.layoutOrigin = new Vector3(7, 0, -5);
-                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
+                        // Already rotated by default to lay flat on X,Z plane
                     }
                     else // AI player
                     {
                         zone.layoutOrigin = new Vector3(-7, 0, 5);
-                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
+                        zone.defaultRotation = new Vector3(90, 180, 0); // Rotated to face player while still flat on X,Z
                     }
                 }
                 break;
@@ -315,7 +332,7 @@ public class MainGame : SingletonBehaviour<MainGame>
                 zone.faceUp = true;
                 zone.layoutDirection = Vector3.right;
                 zone.cardSpacing = 1.5f;
-                zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
+                // Already using the default rotation (90, 0, 0)
                 break;
         }
     }
@@ -453,6 +470,12 @@ public class MainGame : SingletonBehaviour<MainGame>
         EndTurn();
     }
     
+    // Simplified version that does nothing
+    public void DrawCardForCurrentPlayer()
+    {
+        Debug.Log("Card drawing functionality temporarily disabled");
+    }
+    
     // End the current player's turn
     public void EndTurn()
     {
@@ -475,12 +498,15 @@ public class MainGame : SingletonBehaviour<MainGame>
         currentPhase = phaseName;
         Debug.Log($"Beginning {phaseName} phase");
         
+        // UI has been removed - phase state change is now only logged
+        // No UI to update
+        
         // Handle phase-specific logic
         // This would be driven by the rules in a full implementation
     }
     
     // Draw a card for the specified player
-    private void DrawCardForPlayer(Player player)
+    public void DrawCardForPlayer(Player player)
     {
         // Get the player's deck and hand zones
         CardZone deckZone = GetPlayerZone(player, "Deck");
@@ -528,67 +554,63 @@ public class MainGame : SingletonBehaviour<MainGame>
         }
     }
     
-    // Play a card from hand to the appropriate zone
+    // Simplified version that does nothing
     public void PlayCard(Card card, CardZone targetZone)
     {
-        Player currentPlayer = players[currentPlayerIndex];
+        Debug.Log("Card playing functionality temporarily disabled");
+    }
+    
+    /// <summary>
+    /// Simplified version that just returns true
+    /// </summary>
+    public bool MoveCardBetweenZones(Card card, CardZone sourceZone, CardZone targetZone)
+    {
+        Debug.Log("Card zone movement functionality temporarily disabled");
+        return true;
+    }
+    
+    /// <summary>
+    /// Checks if moving a card between zones is valid according to game rules
+    /// </summary>
+    private bool IsMoveValidBetweenZones(Card card, CardZone sourceZone, CardZone targetZone)
+    {
+        // Basic rule validation
+        string sourceZoneName = sourceZone.zoneName;
+        string targetZoneName = targetZone.zoneName;
         
-        // Use the rules interpreter to validate the card play
-        if (!rulesInterpreter.ValidateCardPlay(card, targetZone, currentPlayer.currentResources))
-        {
-            Debug.LogWarning("Cannot play this card - invalid play according to game rules!");
-            return;
-        }
+        // Some simple rules to start with:
         
-        // Check if it's the right player's turn
-        if (card.ownerPlayerId != currentPlayer.id)
-        {
-            Debug.LogWarning("You can't play a card that doesn't belong to you!");
-            return;
-        }
+        // Allow moving from Field to Discard (destroying)
+        if (sourceZoneName == "Field" && targetZoneName == "Discard")
+            return true;
+            
+        // Allow moving from Hand to Discard (discarding)
+        if (sourceZoneName == "Hand" && targetZoneName == "Discard") 
+            return true;
+            
+        // Allow repositioning cards on the field (same player only)
+        if (sourceZoneName == "Field" && targetZoneName == "Field" && 
+            sourceZone.ownerPlayerId == targetZone.ownerPlayerId)
+            return true;
+            
+        // Add more rules as needed
         
-        // Check if current phase allows playing cards
-        if (!IsActionAllowedInCurrentPhase("playCard"))
-        {
-            Debug.LogWarning("You can't play cards in this phase!");
-            return;
-        }
+        // Default to false for undefined moves
+        return false;
+    }
+    
+    /// <summary>
+    /// Called when a card is discarded
+    /// </summary>
+    private void OnCardDiscarded(Card card)
+    {
+        Debug.Log($"Card {card.cardName} was discarded/destroyed");
         
-        // Check if current phase allows playing cards
-        if (!IsActionAllowedInCurrentPhase("playCard"))
-        {
-            Debug.LogWarning("You can't play cards in this phase!");
-            return;
-        }
-        
-        // Get the player's hand
-        CardZone handZone = GetPlayerZone(currentPlayer, "Hand");
-        if (handZone == null || !handZone.Cards.Contains(card))
-        {
-            Debug.LogError("Card not found in player's hand!");
-            return;
-        }
-        
-        // Remove card from hand
-        handZone.RemoveCard(card);
-        
-        // Add card to target zone
-        targetZone.AddCard(card);
-        
-        // Deduct resources
-        currentPlayer.currentResources -= card.cost;
-        
-        Debug.Log($"Player {currentPlayer.playerName} played {card.cardName}");
-        
-        // Process card effects - would be handled by the rule interpreter
-        ProcessCardEffects(card);
-        
-        // Check win conditions after card play
-        CheckWinConditions();
+        // In the future, this could trigger discard effects, etc.
     }
     
     // Check if an action is allowed in the current phase
-    private bool IsActionAllowedInCurrentPhase(string action)
+    public bool IsActionAllowedInCurrentPhase(string action)
     {
         return rulesInterpreter.IsActionAllowedInPhase(action, currentPhase);
     }

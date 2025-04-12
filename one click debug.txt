@@ -1,0 +1,425 @@
+[CLICK] Mouse position: (605.33, 60.00, 0.00), Viewport position: (0.62, 0.12, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:199)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Using interactable layers: 768 (binary: 1100000000)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:209)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Ray origin: (0.08, 11.67, -4.39), direction: (0.25, -0.97, -0.06)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:213)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Found 68 total colliders in the scene
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:217)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2006_Goblin Grunt, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2008_Enchanted Shield, Layer: 0, Position: (7.03, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2003_Arcane Blast, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2005_Ancient Dragon, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2004_Healing Potion, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2005_Ancient Dragon, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2007_Flame Wave, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2007_Flame Wave, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2010_Mystic Ritual, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2007_Flame Wave, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2003_Arcane Blast, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2004_Healing Potion, Layer: 0, Position: (7.02, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2008_Enchanted Shield, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2001_Stalwart Defender, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2002_Swift Scout, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2002_Swift Scout, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2005_Ancient Dragon, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2010_Mystic Ritual, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2008_Enchanted Shield, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2001_Stalwart Defender, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2009_Battle Cleric, Layer: 0, Position: (7.00, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2010_Mystic Ritual, Layer: 0, Position: (7.01, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2006_Goblin Grunt, Layer: 0, Position: (7.00, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2009_Battle Cleric, Layer: 0, Position: (7.00, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2006_Goblin Grunt, Layer: 0, Position: (7.00, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2009_Battle Cleric, Layer: 0, Position: (7.00, 0.00, 5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2004_Healing Potion, Layer: 0, Position: (0.50, 0.00, 8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1002_Swift Scout, Layer: 0, Position: (0.50, 0.00, -8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2003_Arcane Blast, Layer: 0, Position: (-4.00, 0.00, 8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2001_Stalwart Defender, Layer: 0, Position: (-2.50, 0.00, 8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_2002_Swift Scout, Layer: 0, Position: (-1.00, 0.00, 8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Deck_2, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Hand_1, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Hand_2, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Field_1, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Field_2, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Discard_1, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Discard_2, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Deck_1, Layer: 0, Position: (0.00, 0.00, 0.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1005_Ancient Dragon, Layer: 0, Position: (-2.50, 0.00, -8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1006_Goblin Grunt, Layer: 0, Position: (-1.00, 0.00, -8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1001_Stalwart Defender, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1010_Mystic Ritual, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1007_Flame Wave, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1003_Arcane Blast, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1007_Flame Wave, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1009_Battle Cleric, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1006_Goblin Grunt, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1008_Enchanted Shield, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1001_Stalwart Defender, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1002_Swift Scout, Layer: 0, Position: (-6.98, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1004_Healing Potion, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1004_Healing Potion, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1010_Mystic Ritual, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1009_Battle Cleric, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1003_Arcane Blast, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1005_Ancient Dragon, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1009_Battle Cleric, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1002_Swift Scout, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1001_Stalwart Defender, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1010_Mystic Ritual, Layer: 0, Position: (-6.99, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1008_Enchanted Shield, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1003_Arcane Blast, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1007_Flame Wave, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1004_Healing Potion, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1005_Ancient Dragon, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1008_Enchanted Shield, Layer: 0, Position: (-7.00, 0.00, -5.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Collider: Card_1006_Goblin Grunt, Layer: 0, Position: (-4.00, 0.00, -8.00)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:220)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Standard raycast hit: False
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:226)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Spherecast hit: False
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:247)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 1, position (0.34, 10.71, -4.45)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 3, position (0.84, 8.77, -4.57)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 5, position (1.34, 6.84, -4.69)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 7, position (1.84, 4.91, -4.81)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 9, position (2.34, 2.98, -4.93)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 11, position (2.84, 1.04, -5.05)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 13, position (3.34, -0.89, -5.17)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 15, position (3.84, -2.82, -5.29)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 17, position (4.34, -4.75, -5.41)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] Testing overlap sphere at depth 19, position (4.84, -6.69, -5.53)
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:262)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+
+[CLICK] No interactive object found at mouse position after all detection methods
+UnityEngine.Debug:Log (object)
+InputManager:HandleMouseClick () (at Assets/Scripts/InputManager.cs:287)
+InputManager:Update () (at Assets/Scripts/InputManager.cs:183)
+

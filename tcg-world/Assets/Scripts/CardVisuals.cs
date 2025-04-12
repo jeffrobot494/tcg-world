@@ -25,20 +25,44 @@ public class CardVisuals : MonoBehaviour
     
     void Awake()
     {
-        // Make sure transform scale is 1,1,1 so mesh size isn't affected
-        transform.localScale = Vector3.one;
+        // This component is now optional - the SimpleCard prefab can work without it
+        // Only perform mesh setup if this component is explicitly added to a card
         
-        // Get or add mesh components for visual representation
+        // Get card component first to check if we should proceed
+        cardComponent = GetComponent<Card>();
+        if (cardComponent == null)
+        {
+            Debug.LogWarning("CardVisuals script requires a Card component - disabling");
+            enabled = false;
+            return;
+        }
+        
+        // Check if this card already has visuals (e.g., SpriteRenderer from prefab)
+        SpriteRenderer existingRenderer = GetComponent<SpriteRenderer>();
+        if (existingRenderer != null)
+        {
+            // Card already has visuals, so don't create a mesh
+            Debug.Log($"Card {cardComponent.cardName} already has a SpriteRenderer - CardVisuals will only handle artwork updates");
+            return;
+        }
+        
+        // Only proceed with mesh creation if we're explicitly told to via inspector
+        // or if there are no other visual components
+        Debug.Log($"Creating mesh visuals for card {cardComponent.cardName} - this is not needed if using SimpleCard prefab");
+        
+        // Create the card mesh
+        Mesh cardMesh = CreateCardMesh();
+        
+        // Add mesh components for visual representation
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         if (meshFilter == null)
         {
             meshFilter = gameObject.AddComponent<MeshFilter>();
-            // Create a simple quad mesh for the card
-            meshFilter.mesh = CreateCardMesh();
+            meshFilter.mesh = cardMesh;
         }
         else if (meshFilter.mesh == null)
         {
-            meshFilter.mesh = CreateCardMesh();
+            meshFilter.mesh = cardMesh;
         }
         
         meshRenderer = GetComponent<MeshRenderer>();
@@ -47,8 +71,7 @@ public class CardVisuals : MonoBehaviour
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
         }
         
-        // Get the card component
-        cardComponent = GetComponent<Card>();
+        // Card component was already retrieved above
         if (cardComponent == null)
         {
             Debug.LogError("CardVisuals script requires a Card component");
@@ -57,18 +80,28 @@ public class CardVisuals : MonoBehaviour
         // Set up default materials if none assigned
         if (frontMaterial == null)
         {
+            // Use a more distinct material for the front
             frontMaterial = new Material(Shader.Find("Standard"));
             frontMaterial.color = new Color(1f, 1f, 1f, 1f);
+            // Add a small amount of emission to make it more visible
+            frontMaterial.EnableKeyword("_EMISSION");
+            frontMaterial.SetColor("_EmissionColor", new Color(0.2f, 0.2f, 0.2f));
         }
         
         if (backMaterial == null)
         {
+            // Use a more distinct material for the back
             backMaterial = new Material(Shader.Find("Standard"));
             backMaterial.color = new Color(0.2f, 0.2f, 0.8f, 1f);
+            // Add a small amount of emission to make it more visible
+            backMaterial.EnableKeyword("_EMISSION");
+            backMaterial.SetColor("_EmissionColor", new Color(0.1f, 0.1f, 0.3f));
         }
         
         // Initialize card visual state
         UpdateCardVisuals();
+        
+        Debug.Log($"CardVisuals initialized for card: {cardComponent?.cardName}");
     }
     
     // Create a simple mesh for the card that is flat on the X,Z plane
@@ -148,7 +181,23 @@ public class CardVisuals : MonoBehaviour
     // Update visuals based on card state
     private void UpdateCardVisuals()
     {
-        if (cardComponent == null || meshRenderer == null) return;
+        if (cardComponent == null) return;
+        
+        // Check for SpriteRenderer first (used by SimpleCard prefab)
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            // For cards with SpriteRenderer, just set the sprite
+            if (cardComponent.isFaceUp && cardComponent.artwork != null)
+            {
+                spriteRenderer.sprite = cardComponent.artwork;
+            }
+            // Could add a card back sprite here if needed
+            return;
+        }
+        
+        // Only proceed with mesh renderer updates if we're actually using a mesh
+        if (meshRenderer == null) return;
         
         // Set material based on face-up or face-down state
         if (cardComponent.isFaceUp)

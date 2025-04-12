@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro; // Include TextMeshPro namespace if you're using it
+// UI imports removed
 using TCGWorld.Interfaces;
 
 /// <summary>
@@ -52,11 +51,14 @@ public class Card : MonoBehaviour, ICard
     
     // Current state
     public bool isFaceUp = false;
-    public bool isInteractable = false;
+    public bool isInteractable = true; // Set to true by default
     
     // Runtime references
     public CardZone currentZone;
     public int ownerPlayerId;
+    
+    // Collider for mouse interaction (can be BoxCollider or MeshCollider)
+    private Collider cardCollider;
     
     // ICard interface implementation
     public ICardContainer CurrentContainer 
@@ -65,14 +67,8 @@ public class Card : MonoBehaviour, ICard
         set { currentZone = value as CardZone; } 
     }
     
-    // UI Component references (optional, will be found if they exist)
-    [Header("UI Components")]
-    public Image artworkImage;       // Image component for the card artwork
-    public TextMeshProUGUI nameText;      // Text component for card name
-    public TextMeshProUGUI costText;      // Text component for cost
-    public TextMeshProUGUI attackText;    // Text component for attack value
-    public TextMeshProUGUI healthText;    // Text component for health value
-    public TextMeshProUGUI descriptionText; // Text component for description
+    // UI Components have been removed
+    // Card visuals are now handled through CardVisuals component and 3D objects
     
     // Visual transform data
     private Vector3 targetPosition;
@@ -92,16 +88,17 @@ public class Card : MonoBehaviour, ICard
             cardVisuals.RefreshVisuals();
         }
         
-        // Animation to flip the card along the X-axis (for cards on X,Z plane)
+        // Animation to flip the card - adjusted for X,Z plane orientation
         if (isFaceUp)
         {
             // Animate from back to front
-            StartCoroutine(AnimateFlip(new Vector3(0, 180, 0), new Vector3(0, 0, 0)));
+            // For cards on X,Z plane (rotated 90 degrees on X), we need to flip around Z axis
+            StartCoroutine(AnimateFlip(new Vector3(90, 0, 180), new Vector3(90, 0, 0)));
         }
         else
         {
             // Animate from front to back
-            StartCoroutine(AnimateFlip(new Vector3(0, 0, 0), new Vector3(0, 180, 0)));
+            StartCoroutine(AnimateFlip(new Vector3(90, 0, 0), new Vector3(90, 0, 180)));
         }
     }
     
@@ -151,21 +148,44 @@ public class Card : MonoBehaviour, ICard
         moveSpeed = speed;
     }
     
+    // Simplified Awake method
+    void Awake()
+    {
+        Debug.Log($"[CARD] Initializing card: {cardName}");
+        
+        // Ensure this card has a ClickableObject component
+        if (GetComponent<ClickableObject>() == null)
+        {
+            gameObject.AddComponent<ClickableObject>();
+        }
+    }
+    
+    // Collider setup removed - now using the collider from the SimpleCard prefab
+    
+    // Flag to enable/disable automated movement (useful for debugging)
+    public bool enableAutoMovement = false; // Disabled by default for easier debugging
+    
     // Basic update for card movement
     void Update()
     {
+        // Skip auto-movement if disabled (allows for manual positioning during debugging)
+        if (!enableAutoMovement)
+            return;
+            
         // Smoothly move card to target position
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * moveSpeed);
     }
     
+    // Editor validation removed - now using collider from the SimpleCard prefab
+    
     // Apply the artwork to the card visuals
     private void ApplyArtwork()
     {
         if (_artwork == null) return;
         
-        // Check if we have the new CardVisuals component
+        // Check if we have the CardVisuals component
         CardVisuals cardVisuals = GetComponent<CardVisuals>();
         if (cardVisuals != null)
         {
@@ -174,32 +194,11 @@ public class Card : MonoBehaviour, ICard
             return;
         }
         
-        // Legacy support for older UI-based cards
-        // Find UI components if they haven't been set
-        FindUIComponents();
-        
-        // If we have a direct reference to the artwork image, use that
-        if (artworkImage != null)
-        {
-            artworkImage.sprite = _artwork;
-            return;
-        }
-        
-        // Otherwise check for different types of renderers
-        
         // Option 1: If using a SpriteRenderer
         SpriteRenderer artworkRenderer = transform.Find("Artwork")?.GetComponent<SpriteRenderer>();
         if (artworkRenderer != null)
         {
             artworkRenderer.sprite = _artwork;
-            return;
-        }
-        
-        // Option 2: If using a UI Image (that wasn't found by direct reference)
-        Image foundImage = transform.Find("Artwork")?.GetComponent<Image>();
-        if (foundImage != null)
-        {
-            foundImage.sprite = _artwork;
             return;
         }
         
@@ -213,61 +212,19 @@ public class Card : MonoBehaviour, ICard
         // 3D card support with materials is now handled by CardVisuals component
     }
     
-    /// <summary>
-    /// Finds and assigns references to UI components if they're not already set
-    /// </summary>
-    private void FindUIComponents()
-    {
-        // Only search if we need to
-        bool needsSearch = 
-            artworkImage == null ||
-            nameText == null ||
-            costText == null ||
-            attackText == null ||
-            healthText == null ||
-            descriptionText == null;
-            
-        if (!needsSearch) return;
-        
-        // Look for UI components
-        if (artworkImage == null)
-            artworkImage = transform.Find("Artwork")?.GetComponent<Image>();
-            
-        if (nameText == null)
-            nameText = transform.Find("NameText")?.GetComponent<TextMeshProUGUI>();
-            
-        if (costText == null)
-            costText = transform.Find("CostText")?.GetComponent<TextMeshProUGUI>();
-            
-        if (attackText == null)
-            attackText = transform.Find("AttackText")?.GetComponent<TextMeshProUGUI>();
-            
-        if (healthText == null)
-            healthText = transform.Find("HealthText")?.GetComponent<TextMeshProUGUI>();
-            
-        if (descriptionText == null)
-            descriptionText = transform.Find("DescriptionText")?.GetComponent<TextMeshProUGUI>();
-            
-    }
-    
-    // Update text fields with current values
+    // Update card visual representation with current values
     public void UpdateCardText()
     {
-        FindUIComponents();
+        // UI components have been removed
+        // Visual representation is now handled through the CardVisuals component
         
-        if (nameText != null)
-            nameText.text = cardName;
-            
-        if (costText != null)
-            costText.text = cost.ToString();
-            
-        if (attackText != null)
-            attackText.text = attack.ToString();
-            
-        if (healthText != null)
-            healthText.text = health.ToString();
-            
-        if (descriptionText != null)
-            descriptionText.text = description;
+        // If we have a CardVisuals component, refresh it
+        CardVisuals cardVisuals = GetComponent<CardVisuals>();
+        if (cardVisuals != null)
+        {
+            cardVisuals.RefreshVisuals();
+        }
     }
+    
+    // Gizmo debugging removed - using SimpleCard prefab with properly configured collider
 }

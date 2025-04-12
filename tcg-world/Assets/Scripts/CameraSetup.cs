@@ -10,7 +10,7 @@ public class CameraSetup : MonoBehaviour
     
     [Tooltip("Camera angle in degrees (90 = straight down)")]
     [Range(45f, 90f)]
-    public float cameraAngle = 70f;
+    public float cameraAngle = 90f; // Set to 90 for a perfect top-down view of the X,Z plane
     
     [Tooltip("Camera field of view")]
     [Range(30f, 90f)]

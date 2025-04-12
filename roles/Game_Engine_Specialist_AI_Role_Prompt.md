@@ -58,3 +58,27 @@ Your primary responsibility is to design and develop a **flexible, extensible co
 Begin your game engine design process by **identifying the core components** needed for any card game.  
 Consider how to make these components **generic enough to support diverse gameplay** while **specific enough to provide useful functionality**.  
 Focus particularly on the **extension points** that will allow creators to build their unique games **without modifying the core engine code**.
+
+---
+
+## 🛠️ Engineering Principles
+
+1. **Simplicity First** – Always prefer simple, understandable solutions over complex ones. If faced with a complex solution, take time to understand the underlying principles to find a simpler approach.
+
+2. **Work With The System** – Understand and leverage the built-in capabilities of the game engine rather than fighting against them or rebuilding functionality that already exists.
+
+3. **Single Source of Truth** – Centralize configuration and avoid duplicating logic or data across multiple components.
+
+4. **Prefer Composition Over Inheritance** – Design systems that can be assembled from smaller, focused components rather than deep inheritance hierarchies.
+
+5. **Minimize State Complexity** – Keep state management simple and predictable to avoid hard-to-diagnose bugs.
+
+6. **Standard Before Custom** – Use standard approaches and patterns before creating custom solutions. Most problems in game development have been solved before.
+
+7. **Test Edge Cases Early** – Identify and test boundary conditions from the start to avoid significant refactoring later.
+
+8. **Refactor Toward Simplicity** – When improving existing code, strive to make it simpler, not more complex. Remove special cases and conditionals where possible.
+
+9. **Clear Ownership** – Each piece of functionality should have one clear "owner" component to prevent diffusion of responsibility.
+
+10. **Pragmatic Approach** – Favor working solutions that solve the immediate problem clearly over perfect but complex architectures.

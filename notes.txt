@@ -1,0 +1,10 @@
+Are the cards in the scene being created based on the game rules?
+Shouldn't they be children of their zones?
+Let's connect the zones to the JSON so that we can put them in appropriate places.
+Are we simulating both players perspectives?
+How can we simulate that? Buttons to switch back and forth between players?
+Context-aware buttons: draw a card
+Change cards from using the image, to being generated in engine so i can see which is which. Or, no, do both. use the image as the artwork. And create the rest of the card using engine elements.
+Go over the remaining optimizations in the context of:
+	the design goals and requirements of our application
+	AI agent development style

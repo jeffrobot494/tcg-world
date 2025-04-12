@@ -84,7 +84,44 @@ public class Card : MonoBehaviour, ICard
     public void FlipCard(bool faceUp)
     {
         isFaceUp = faceUp;
-        // Animation and visual update logic would go here
+        
+        // Update visuals to show correct card face
+        CardVisuals cardVisuals = GetComponent<CardVisuals>();
+        if (cardVisuals != null)
+        {
+            cardVisuals.RefreshVisuals();
+        }
+        
+        // Animation to flip the card along the X-axis (for cards on X,Z plane)
+        if (isFaceUp)
+        {
+            // Animate from back to front
+            StartCoroutine(AnimateFlip(new Vector3(0, 180, 0), new Vector3(0, 0, 0)));
+        }
+        else
+        {
+            // Animate from front to back
+            StartCoroutine(AnimateFlip(new Vector3(0, 0, 0), new Vector3(0, 180, 0)));
+        }
+    }
+    
+    // Coroutine to animate card flipping
+    private IEnumerator AnimateFlip(Vector3 startRotation, Vector3 endRotation)
+    {
+        float duration = 0.3f;
+        float timeElapsed = 0;
+        
+        Quaternion startQuaternion = Quaternion.Euler(startRotation);
+        Quaternion endQuaternion = Quaternion.Euler(endRotation);
+        
+        while (timeElapsed < duration)
+        {
+            transform.localRotation = Quaternion.Slerp(startQuaternion, endQuaternion, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        
+        transform.localRotation = endQuaternion;
     }
     
     // Implements ICard.UpdateVisuals()
@@ -98,7 +135,19 @@ public class Card : MonoBehaviour, ICard
     {
         targetPosition = position;
         targetRotation = rotation;
-        targetScale = scale;
+        
+        // Don't override any existing scale from CardVisuals, just preserve it
+        // Only use specified scale for cards without CardVisuals
+        if (GetComponent<CardVisuals>() == null)
+        {
+            targetScale = scale;
+        }
+        else
+        {
+            // If we have CardVisuals, just keep current scale
+            targetScale = transform.localScale;
+        }
+        
         moveSpeed = speed;
     }
     
@@ -116,6 +165,16 @@ public class Card : MonoBehaviour, ICard
     {
         if (_artwork == null) return;
         
+        // Check if we have the new CardVisuals component
+        CardVisuals cardVisuals = GetComponent<CardVisuals>();
+        if (cardVisuals != null)
+        {
+            // Let the CardVisuals component handle this
+            cardVisuals.RefreshVisuals();
+            return;
+        }
+        
+        // Legacy support for older UI-based cards
         // Find UI components if they haven't been set
         FindUIComponents();
         
@@ -151,7 +210,7 @@ public class Card : MonoBehaviour, ICard
             cardRenderer.sprite = _artwork;
         }
         
-        // Could also add fallback for 3D cards with materials
+        // 3D card support with materials is now handled by CardVisuals component
     }
     
     /// <summary>

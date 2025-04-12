@@ -221,14 +221,14 @@ public class MainGame : SingletonBehaviour<MainGame>
         // Set default values
         zone.layoutOrigin = Vector3.zero;
         zone.layoutDirection = Vector3.right;
-        zone.cardSpacing = 0.3f;
+        zone.cardSpacing = 1.2f;
         
         // Configure based on zone type and player
         switch (zoneName)
         {
             case "Deck":
                 zone.faceUp = false;
-                zone.layoutDirection = new Vector3(0.05f, 0.05f, -0.05f); // Stacked
+                zone.layoutDirection = new Vector3(0.05f, 0, 0); // Stacked along X
                 zone.cardSpacing = 0.02f;
                 
                 // Position based on player
@@ -236,11 +236,13 @@ public class MainGame : SingletonBehaviour<MainGame>
                 {
                     if (player.id == 1) // Human player
                     {
-                        zone.layoutOrigin = new Vector3(-7, 0, -3);
+                        zone.layoutOrigin = new Vector3(-7, 0, -5);
+                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
                     }
                     else // AI player
                     {
-                        zone.layoutOrigin = new Vector3(7, 0, 3);
+                        zone.layoutOrigin = new Vector3(7, 0, 5);
+                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
                     }
                 }
                 break;
@@ -248,20 +250,20 @@ public class MainGame : SingletonBehaviour<MainGame>
             case "Hand":
                 zone.faceUp = player != null && player.id == 1; // Only show human player's hand
                 zone.layoutDirection = Vector3.right;
-                zone.cardSpacing = 0.7f;
+                zone.cardSpacing = 1.5f;
                 
                 // Position based on player
                 if (player != null)
                 {
                     if (player.id == 1) // Human player
                     {
-                        zone.layoutOrigin = new Vector3(-4, 0, -4);
-                        zone.defaultRotation = new Vector3(30, 0, 0);
+                        zone.layoutOrigin = new Vector3(-4, 0, -8);
+                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
                     }
                     else // AI player
                     {
-                        zone.layoutOrigin = new Vector3(-4, 0, 4);
-                        zone.defaultRotation = new Vector3(-30, 0, 0);
+                        zone.layoutOrigin = new Vector3(-4, 0, 8);
+                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
                     }
                 }
                 break;
@@ -269,25 +271,27 @@ public class MainGame : SingletonBehaviour<MainGame>
             case "Field":
                 zone.faceUp = true;
                 zone.layoutDirection = Vector3.right;
-                zone.cardSpacing = 1.2f;
+                zone.cardSpacing = 1.5f;
                 
                 // Position based on player
                 if (player != null)
                 {
                     if (player.id == 1) // Human player
                     {
-                        zone.layoutOrigin = new Vector3(-4, 0, -2);
+                        zone.layoutOrigin = new Vector3(-4, 0, -3);
+                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
                     }
                     else // AI player
                     {
-                        zone.layoutOrigin = new Vector3(-4, 0, 2);
+                        zone.layoutOrigin = new Vector3(-4, 0, 3);
+                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
                     }
                 }
                 break;
                 
             case "Discard":
                 zone.faceUp = true;
-                zone.layoutDirection = new Vector3(0.1f, 0.1f, -0.05f); // Slightly spread
+                zone.layoutDirection = new Vector3(0.1f, 0, 0); // Slightly spread along X
                 zone.cardSpacing = 0.05f;
                 
                 // Position based on player
@@ -295,11 +299,13 @@ public class MainGame : SingletonBehaviour<MainGame>
                 {
                     if (player.id == 1) // Human player
                     {
-                        zone.layoutOrigin = new Vector3(7, 0, -3);
+                        zone.layoutOrigin = new Vector3(7, 0, -5);
+                        zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
                     }
                     else // AI player
                     {
-                        zone.layoutOrigin = new Vector3(-7, 0, 3);
+                        zone.layoutOrigin = new Vector3(-7, 0, 5);
+                        zone.defaultRotation = new Vector3(0, 180, 0); // Rotated to face player
                     }
                 }
                 break;
@@ -308,7 +314,8 @@ public class MainGame : SingletonBehaviour<MainGame>
                 // Default layout for other zones
                 zone.faceUp = true;
                 zone.layoutDirection = Vector3.right;
-                zone.cardSpacing = 0.5f;
+                zone.cardSpacing = 1.5f;
+                zone.defaultRotation = new Vector3(0, 0, 0); // Flat on X,Z plane
                 break;
         }
     }

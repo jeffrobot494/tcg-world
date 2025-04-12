@@ -148,12 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2eb8aa8c237f70448e83db1144d5324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 0
+  _logErrors: 1
   gameRulesJson: {fileID: 4900000, guid: 9c7e5930c9c17e043a8ab15e6ec92d79, type: 3}
   cardPrefab: {fileID: 1012339689438955076, guid: 93b7d23383b26074290e966f91a02bb2, type: 3}
   cardZonePrefab: {fileID: 0}
   zonesContainer: {fileID: 0}
   cardListJson: {fileID: 0}
-  deckManager: {fileID: 2095054759}
   players: []
   currentPlayerIndex: 0
 --- !u!4 &323774298
@@ -183,6 +184,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -308,6 +310,23 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630df67ea79f33a45bfe9114a1d84d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraHeight: 12
+  cameraAngle: 70
+  fieldOfView: 60
+  lookAtTarget: 1
+  targetPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,6 +526,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3921da2671eec49b3bbd0b957bedb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 0
+  _logErrors: 1
 --- !u!4 &918316556
 Transform:
   m_ObjectHideFlags: 0
@@ -551,6 +572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d37a39195277854e84d9fb2416daede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 0
+  _logErrors: 1
   cardsJsonFile: {fileID: 4900000, guid: d8bdc0cb086b49644bd48336e39eef9d, type: 3}
 --- !u!4 &2095054760
 Transform:

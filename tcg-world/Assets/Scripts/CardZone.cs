@@ -63,6 +63,9 @@ public class CardZone : MonoBehaviour, ICardContainer
         // Update card's current zone
         card.currentZone = this;
         
+        // Make the card a child of this zone in the hierarchy
+        card.transform.SetParent(this.transform, true);
+        
         // Update card visuals
         UpdateCardPositions();
         
@@ -95,6 +98,9 @@ public class CardZone : MonoBehaviour, ICardContainer
         
         Card removedCard = cards[index];
         cards.RemoveAt(index);
+        
+        // Unparent the card from this zone
+        removedCard.transform.SetParent(null);
         
         // Update positions of remaining cards
         UpdateCardPositions();
@@ -156,8 +162,12 @@ public class CardZone : MonoBehaviour, ICardContainer
             Vector3 position = layoutOrigin + (layoutDirection * i * cardSpacing);
             Quaternion rotation = Quaternion.Euler(defaultRotation);
             
+            // Use Vector3.one since we'll handle actual card size in the CardVisuals component
+            // This prevents any unwanted stretching from this scale factor
+            Vector3 cardScale = Vector3.one;
+            
             // Move the card to its position in the zone
-            cards[i].MoveToPosition(position, rotation, Vector3.one);
+            cards[i].MoveToPosition(position, rotation, cardScale);
         }
     }
     

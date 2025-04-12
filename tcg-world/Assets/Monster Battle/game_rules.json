@@ -1,0 +1,21 @@
+{
+  "gameInfo": {
+    "name": "Monster Battle",
+    "description": "A simple monster battling card game"
+  },
+  "zones": [
+    {
+      "name": "Deck",
+      "perPlayer": true,
+      "isPublic": false,
+      "isOrdered": true,
+      "maxCards": 20,
+      "layout": {
+        "position": { "x": -8, "y": 0, "z": -5 },
+        "rotation": { "x": 90, "y": 0, "z": 0 },
+        "size": { "x": 2, "y": 3 },
+        "cardSpacing": 50
+      }
+    }
+  ]
+}

@@ -12,9 +12,9 @@
       "maxCards": 20,
       "layout": {
         "position": { "x": -8, "y": 0, "z": -5 },
-        "rotation": { "x": 90, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
         "size": { "x": 2, "y": 3 },
-        "cardSpacing": 50
+        "cardSpacing": .05
       }
     }
   ]

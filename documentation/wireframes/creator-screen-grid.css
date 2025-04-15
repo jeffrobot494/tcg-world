@@ -1,0 +1,177 @@
+/* Hex Grid Specific Styles */
+
+/* Hex Grid Container */
+.hex-grid-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 5;
+}
+
+.hex-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.hex-row {
+    display: flex;
+    margin-bottom: -20px; /* Hexagon overlap */
+}
+
+.hex-row:nth-child(odd) {
+    margin-left: 37px; /* Offset for odd rows to create hex pattern */
+}
+
+.hex-cell {
+    position: relative;
+    width: 74px;
+    height: 82px;
+    margin: 0 2px;
+}
+
+/* Hexagon Shape */
+.hex {
+    position: absolute;
+    width: 70px; 
+    height: 80px;
+    background: rgba(114, 0, 209, 0.15);
+    border: 2px solid rgba(114, 0, 209, 0.4);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hex:hover {
+    background: rgba(114, 0, 209, 0.25);
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.hex.highlighted {
+    background: rgba(114, 0, 209, 0.3);
+    border: 2px solid rgba(114, 0, 209, 0.7);
+    box-shadow: 0 0 10px rgba(114, 0, 209, 0.3);
+}
+
+/* Hex Cell Coordinates */
+.hex-coords {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Cards on Hex Grid */
+.card-placeholder {
+    width: 40px;
+    height: 60px;
+    border-radius: 4px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    transform: scale(0.9);
+    transition: transform 0.2s ease;
+}
+
+.hex:hover .card-placeholder {
+    transform: scale(1);
+}
+
+.card-placeholder.red {
+    background: linear-gradient(135deg, #8e2de2, #e94057);
+}
+
+.card-placeholder.blue {
+    background: linear-gradient(135deg, #396afc, #2948ff);
+}
+
+.card-placeholder.green {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+}
+
+/* Selected Cell Indicator */
+.selected-indicator {
+    color: rgba(255, 217, 102, 0.8);
+    font-size: 24px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+}
+
+/* Grid Controls */
+.grid-controls {
+    background-color: rgba(30, 30, 30, 0.7);
+    border-radius: 8px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 380px;
+}
+
+.grid-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.info-value {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+.grid-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.grid-action-btn {
+    background-color: rgba(114, 0, 209, 0.2);
+    border: 1px solid rgba(114, 0, 209, 0.4);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.grid-action-btn:hover {
+    background-color: rgba(114, 0, 209, 0.4);
+}

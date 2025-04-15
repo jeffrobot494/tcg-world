@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck Builder - Fantasy Realms</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fantasy-realms.css">
+    <link rel="stylesheet" href="deck-builder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="placeholder-div.css">
+</head>
+<body class="fantasy-theme">
+    <header>
+        <div class="logo">
+            <div class="placeholder-box placeholder-logo">Logo</div>
+            <h1>TCG World</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="landing-page.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="fantasy-realms.html"><i class="fas fa-gamepad"></i> Fantasy Realms</a></li>
+                <li class="active"><a href="#"><i class="fas fa-layer-group"></i> Deck Builder</a></li>
+                <li><a href="#"><i class="fas fa-store"></i> Marketplace</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile">
+            <div class="placeholder-box placeholder-avatar">Avatar</div>
+            <span>Player123</span>
+            <div class="level-badge">Lvl 42</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="deck-builder-container">
+            <!-- DECK SELECTION SIDEBAR -->
+            <div class="deck-sidebar">
+                <div class="sidebar-header">
+                    <h2>My Decks</h2>
+                    <button class="btn-icon" title="Create New Deck"><i class="fas fa-plus"></i></button>
+                </div>
+                
+                <div class="deck-search">
+                    <input type="text" placeholder="Search decks...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <ul class="deck-list">
+                    <li class="deck-item active">
+                        <div class="deck-item-header">
+                            <img src="fire-mages-icon.png" alt="Fire Mages" class="deck-icon">
+                            <div class="deck-name">Fire Mages</div>
+                        </div>
+                        <div class="deck-stats">
+                            <span class="deck-type">Aggro</span>
+                            <span class="deck-wins">32-12</span>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn-icon" title="Save"><i class="fas fa-save"></i></button>
+                            <button class="btn-icon" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
+                    <li class="deck-item">
+                        <div class="deck-item-header">
+                            <img src="forest-guardians-icon.png" alt="Forest Guardians" class="deck-icon">
+                            <div class="deck-name">Forest Guardians</div>
+                        </div>
+                        <div class="deck-stats">
+                            <span class="deck-type">Midrange</span>
+                            <span class="deck-wins">18-7</span>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn-icon" title="Save"><i class="fas fa-save"></i></button>
+                            <button class="btn-icon" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
+                    <li class="deck-item">
+                        <div class="deck-item-header">
+                            <img src="undead-horde-icon.png" alt="Undead Horde" class="deck-icon">
+                            <div class="deck-name">Undead Horde</div>
+                        </div>
+                        <div class="deck-stats">
+                            <span class="deck-type">Control</span>
+                            <span class="deck-wins">25-15</span>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn-icon" title="Save"><i class="fas fa-save"></i></button>
+                            <button class="btn-icon" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
+                    <li class="deck-item">
+                        <div class="deck-item-header">
+                            <img src="spirit-walkers-icon.png" alt="Spirit Walkers" class="deck-icon">
+                            <div class="deck-name">Spirit Walkers</div>
+                        </div>
+                        <div class="deck-stats">
+                            <span class="deck-type">Combo</span>
+                            <span class="deck-wins">15-11</span>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn-icon" title="Save"><i class="fas fa-save"></i></button>
+                            <button class="btn-icon" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
+                    <li class="deck-item">
+                        <div class="deck-item-header">
+                            <img src="dragon-cult-icon.png" alt="Dragon Cult" class="deck-icon">
+                            <div class="deck-name">Dragon Cult</div>
+                        </div>
+                        <div class="deck-stats">
+                            <span class="deck-type">Ramp</span>
+                            <span class="deck-wins">21-18</span>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn-icon" title="Save"><i class="fas fa-save"></i></button>
+                            <button class="btn-icon" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="deck-export">
+                    <button class="btn-secondary"><i class="fas fa-file-export"></i> Export Deck</button>
+                    <button class="btn-secondary"><i class="fas fa-file-import"></i> Import Deck</button>
+                </div>
+                
+                <div class="deck-info">
+                    <h3>Deck: Fire Mages</h3>
+                    <div class="info-group">
+                        <div class="info-stat">
+                            <span class="stat-label">Cards:</span>
+                            <span class="stat-value">42/60</span>
+                        </div>
+                        <div class="info-stat">
+                            <span class="stat-label">Mana Curve:</span>
+                            <span class="stat-value">3.5</span>
+                        </div>
+                    </div>
+                    <div class="deck-description">
+                        <p>Aggressive deck focused on direct damage and fast creatures with fire magic abilities.</p>
+                    </div>
+                    <div class="deck-tags">
+                        <span class="deck-tag">Aggro</span>
+                        <span class="deck-tag">Fire</span>
+                        <span class="deck-tag">Burn</span>
+                        <span class="deck-tag">+</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DECK BUILDING AREA -->
+            <div class="deck-building-area">
+                <!-- DECK VISUALIZATION -->
+                <div class="deck-preview">
+                    <div class="deck-header">
+                        <h2>Fire Mages</h2>
+                        <div class="deck-controls">
+                            <button class="btn-secondary"><i class="fas fa-random"></i> Test Draw</button>
+                            <button class="btn-primary"><i class="fas fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                    
+                    <!-- DECK VISUALIZATION TABS -->
+                    <div class="preview-tabs">
+                        <button class="preview-tab active">Cards</button>
+                        <button class="preview-tab">Mana Curve</button>
+                        <button class="preview-tab">Stats</button>
+                        <button class="preview-tab">Playtest</button>
+                    </div>
+                    
+                    <!-- CURRENT DECK CARDS -->
+                    <div class="current-deck">
+                        <div class="cost-group">
+                            <div class="cost-header">
+                                <div class="mana-cost">1 <i class="fas fa-fire"></i></div>
+                                <div class="cost-count">8 cards</div>
+                            </div>
+                            <div class="cost-cards">
+                                <div class="deck-card with-count">
+                                    <span class="card-count">4x</span>
+                                    <img src="card-ember-sprite.png" alt="Ember Sprite">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">2x</span>
+                                    <img src="card-fire-bolt.png" alt="Fire Bolt">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">2x</span>
+                                    <img src="card-spark-elemental.png" alt="Spark Elemental">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-group">
+                            <div class="cost-header">
+                                <div class="mana-cost">2 <i class="fas fa-fire"></i></div>
+                                <div class="cost-count">10 cards</div>
+                            </div>
+                            <div class="cost-cards">
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-pyromancer.png" alt="Pyromancer Apprentice">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-flame-slash.png" alt="Flame Slash">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">4x</span>
+                                    <img src="card-burning-touch.png" alt="Burning Touch">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-group">
+                            <div class="cost-header">
+                                <div class="mana-cost">3 <i class="fas fa-fire"></i></div>
+                                <div class="cost-count">8 cards</div>
+                            </div>
+                            <div class="cost-cards">
+                                <div class="deck-card with-count">
+                                    <span class="card-count">4x</span>
+                                    <img src="card-flame-channeler.png" alt="Flame Channeler">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">4x</span>
+                                    <img src="card-volcanic-eruption.png" alt="Volcanic Eruption">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-group">
+                            <div class="cost-header">
+                                <div class="mana-cost">4 <i class="fas fa-fire"></i></div>
+                                <div class="cost-count">6 cards</div>
+                            </div>
+                            <div class="cost-cards">
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-fire-elemental.png" alt="Fire Elemental">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-flame-wave.png" alt="Flame Wave">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-group">
+                            <div class="cost-header">
+                                <div class="mana-cost">5+ <i class="fas fa-fire"></i></div>
+                                <div class="cost-count">10 cards</div>
+                            </div>
+                            <div class="cost-cards">
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-inferno-titan.png" alt="Inferno Titan">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">2x</span>
+                                    <img src="card-pyroclasm.png" alt="Pyroclasm">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">3x</span>
+                                    <img src="card-dragon-mage.png" alt="Dragon Mage">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deck-card with-count">
+                                    <span class="card-count">2x</span>
+                                    <img src="card-phoenix-lord.png" alt="Phoenix Lord">
+                                    <div class="card-hover-actions">
+                                        <button class="btn-icon" title="Remove"><i class="fas fa-minus"></i></button>
+                                        <button class="btn-icon" title="View"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="deck-stats-footer">
+                        <div class="stat-pill">
+                            <i class="fas fa-bolt"></i>
+                            <span>Creatures: 28</span>
+                        </div>
+                        <div class="stat-pill">
+                            <i class="fas fa-magic"></i>
+                            <span>Spells: 14</span>
+                        </div>
+                        <div class="stat-pill">
+                            <i class="fas fa-fire"></i>
+                            <span>Fire: 42</span>
+                        </div>
+                        <div class="stat-pill warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Cards Needed: 18</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD COLLECTION BROWSER -->
+                <div class="card-browser">
+                    <div class="browser-header">
+                        <h2>Card Collection</h2>
+                        <div class="view-toggles">
+                            <button class="view-toggle active" title="Grid View"><i class="fas fa-th"></i></button>
+                            <button class="view-toggle" title="List View"><i class="fas fa-list"></i></button>
+                            <button class="view-toggle" title="Details View"><i class="fas fa-info-circle"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- SEARCH AND FILTER CONTROLS -->
+                    <div class="card-search-bar">
+                        <div class="search-box">
+                            <input type="text" placeholder="Search cards...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="creatures">Creatures</button>
+                            <button class="filter-btn" data-filter="spells">Spells</button>
+                            <button class="filter-btn" data-filter="artifacts">Artifacts</button>
+                            <button class="filter-btn" data-filter="fire">Fire <i class="fas fa-fire"></i></button>
+                            <button class="filter-btn" data-filter="advanced">
+                                <i class="fas fa-sliders-h"></i>
+                                Advanced
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- CARD GRID -->
+                    <div class="card-grid">
+                        <!-- Row for cards costing 1 mana -->
+                        <div class="browser-cost-header">
+                            <div class="mana-indicator">1 <i class="fas fa-fire"></i></div>
+                        </div>
+                        <div class="card-row">
+                            <div class="collection-card">
+                                <img src="card-ember-sprite.png" alt="Ember Sprite">
+                                <div class="card-overlay">
+                                    <span class="owned-count">4/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-fire-bolt.png" alt="Fire Bolt">
+                                <div class="card-overlay">
+                                    <span class="owned-count">3/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-spark-elemental.png" alt="Spark Elemental">
+                                <div class="card-overlay">
+                                    <span class="owned-count">4/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-flame-imp.png" alt="Flame Imp">
+                                <div class="card-overlay">
+                                    <span class="owned-count">2/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-burning-familiar.png" alt="Burning Familiar">
+                                <div class="card-overlay">
+                                    <span class="owned-count">1/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row for cards costing 2 mana -->
+                        <div class="browser-cost-header">
+                            <div class="mana-indicator">2 <i class="fas fa-fire"></i></div>
+                        </div>
+                        <div class="card-row">
+                            <div class="collection-card">
+                                <img src="card-pyromancer.png" alt="Pyromancer Apprentice">
+                                <div class="card-overlay">
+                                    <span class="owned-count">4/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-flame-slash.png" alt="Flame Slash">
+                                <div class="card-overlay">
+                                    <span class="owned-count">4/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-burning-touch.png" alt="Burning Touch">
+                                <div class="card-overlay">
+                                    <span class="owned-count">4/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-add" title="Add to Deck">+</button>
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card">
+                                <img src="card-fire-dancer.png" alt="Fire Dancer">
+                                <div class="card-overlay">
+                                    <span class="owned-count">0/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Find in Shop"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card locked">
+                                <img src="card-fiery-temper.png" alt="Fiery Temper">
+                                <div class="card-overlay">
+                                    <span class="owned-count">0/4</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Find in Shop"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                    <div class="locked-indicator">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- New release teaser row -->
+                        <div class="browser-section-header">
+                            <h3>New From Shadowlands Expansion</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="card-row">
+                            <div class="collection-card new-card">
+                                <img src="card1-placeholder.png" alt="Mordrath, Shadow King">
+                                <div class="card-overlay">
+                                    <span class="card-badge">New</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Pre-order"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card new-card">
+                                <img src="card2-placeholder.png" alt="Shadowlands Portal">
+                                <div class="card-overlay">
+                                    <span class="card-badge">New</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Pre-order"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card new-card">
+                                <img src="card3-placeholder.png" alt="Eternal Guardian">
+                                <div class="card-overlay">
+                                    <span class="card-badge">New</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Pre-order"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card new-card">
+                                <img src="card4-placeholder.png" alt="Soul Harvest">
+                                <div class="card-overlay">
+                                    <span class="card-badge">New</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Pre-order"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collection-card new-card">
+                                <img src="card5-placeholder.png" alt="Whispering Banshee">
+                                <div class="card-overlay">
+                                    <span class="card-badge">New</span>
+                                    <div class="card-actions">
+                                        <button class="btn-view" title="View Details"><i class="fas fa-search"></i></button>
+                                        <button class="btn-shop" title="Pre-order"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SIDEBAR WITH CHAT AND FRIENDS -->
+            <div class="social-sidebar">
+                <!-- GLOBAL CHAT PANEL -->
+                <section class="chat-panel">
+                    <div class="panel-header">
+                        <h3>Global Chat</h3>
+                        <div class="panel-controls">
+                            <div class="chat-tabs">
+                                <button class="chat-tab active">Global</button>
+                                <button class="chat-tab">Game</button>
+                            </div>
+                            <button class="btn-icon" title="Settings"><i class="fas fa-cog"></i></button>
+                        </div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="chat-message">
+                            <img src="user1-placeholder.png" alt="User Avatar" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">DragonLord99</span>
+                                    <span class="message-time">10:32 AM</span>
+                                </div>
+                                <p>Anyone have a good counter to Fire Mages?</p>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <img src="user2-placeholder.png" alt="User Avatar" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">CardMaster</span>
+                                    <span class="message-time">10:35 AM</span>
+                                </div>
+                                <p>Water Elementals + Ice Shield works pretty well</p>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <img src="user3-placeholder.png" alt="User Avatar" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">NoviceWizard</span>
+                                    <span class="message-time">10:36 AM</span>
+                                </div>
+                                <p>I'm trying to build my first Fire Mages deck too</p>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <img src="user4-placeholder.png" alt="User Avatar" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">TacticalGenius</span>
+                                    <span class="message-time">10:40 AM</span>
+                                </div>
+                                <p>@NoviceWizard Check out my deck list: FR-394622</p>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <img src="user5-placeholder.png" alt="User Avatar" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">System</span>
+                                    <span class="message-time">10:45 AM</span>
+                                </div>
+                                <p class="system-message">Weekend Tournament registration opens in 15 minutes!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type a message...">
+                        <button class="btn-send"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </section>
+
+                <!-- FRIENDS LIST -->
+                <section class="friends-panel">
+                    <div class="panel-header">
+                        <h3>Friends (12)</h3>
+                        <div class="panel-controls">
+                            <button class="btn-icon" title="Add Friend"><i class="fas fa-user-plus"></i></button>
+                            <button class="btn-icon" title="Settings"><i class="fas fa-cog"></i></button>
+                        </div>
+                    </div>
+                    <div class="friends-search">
+                        <input type="text" placeholder="Search friends...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div class="friends-tabs">
+                        <button class="tab active">Online (5)</button>
+                        <button class="tab">All (12)</button>
+                        <button class="tab">Playing FR (3)</button>
+                    </div>
+                    <ul class="friends-list">
+                        <li class="friend-item online">
+                            <img src="friend1-placeholder.png" alt="Friend Avatar" class="friend-avatar">
+                            <div class="friend-info">
+                                <span class="friend-name">CardMaster</span>
+                                <span class="friend-status">Playing Fantasy Realms</span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-icon" title="Invite to Playtest"><i class="fas fa-gamepad"></i></button>
+                                <button class="btn-icon" title="Message"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </li>
+                        <li class="friend-item online">
+                            <img src="friend3-placeholder.png" alt="Friend Avatar" class="friend-avatar">
+                            <div class="friend-info">
+                                <span class="friend-name">TacticalGenius</span>
+                                <span class="friend-status">In Deck Builder</span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-icon" title="Invite to Playtest"><i class="fas fa-gamepad"></i></button>
+                                <button class="btn-icon" title="Message"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </li>
+                        <li class="friend-item online">
+                            <img src="friend2-placeholder.png" alt="Friend Avatar" class="friend-avatar">
+                            <div class="friend-info">
+                                <span class="friend-name">SpellCaster42</span>
+                                <span class="friend-status">Online</span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-icon" title="Invite to Playtest"><i class="fas fa-gamepad"></i></button>
+                                <button class="btn-icon" title="Message"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </li>
+                        <li class="friend-item away">
+                            <img src="friend4-placeholder.png" alt="Friend Avatar" class="friend-avatar">
+                            <div class="friend-info">
+                                <span class="friend-name">StrategyKing</span>
+                                <span class="friend-status">Away (20m)</span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-icon" title="Invite to Playtest"><i class="fas fa-gamepad"></i></button>
+                                <button class="btn-icon" title="Message"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </li>
+                        <li class="friend-item online">
+                            <img src="friend5-placeholder.png" alt="Friend Avatar" class="friend-avatar">
+                            <div class="friend-info">
+                                <span class="friend-name">DragonLord99</span>
+                                <span class="friend-status">Playing Fantasy Realms</span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-icon" title="Invite to Playtest"><i class="fas fa-gamepad"></i></button>
+                                <button class="btn-icon" title="Message"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                
+                <!-- DECK SUGGESTIONS -->
+                <section class="deck-suggestions">
+                    <div class="panel-header">
+                        <h3>Deck Suggestions</h3>
+                        <button class="btn-icon" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="suggestion-content">
+                        <div class="suggestion-card">
+                            <div class="suggestion-header">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Balance Improvement</h4>
+                            </div>
+                            <p>Your deck has too few low-cost cards. Consider adding more 1-2 cost creatures for early game presence.</p>
+                            <button class="btn-secondary btn-small">Show Recommendations</button>
+                        </div>
+                        <div class="suggestion-card">
+                            <div class="suggestion-header">
+                                <i class="fas fa-puzzle-piece"></i>
+                                <h4>Missing Synergy</h4>
+                            </div>
+                            <p>Add Flame Warden (3 cost) to gain +1 attack for all Fire elementals.</p>
+                            <button class="btn-secondary btn-small">Add to Deck</button>
+                        </div>
+                        <div class="suggestion-card premium">
+                            <div class="suggestion-header">
+                                <i class="fas fa-crown"></i>
+                                <h4>Pro Analysis</h4>
+                            </div>
+                            <p>Get personalized deck recommendations from top players.</p>
+                            <button class="btn-primary btn-small">Upgrade to Premium</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <script src="navigation.js"></script>
+</body>
+</html>

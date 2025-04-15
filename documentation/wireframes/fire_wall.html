@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall of Fire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .fire-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to top, #000, #200000 30%, #400 60%, transparent);
+        }
+
+        .fire-base {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20vh;
+            background: linear-gradient(to top, #ff3c00, transparent);
+            z-index: 1;
+            filter: blur(3px);
+        }
+
+        .fire-glow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25vh;
+            background: radial-gradient(ellipse at center, rgba(255, 60, 0, 0.4) 0%, rgba(255, 60, 0, 0) 70%);
+            z-index: 1;
+            transform: translateY(40%) scale(2, 1);
+        }
+
+        .embers-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .ember {
+            position: absolute;
+            bottom: 0;
+            background-color: #ff6600;
+            border-radius: 50%;
+            transform-origin: center bottom;
+            z-index: 2;
+            filter: blur(1px);
+        }
+
+        .flame-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60vh;
+            z-index: 3;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 0;
+            width: 120px;
+            background-image: 
+                radial-gradient(ellipse at 50% 100%, rgba(255, 255, 0, 0.7) 0%, transparent 70%),
+                radial-gradient(ellipse at 50% 100%, rgba(255, 120, 0, 0.7) 0%, transparent 70%);
+            border-radius: 50% 50% 20% 20% / 40% 40% 60% 60%;
+            transform-origin: center bottom;
+            filter: blur(2px);
+            mix-blend-mode: screen;
+        }
+
+        .smoke {
+            position: absolute;
+            width: 30px;
+            background: radial-gradient(ellipse at center, rgba(100, 100, 100, 0.3) 0%, transparent 70%);
+            border-radius: 40%;
+            filter: blur(5px);
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at center, rgba(255, 255, 200, 0.9) 0%, rgba(255, 200, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(2px);
+            mix-blend-mode: screen;
+            z-index: 4;
+        }
+
+        .heat-distortion {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01' numOctaves='3' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 10;
+            animation: distort 10s infinite alternate;
+            mix-blend-mode: overlay;
+        }
+
+        /* Animated flame particles */
+        @keyframes flameAnimation {
+            0%, 100% {
+                transform: scaleY(1) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scaleY(1.1) translateY(-10px);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% {
+                opacity: 1;
+                height: 100%;
+            }
+            50% {
+                opacity: 0.8;
+                height: 95%;
+            }
+        }
+
+        @keyframes emberRise {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), -100vh) scale(0.1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes smokeRise {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(var(--tx), -80vh) scale(3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes hotspotPulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        @keyframes distort {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+        }
+
+        .fire-audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .fire-audio-controls:hover {
+            opacity: 1;
+        }
+
+        .fire-audio-button {
+            background: rgba(255, 60, 0, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .fire-audio-button:hover {
+            background: rgba(255, 60, 0, 0.6);
+        }
+
+        .dragon-breath {
+            position: absolute;
+            opacity: 0;
+            bottom: 20vh;
+            width: 60vw;
+            height: 80vh;
+            background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 0, 0.9) 0%, rgba(255, 120, 0, 0.8) 30%, transparent 70%);
+            filter: blur(10px);
+            transform-origin: bottom center;
+            z-index: 5;
+            mix-blend-mode: screen;
+            animation: dragonBreathPulse 8s ease-in-out infinite;
+            animation-play-state: paused;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0.5);
+        }
+
+        @keyframes dragonBreathPulse {
+            0%, 100% {
+                opacity: 0;
+                transform: translateX(-50%) scaleY(0.5);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(-50%) scaleY(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fire-container">
+        <div class="fire-base"></div>
+        <div class="flame-container"></div>
+        <div class="embers-container"></div>
+        <div class="fire-glow"></div>
+        <div class="heat-distortion"></div>
+        <div class="dragon-breath"></div>
+    </div>
+
+    <div class="fire-audio-controls">
+        <button class="fire-audio-button" id="toggleSound">Enable Fire Sound</button>
+        <button class="fire-audio-button" id="toggleDragon">Dragon Breath</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flameContainer = document.querySelector('.flame-container');
+            const embersContainer = document.querySelector('.embers-container');
+            const fireBase = document.querySelector('.fire-base');
+            const dragonBreath = document.querySelector('.dragon-breath');
+            
+            // Fire audio element
+            let audioContext;
+            let fireSound;
+            let gainNode;
+            let soundEnabled = false;
+
+            // Create base flames that make up the wall of fire
+            function createBaseFlames() {
+                const numFlames = Math.floor(window.innerWidth / 60);
+                const baseHeight = window.innerHeight * 0.6;
+                
+                for (let i = 0; i < numFlames; i++) {
+                    const flame = document.createElement('div');
+                    flame.classList.add('flame');
+                    
+                    // Position flames evenly with some randomness
+                    const leftPosition = (i / numFlames) * 100;
+                    flame.style.left = `${leftPosition}%`;
+                    
+                    // Random height for variation
+                    const height = baseHeight * (0.7 + Math.random() * 0.6);
+                    flame.style.height = `${height}px`;
+                    
+                    // Animation with random timing for realistic effect
+                    const animDuration = 2 + Math.random() * 3;
+                    flame.style.animation = `flameAnimation ${animDuration}s ease-in-out infinite, flameFlicker ${animDuration/2}s ease-in-out infinite alternate`;
+                    
+                    // Random hue shift for color variation
+                    const hueShift = Math.random() * 20;
+                    flame.style.filter = `blur(${2 + Math.random() * 2}px) hue-rotate(${-hueShift}deg)`;
+                    
+                    // Add to container
+                    flameContainer.appendChild(flame);
+                    
+                    // Create hotspots (bright yellow centers)
+                    createHotspots(leftPosition, height);
+                }
+            }
+            
+            // Create small bright hotspots inside flames
+            function createHotspots(leftPosition, flameHeight) {
+                const numHotspots = Math.max(2, Math.floor(flameHeight / 100));
+                
+                for (let i = 0; i < numHotspots; i++) {
+                    const hotspot = document.createElement('div');
+                    hotspot.classList.add('hotspot');
+                    
+                    // Position within the flame
+                    const variationX = -10 + Math.random() * 20;
+                    const heightPercent = 0.3 + Math.random() * 0.5;
+                    
+                    hotspot.style.left = `calc(${leftPosition}% + ${variationX}px)`;
+                    hotspot.style.bottom = `${flameHeight * heightPercent}px`;
+                    
+                    // Random size and animation timing
+                    const size = 10 + Math.random() * 30;
+                    hotspot.style.width = `${size}px`;
+                    hotspot.style.height = `${size}px`;
+                    
+                    const animDuration = 0.5 + Math.random() * 1;
+                    hotspot.style.animation = `hotspotPulse ${animDuration}s ease-in-out infinite alternate`;
+                    
+                    flameContainer.appendChild(hotspot);
+                }
+            }
+            
+            // Create rising embers (small particles)
+            function createEmbers() {
+                const ember = document.createElement('div');
+                ember.classList.add('ember');
+                
+                // Random position along the base
+                const leftPosition = Math.random() * 100;
+                ember.style.left = `${leftPosition}%`;
+                
+                // Random size
+                const size = 2 + Math.random() * 4;
+                ember.style.width = `${size}px`;
+                ember.style.height = `${size}px`;
+                
+                // Random horizontal drift 
+                const translateX = -100 + Math.random() * 200;
+                ember.style.setProperty('--tx', `${translateX}px`);
+                
+                // Animation with random duration
+                const duration = 3 + Math.random() * 4;
+                ember.style.animation = `emberRise ${duration}s ease-out forwards`;
+                
+                // Random orange-yellow color
+                const hue = 30 + Math.random() * 15;
+                const lightness = 50 + Math.random() * 30;
+                ember.style.backgroundColor = `hsl(${hue}, 100%, ${lightness}%)`;
+                
+                // Add to container and remove after animation
+                embersContainer.appendChild(ember);
+                setTimeout(() => {
+                    ember.remove();
+                }, duration * 1000);
+            }
+            
+            // Create smoke particles above the flames
+            function createSmoke() {
+                const smoke = document.createElement('div');
+                smoke.classList.add('smoke');
+                
+                // Position along the width of the screen
+                const leftPosition = Math.random() * 100;
+                smoke.style.left = `${leftPosition}%`;
+                
+                // Size and starting position
+                const size = 20 + Math.random() * 40;
+                smoke.style.width = `${size}px`;
+                smoke.style.height = `${size}px`;
+                smoke.style.bottom = `${window.innerHeight * 0.4 + Math.random() * 100}px`;
+                
+                // Random horizontal drift
+                const translateX = -50 + Math.random() * 100;
+                smoke.style.setProperty('--tx', `${translateX}px`);
+                
+                // Animation with random duration
+                const duration = 4 + Math.random() * 6;
+                smoke.style.animation = `smokeRise ${duration}s ease-out forwards`;
+                
+                // Add to container and remove after animation
+                embersContainer.appendChild(smoke);
+                setTimeout(() => {
+                    smoke.remove();
+                }, duration * 1000);
+            }
+            
+            // Initialize the fire simulation
+            function initFire() {
+                createBaseFlames();
+                
+                // Continuously create embers and smoke
+                setInterval(createEmbers, 50);
+                setInterval(createSmoke, 300);
+                
+                // Add dynamic glow effect to the fire base
+                fireBase.style.animation = 'flameFlicker 2s ease-in-out infinite alternate';
+                
+                // Set up audio controls
+                document.getElementById('toggleSound').addEventListener('click', toggleFireSound);
+                document.getElementById('toggleDragon').addEventListener('click', toggleDragonBreath);
+            }
+            
+            // Setup fire sound
+            function setupFireSound() {
+                try {
+                    // Create audio context
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // Create noise nodes for fire crackling
+                    const bufferSize = 4096;
+                    const whiteNoise = audioContext.createScriptProcessor(bufferSize, 1, 1);
+                    whiteNoise.onaudioprocess = function(e) {
+                        const output = e.outputBuffer.getChannelData(0);
+                        for (let i = 0; i < bufferSize; i++) {
+                            output[i] = Math.random() * 2 - 1;
+                        }
+                    };
+                    
+                    // Create a filter to shape the noise into fire sound
+                    const filter = audioContext.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 400;
+                    filter.Q.value = 5;
+                    
+                    // Create a second filter for deeper rumble
+                    const lowFilter = audioContext.createBiquadFilter();
+                    lowFilter.type = 'lowpass';
+                    lowFilter.frequency.value = 100;
+                    
+                    // Create gain node for volume control
+                    gainNode = audioContext.createGain();
+                    gainNode.gain.value = 0.1;
+                    
+                    // Connect the nodes
+                    whiteNoise.connect(filter);
+                    filter.connect(gainNode);
+                    
+                    whiteNoise.connect(lowFilter);
+                    lowFilter.connect(gainNode);
+                    
+                    gainNode.connect(audioContext.destination);
+                    
+                    fireSound = whiteNoise;
+                    
+                    // Modulate the filter for dynamic fire sound
+                    setInterval(() => {
+                        if (soundEnabled) {
+                            filter.frequency.value = 300 + Math.random() * 300;
+                            gainNode.gain.value = 0.08 + Math.random() * 0.04;
+                        }
+                    }, 200);
+                    
+                } catch (e) {
+                    console.warn('Web Audio API not supported:', e);
+                }
+            }
+            
+            // Toggle fire sound on/off
+            function toggleFireSound() {
+                if (!audioContext) {
+                    setupFireSound();
+                }
+                
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
+                soundEnabled = !soundEnabled;
+                
+                if (soundEnabled) {
+                    document.getElementById('toggleSound').textContent = 'Disable Fire Sound';
+                    gainNode.gain.value = 0.1;
+                } else {
+                    document.getElementById('toggleSound').textContent = 'Enable Fire Sound';
+                    gainNode.gain.value = 0;
+                }
+            }
+            
+            // Toggle dragon breath effect
+            function toggleDragonBreath() {
+                const isActive = dragonBreath.style.animationPlayState === 'running';
+                
+                if (isActive) {
+                    dragonBreath.style.animationPlayState = 'paused';
+                    document.getElementById('toggleDragon').textContent = 'Dragon Breath';
+                } else {
+                    dragonBreath.style.animationPlayState = 'running';
+                    document.getElementById('toggleDragon').textContent = 'Stop Dragon Breath';
+                    
+                    // Create more intense embers during dragon breath
+                    const burstEmbers = () => {
+                        for (let i = 0; i < 10; i++) {
+                            setTimeout(createEmbers, i * 50);
+                        }
+                    };
+                    
+                    // Pulse of embers
+                    const dragonInterval = setInterval(burstEmbers, 2000);
+                    
+                    // Stop after animation cycle
+                    setTimeout(() => {
+                        if (dragonBreath.style.animationPlayState === 'running') {
+                            dragonBreath.style.animationPlayState = 'paused';
+                            document.getElementById('toggleDragon').textContent = 'Dragon Breath';
+                            clearInterval(dragonInterval);
+                        }
+                    }, 16000);
+                }
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                // Clear and recreate base flames
+                flameContainer.innerHTML = '';
+                createBaseFlames();
+            });
+            
+            // Initialize
+            initFire();
+        });
+    </script>
+</body>
+</html>

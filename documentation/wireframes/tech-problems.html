@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCG World - Developer Architecture</title>
+    <link rel="stylesheet" href="placeholder-fix.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #f0f0f0;
+            background-color: #121212;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #1a1a1a;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        header h1 {
+            margin: 0;
+            color: #00b8d4;
+            font-size: 1.5rem;
+        }
+        
+        main {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            color: #00b8d4;
+            margin: 0;
+            padding: 2rem 1rem;
+            background-color: #161616;
+        }
+        
+        section {
+            margin-bottom: 0;
+            padding: 2rem 1.5rem;
+        }
+        
+        section:nth-child(odd) {
+            background-color: #1a1a1a;
+        }
+        
+        section:nth-child(even) {
+            background-color: #141414;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+            color: #00b8d4;
+            border-bottom: 1px solid rgba(0, 184, 212, 0.3);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        h3 {
+            font-size: 1.1rem;
+            color: #00b8d4;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid rgba(0, 184, 212, 0.5);
+            padding-left: 0.6rem;
+        }
+        
+        p {
+            margin: 1rem 0;
+        }
+        
+        ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: #1a1a1a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            color: #82aaff;
+        }
+        
+        pre {
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre;
+            margin: 1rem 0;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            color: #82aaff;
+        }
+        
+        .box {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #00b8d4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lua-box {
+            background-color: rgba(255, 200, 87, 0.15);
+            border: 1px solid rgba(255, 200, 87, 0.4);
+            color: #ffc857;
+            padding: 0.9rem;
+            margin: 0.7rem 0;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .unity-box {
+            background-color: rgba(68, 203, 255, 0.15);
+            border: 1px solid rgba(68, 203, 255, 0.4);
+            color: #44cbff;
+            padding: 0.9rem;
+            margin: 0.7rem 0;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .browser-box {
+            background-color: rgba(141, 234, 85, 0.15);
+            border: 1px solid rgba(141, 234, 85, 0.4);
+            color: #8dea55;
+            padding: 0.9rem;
+            margin: 0.7rem 0;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: #888;
+            font-size: 0.875rem;
+            background-color: #0a0a0a;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TCG World</h1>
+    </header>
+    
+    <main>
+        <h1>Developer Architecture Pitch</h1>
+        
+        <section>
+            <h2>Overview</h2>
+            <p>This document outlines the two major technical challenges in building the TCG World platform. The goal is to clearly frame the architecture, get expert feedback on feasibility, and discuss practical implementation options.</p>
+        </section>
+        
+        <section>
+            <h2>1. Building a Scriptable Game Engine (LLM-Driven Lua Hooks)</h2>
+            <p>We are building a modular, extensible game engine driven by Lua scripting. The engine handles core game logic like turns, phases, zones, card effects, etc. Creators define their rules via natural language, which is processed by an LLM and converted into Lua scripts that register event hooks.</p>
+            
+            <h3>Core Engine Responsibilities:</h3>
+            <ul>
+                <li>Manage game state (players, cards, zones)</li>
+                <li>Expose a consistent API to Lua scripts</li>
+                <li>Examples: <span class="code">engine:drawCards(player, 2)</span>, <span class="code">engine:dealDamage(source, target, amount)</span></li>
+                <li>Dispatch game lifecycle events (onStartTurn, onPlayCard, onAttack, etc.)</li>
+                <li>Stay deterministic and sandboxed for consistent behavior</li>
+            </ul>
+            
+            <h3>LLM Responsibilities:</h3>
+            <ul>
+                <li>Convert natural language into Lua hook functions</li>
+                <li>Support both per-card behavior and global rule logic</li>
+                <li>Stay constrained to a documented API contract to ensure engine safety and predictability</li>
+            </ul>
+            
+            <div class="box">
+                <pre>-- Example of LLM-generated Lua from natural language:
+-- "Players draw two cards at the start of their turn"
+
+function onStartTurn(player)
+  engine:drawCards(player, 2)
+end</pre>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Dual Engine Runtimes (Unity + Browser, One Source of Truth)</h2>
+            <p>We need the same game logic to run identically in Unity and in the browser. This allows creators to test their game in a simple 2D browser shell and trust that the behavior will match the high-fidelity Unity 3D version.</p>
+            
+            <h3>Execution Strategy:</h3>
+            <ul>
+                <li>Core engine written in Lua</li>
+                <li>Unity hosts Lua engine via MoonSharp</li>
+                <li>Browser hosts Lua engine via Fengari or WASM Lua interpreter</li>
+                <li>Game logic and state live entirely in Lua</li>
+                <li>The host (Unity or browser) handles visuals, input, animation, etc.</li>
+            </ul>
+            
+            <div class="box">
+                <div class="lua-box">Lua Game Engine Core</div>
+                <div class="unity-box">Unity + MoonSharp</div>
+                <div class="browser-box">Browser + Fengari/WASM</div>
+            </div>
+            
+            <h3>Benefits:</h3>
+            <ul>
+                <li>Identical logic and state across both clients</li>
+                <li>Fast iteration/test loop in the browser</li>
+                <li>3D experience and polish when tested or published via Unity</li>
+                <li>One source of truth for rules, card behavior, and game mechanics</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Discussion Points for Developer Feedback</h2>
+            <ul>
+			    <li>Is there a better way to handle creator development than two engines/environments across browser and Unity?</li>
+                <li>Am I missing anything obvious here?</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2024 TCG World
+    </footer>
+    
+    <script src="navigation.js"></script>
+    <script src="placeholder-fix.js"></script>
+</body>
+</html>

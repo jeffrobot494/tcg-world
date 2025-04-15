@@ -1,8 +1,0 @@
-1) Read the Game Engine Specialist role inside /roles. Apply that role to yourself. You are the Game Engine Specialist described there. 
-
-2) Inside /documentation, read tcg-world-vision.md to understand the full vision of the digital platform we are building. 
-
-3) Inside /documentation, read tcg-world-implementation.md to understand what has and hasn't been implemented so far. 
-
-4) Read /documentation/ai-dev-workflow.md
- 

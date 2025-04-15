@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio - TCG World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="creator-screen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="placeholder-div.css">
+</head>
+<body class="creator-theme">
+    <!-- STUDIO HEADER -->
+    <header class="studio-header">
+        <div class="logo">
+            <div class="placeholder-box placeholder-logo">Logo</div>
+            <h1>TCG World Creator Studio</h1>
+        </div>
+        <div class="project-info">
+            <div class="project-title">
+                <i class="fas fa-gamepad"></i>
+                <div class="title-text">
+                    <h2>Fantasy Realms</h2>
+                    <p>Card Game Project - v0.3.2</p>
+                </div>
+            </div>
+        </div>
+        <div class="studio-controls">
+            <button class="btn-primary"><i class="fas fa-play"></i> Test Game</button>
+            <button class="btn-secondary"><i class="fas fa-save"></i> Save</button>
+            <button class="btn-icon" title="Settings"><i class="fas fa-cog"></i></button>
+            <button class="btn-icon" title="Help"><i class="fas fa-question-circle"></i></button>
+        </div>
+    </header>
+
+    <!-- CREATOR WORKSPACE -->
+    <main class="creator-workspace">
+        <!-- GAME BOARD -->
+        <div class="game-board">
+            <!-- OPPONENT AREA -->
+            <div class="player-area opponent">
+                <div class="zone deck-zone">
+                    <div class="card-placeholder stacked"></div>
+                    <div class="card-placeholder stacked"></div>
+                    <div class="card-placeholder stacked"></div>
+                </div>
+                <div class="zone hand-zone">
+                    <div class="hand-cards">
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                    </div>
+                </div>
+                <div class="zone field-zone">
+                    <div class="field-slot">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div class="field-slot">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div class="field-slot"></div>
+                    <div class="field-slot">
+                        <div class="card-placeholder horizontal"></div>
+                    </div>
+                    <div class="field-slot"></div>
+                </div>
+                <div class="zone graveyard-zone">
+                    <div class="card-placeholder stacked"></div>
+                    <div class="card-placeholder stacked"></div>
+                </div>
+            </div>
+            
+            <!-- BOARD CENTER -->
+            <div class="board-center"></div>
+            
+            <!-- PLAYER AREA -->
+            <div class="player-area">
+                <div class="zone deck-zone">
+                    <div class="card-placeholder stacked"></div>
+                    <div class="card-placeholder stacked"></div>
+                    <div class="card-placeholder stacked"></div>
+                </div>
+                <div class="zone hand-zone">
+                    <div class="hand-cards">
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                    </div>
+                </div>
+                <div class="zone field-zone">
+                    <div class="field-slot">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div class="field-slot"></div>
+                    <div class="field-slot">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div class="field-slot">
+                        <div class="card-placeholder horizontal"></div>
+                    </div>
+                    <div class="field-slot"></div>
+                </div>
+                <div class="zone graveyard-zone">
+                    <div class="card-placeholder"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOOLS OVERLAY -->
+        <div class="tools-overlay">
+            <!-- Top Toolbar -->
+            <div class="top-toolbar">
+                <div class="tool-section">
+                    <button class="tool-btn active large"><i class="fas fa-scroll"></i> Rules</button>
+                    <button class="tool-btn large"><i class="fas fa-chess-board"></i> Board</button>
+                    <button class="tool-btn large"><i class="fas fa-cards"></i> Cards</button>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Tools -->
+            <div class="right-sidebar">
+                <div class="tool-group">
+                    <div class="tool-header">
+                        <h3>Current Rules</h3>
+                    </div>
+                    <div class="current-rules">
+                        <div class="rule-item active">
+                            <div class="rule-text">Players draw two cards at the start of their turn</div>
+                            <div class="rule-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-text">Players have 30 life points</div>
+                            <div class="rule-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-text">Creatures cannot attack the turn they enter play</div>
+                            <div class="rule-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Rule Input -->
+            <div class="rule-input-panel">
+                <div class="input-label">
+                    <i class="fas fa-magic"></i>
+                    <span>Describe game rules</span>
+                </div>
+                <div class="input-controls">
+                    <textarea id="rule-description" placeholder="Enter rule in natural language...">Players draw two cards at the start of their turn</textarea>
+                    <div class="input-buttons">
+                        <button class="btn-primary large"><i class="fas fa-plus"></i> Add Rule</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div class="notification">
+                <i class="fas fa-check-circle"></i>
+                <span>Rule added successfully!</span>
+                <button class="btn-icon"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- STUDIO FOOTER -->
+    <footer class="studio-footer">
+        <div class="status-info">
+            <div class="status-item">
+                <i class="fas fa-check-circle status-icon success"></i>
+                <span>Validation: Passed</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-database status-icon"></i>
+                <span>Rules: 12</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-th status-icon"></i>
+                <span>Zones: 5</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-credit-card status-icon"></i>
+                <span>Cards: 54</span>
+            </div>
+        </div>
+        <div class="ai-assistant-btn">
+            <i class="fas fa-robot"></i>
+            <span>Ask AI Assistant</span>
+        </div>
+    </footer>
+    <script src="navigation.js"></script>
+</body>
+</html>

@@ -16,6 +16,19 @@
         "size": { "x": 2, "y": 3 },
         "cardSpacing": .05
       }
-    }
+    },
+	{
+	  "name": "Board",
+      "perPlayer": false,
+      "isPublic": true,
+      "isOrdered": true,
+      "maxCards": 20,
+      "layout": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "size": { "x": 10, "y": 7 },
+        "cardSpacing": .05
+	  }
+	}
   ]
 }

@@ -1,0 +1,498 @@
+/* Fantasy Realms Specific Styles */
+
+:root {
+    --fantasy-primary: #4e11c9;
+    --fantasy-secondary: #9711c9;
+    --fantasy-accent: #c9a811;
+    --fantasy-dark: #1a1433;
+    --fantasy-light: #b48fff;
+    --fantasy-gradient-start: #4e11c9;
+    --fantasy-gradient-end: #9711c9;
+
+    /* Card rarity colors */
+    --legendary-color: #ff9d00;
+    --rare-color: #0091ff;
+    --uncommon-color: #00ad45;
+    --common-color: #8e8e8e;
+}
+
+.fantasy-theme {
+    background-color: var(--background-dark);
+    background-image: url('fantasy-bg-texture.png');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Hero Banner */
+.game-banner-hero {
+    position: relative;
+    height: 300px;
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(26, 20, 51, 0.9)), url('fantasy-realms-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+}
+
+.game-logo {
+    margin-bottom: 2rem;
+}
+
+.game-logo img {
+    max-width: 400px;
+    max-height: 150px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-large {
+    font-size: 1.1rem;
+    padding: 10px 24px;
+}
+
+/* Game Announcement Section */
+.game-announcement {
+    position: relative;
+    overflow: hidden;
+}
+
+.release-date {
+    color: var(--fantasy-accent);
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(201, 168, 17, 0.2);
+}
+
+.announcement-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.announcement-media {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.announcement-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.btn-play-trailer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-play-trailer:hover {
+    background-color: var(--fantasy-primary);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.announcement-description {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--fantasy-light);
+    border-left: 3px solid var(--fantasy-accent);
+    padding-left: 1rem;
+}
+
+.announcement-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature i {
+    color: var(--fantasy-accent);
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Cards Carousel */
+.cards-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cards-container {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+}
+
+.cards-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.carousel-nav {
+    background-color: rgba(26, 20, 51, 0.8);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+}
+
+.carousel-nav.prev {
+    left: 10px;
+}
+
+.carousel-nav.next {
+    right: 10px;
+}
+
+.carousel-nav:hover {
+    background-color: var(--fantasy-primary);
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--background-mid);
+    border-radius: 12px;
+    overflow: hidden;
+    width: 220px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-image {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-cost {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.card-info {
+    padding: 1rem;
+}
+
+.card-info h3 {
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.card-type {
+    font-size: 0.8rem;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+}
+
+.card-stats {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: var(--text-mid);
+}
+
+/* Card Rarity Styles */
+.card.legendary {
+    background: linear-gradient(to bottom, var(--legendary-color), transparent 20%, var(--background-mid) 20%);
+}
+
+.card.rare {
+    background: linear-gradient(to bottom, var(--rare-color), transparent 20%, var(--background-mid) 20%);
+}
+
+.card.uncommon {
+    background: linear-gradient(to bottom, var(--uncommon-color), transparent 20%, var(--background-mid) 20%);
+}
+
+.card.common {
+    background: linear-gradient(to bottom, var(--common-color), transparent 20%, var(--background-mid) 20%);
+}
+
+/* Game Updates Section */
+.updates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.update-item {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.update-item:hover {
+    transform: translateY(-5px);
+}
+
+.update-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.update-item.event .update-icon {
+    background-color: rgba(201, 168, 17, 0.2);
+    color: var(--fantasy-accent);
+}
+
+.update-item.patch .update-icon {
+    background-color: rgba(0, 145, 255, 0.2);
+    color: var(--rare-color);
+}
+
+.update-item.news .update-icon {
+    background-color: rgba(151, 17, 201, 0.2);
+    color: var(--fantasy-secondary);
+}
+
+.update-item.community .update-icon {
+    background-color: rgba(0, 173, 69, 0.2);
+    color: var(--uncommon-color);
+}
+
+.update-content {
+    flex-grow: 1;
+}
+
+.update-content h3 {
+    margin-bottom: 0.3rem;
+    font-size: 1.1rem;
+}
+
+.update-date {
+    display: block;
+    color: var(--text-dark);
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.patch-notes {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.patch-notes li {
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--fantasy-light);
+    font-size: 0.9rem;
+}
+
+.read-more:hover {
+    color: var(--fantasy-accent);
+}
+
+/* Game Stats Section */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.stat-card {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(to right, var(--fantasy-primary), var(--fantasy-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background-color: var(--background-mid);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(to right, var(--fantasy-primary), var(--fantasy-secondary));
+}
+
+.progress-info {
+    font-size: 0.8rem;
+    color: var(--text-dark);
+}
+
+.win-loss {
+    margin-top: 0.5rem;
+}
+
+.wins {
+    color: var(--success-color);
+}
+
+.losses {
+    color: var(--error-color);
+}
+
+.favorite-deck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.mini-deck-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.mini-deck-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.favorite-deck-name {
+    font-size: 0.9rem;
+}
+
+/* Chat Tabs */
+.chat-tabs {
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--background-light);
+    margin-right: 0.5rem;
+}
+
+.chat-tab {
+    padding: 5px 10px;
+    background: transparent;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+}
+
+.chat-tab.active {
+    background-color: var(--fantasy-primary);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .announcement-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-actions {
+        flex-direction: column;
+    }
+    
+    .updates-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,770 @@
+/* Pitch Page Specific Styles */
+
+:root {
+    --pitch-primary: #ff6b35;
+    --pitch-primary-light: #ff8c5a;
+    --pitch-primary-dark: #e74e17;
+    --pitch-secondary: #6a4c93;
+    --pitch-secondary-light: #8e6db8;
+    --pitch-secondary-dark: #4c366d;
+    --pitch-accent: #11d3bc;
+    --pitch-accent-light: #41e5d0;
+    --pitch-accent-dark: #09a38f;
+    --pitch-text: #333333;
+    --pitch-text-light: #666666;
+    --pitch-bg-dark: #1e2a3a;
+    --pitch-bg-light: #f8f8f8;
+    --pitch-bg-gradient: linear-gradient(135deg, #1e2a3a, #2e3c4c);
+    --pitch-bg-card: #ffffff;
+    --pitch-border: #e0e0e0;
+    --pitch-success: #00a86b;
+    --pitch-warning: #ffd166;
+    --pitch-error: #ef476f;
+}
+
+body.pitch-page {
+    font-family: 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    color: var(--pitch-text);
+    background-color: var(--pitch-bg-light);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.pitch-container {
+    max-width: 100%;
+}
+
+/* Hero Section */
+.pitch-hero {
+    background: var(--pitch-bg-gradient);
+    color: white;
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.pitch-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/cards-pattern.png');
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo-container {
+    margin-bottom: 2rem;
+}
+
+.hero-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(to right, var(--pitch-accent), var(--pitch-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-tagline {
+    font-size: 1.5rem;
+    margin: 1rem 0 2.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Button Styles */
+.btn-large {
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--pitch-primary);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: var(--pitch-primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 107, 53, 0.4);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Section Styles */
+.pitch-section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-icon {
+    font-size: 2.5rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: white;
+    background: var(--pitch-primary);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--pitch-secondary-dark);
+}
+
+.section-intro {
+    font-size: 1.3rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    color: var(--pitch-text);
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: 600;
+    margin: 2rem 0;
+    color: var(--pitch-secondary);
+}
+
+/* Alternating Section Colors */
+.pitch-section:nth-child(even) {
+    background-color: var(--pitch-bg-light);
+}
+
+.pitch-section:nth-child(odd) {
+    background-color: white;
+}
+
+/* Opportunity Section */
+.fact-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.fact-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    border-top: 5px solid var(--pitch-primary);
+    transition: transform 0.3s ease;
+}
+
+.fact-card:hover {
+    transform: translateY(-5px);
+}
+
+.fact-tag {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background-color: var(--pitch-primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.fact-card p {
+    font-size: 1.3rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Current Solution Section */
+.limitations {
+    background-color: var(--pitch-bg-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.limitations h3 {
+    color: var(--pitch-secondary-dark);
+    margin-top: 0;
+    font-size: 1.4rem;
+}
+
+.limitation-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+}
+
+.limitation-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.limitation-list li i {
+    color: var(--pitch-error);
+    margin-right: 1rem;
+    font-size: 1.3rem;
+}
+
+/* Alternative Platforms Section */
+.alternative-problems {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.problem-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+
+.problem-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.problem-list li i {
+    color: var(--pitch-error);
+    margin-right: 1rem;
+    font-size: 1.3rem;
+}
+
+.exception {
+    background-color: var(--pitch-bg-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin: 2rem 0;
+}
+
+.exception h4 {
+    color: var(--pitch-secondary-dark);
+    margin-top: 0;
+    font-size: 1.3rem;
+}
+
+/* Problem Section */
+.problem-statement {
+    background-color: var(--pitch-bg-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.problem-statement p {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.problem-statement p:last-child {
+    margin-bottom: 0;
+}
+
+.feasible-options {
+    max-width: 800px;
+    margin: 3rem auto 0;
+}
+
+.feasible-options h3 {
+    color: var(--pitch-secondary-dark);
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.feasible-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feasible-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    background-color: var(--pitch-bg-card);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    width: fit-content;
+}
+
+.feasible-list li i {
+    color: var(--pitch-success);
+    margin-right: 1rem;
+    font-size: 1.4rem;
+}
+
+.conclusion {
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--pitch-text);
+    background-color: var(--pitch-bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid var(--pitch-primary);
+}
+
+/* Solution Section */
+.solution-statement {
+    background: var(--pitch-bg-gradient);
+    color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.solution-statement p {
+    font-size: 1.6rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.key-differentiators {
+    margin: 4rem auto 0;
+    max-width: 1000px;
+}
+
+.key-differentiators h3 {
+    color: var(--pitch-secondary-dark);
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.features-table {
+    background-color: var(--pitch-bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.feature-row {
+    display: flex;
+    border-bottom: 1px solid var(--pitch-border);
+}
+
+.feature-row:last-child {
+    border-bottom: none;
+}
+
+.feature-row.header {
+    background-color: var(--pitch-secondary);
+    color: white;
+}
+
+.feature-name, .feature-value {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.feature-name {
+    width: 30%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.feature-value {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.feature-value i {
+    color: var(--pitch-success);
+    font-size: 1.4rem;
+}
+
+/* Why Now Section */
+.llm-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.benefit-card {
+    background-color: var(--pitch-bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+}
+
+.benefit-icon {
+    font-size: 2.5rem;
+    color: var(--pitch-accent);
+    margin-bottom: 1.5rem;
+}
+
+.benefit-card p {
+    font-size: 1.2rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.market-gap {
+    background: var(--pitch-bg-gradient);
+    color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin: 4rem auto 0;
+    max-width: 800px;
+    text-align: center;
+}
+
+.market-gap p {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.market-gap p:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+/* Why Creators Section */
+.creator-challenges {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.challenge-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.challenge-list li {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    background-color: var(--pitch-bg-card);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    min-width: 250px;
+}
+
+.challenge-list li i {
+    color: var(--pitch-secondary);
+    margin-right: 1rem;
+    font-size: 1.4rem;
+}
+
+.platform-benefits {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--pitch-bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.platform-benefits p {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.platform-benefits p:last-child {
+    margin-bottom: 0;
+}
+
+.network-effect {
+    margin: 3rem auto 0;
+    max-width: 800px;
+}
+
+.network-intro {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.network-quote {
+    background: var(--pitch-bg-gradient);
+    color: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.network-quote i.fa-quote-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+.network-quote i.fa-quote-right {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+.network-quote p {
+    font-size: 1.8rem;
+    font-weight: 600;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* CTA Section */
+.cta {
+    background: var(--pitch-bg-gradient);
+    color: white;
+    text-align: center;
+    padding: 5rem 2rem;
+}
+
+.cta-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem;
+}
+
+.cta p {
+    font-size: 1.3rem;
+    margin: 0 0 2.5rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .pitch-section {
+        padding: 4rem 2rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.3rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .fact-card, .benefit-card {
+        max-width: 100%;
+    }
+    
+    .features-table {
+        border-radius: 0;
+    }
+    
+    .feature-name, .feature-value {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .pitch-hero {
+        padding: 4rem 1.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-large {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .feature-row {
+        flex-direction: column;
+    }
+    
+    .feature-name, .feature-value {
+        width: 100%;
+    }
+    
+    .feature-name {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .network-quote p {
+        font-size: 1.5rem;
+    }
+    
+    .cta h2 {
+        font-size: 2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .pitch-hero {
+        padding: 3rem 1rem;
+    }
+    
+    .hero-logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1.1rem;
+    }
+    
+    .pitch-section {
+        padding: 3rem 1rem;
+    }
+    
+    .section-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-intro, .solution-statement p, .fact-card p {
+        font-size: 1.1rem;
+    }
+    
+    .cta h2 {
+        font-size: 1.8rem;
+    }
+}

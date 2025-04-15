@@ -1,0 +1,49 @@
+How do I get the most users? Browser.
+How do I get the most users who will spend money on a homemade TCG? Unity.
+
+TOMORROW:
+Fix my little tasky guy.
+I'm going to run out of money before this thing takes off. How to bring in money?
+	Posed this question to Deko, let's see what he thinks. 
+	Pose this question to Sparth next.
+	Quackers doesn't like it because he doesn't think people would 			want to deckbuild his game.
+Data Structure: do we need the entity system or can we make more assumptions? Lets say we really do want three-dimensional battlespaces. What do we need to  make that happen and how much extra work is that?
+Finalize our data structure.
+
+This week's goal: 
+Prototype the LLM-script system:
+	Design basic game
+	Get it set up
+	Get card engine up with exposed hooks
+	Get the Lua script grabbing the proper hooks
+	Can the LLM make new cards for it that work on the first try?
+	Can the LLM generate rules changes via script?
+
+Other question: how hard is it to use LLM in Unity? We could also expose the API for an MCP server and let people use Claude desktop lol. Eh that might be dumb. yeah then they have to install that. Easier to just build a simple frontend (for starters).
+
+1. Clear problem solution fit: good.
+1.5 If the LLM stuff doesn't work, it will fail. Must be flawless.
+2. Create the MVP as fast as possible to validate market assumptions
+3. monetization model must be clear.
+4. UX and creator tools must be flawless.
+
+IDEAS:
+minimize use of prompts by having the LLM ask intelligent questions to help identify the sort of game or card
+"What type of card from Magic is this most like?"
+"Can I play Spell cards on an opponent's turn?"
+Make the goal that the user doesn't have to write prompts at all. Instead, the LLM asks questions with easy yes or no answers.
+User has to connect their google sheet to the backend so that the LLM has access to all the cards, and can connect cards to images.
+
+Pitch makes sense
+
+Ditch game engine in browser, just write scripts that are sent to Unity. 
+Simplified Unity tools in browser, not a whole engine. 
+Alpha and Beta users being smart is OK. 
+Final Release for idiots. Keep idiots out of Alpha and Beta, reduces "bugs" and user errors.
+
+1. Is the first part of the platform Unity or the Browser
+2. Answer the big questions first.
+3. Is ChatGPT right or wrong about keeping the creator tools outside of Unity? Need to understand this question. Test this. 
+
+1. How good of graphics can we put in the browser?
+2. How important is it that it will be a bit of a pain in the ass for the first adopters? I'm basically asking them to be my beta testers. Download weird, buggy application. 

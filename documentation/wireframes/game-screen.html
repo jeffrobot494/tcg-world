@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Screen - Fantasy Realms</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fantasy-realms.css">
+    <link rel="stylesheet" href="game-screen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="placeholder-div.css">
+</head>
+<body class="fantasy-theme game-active">
+    <!-- GAME HEADER -->
+    <header class="game-header">
+        <div class="logo">
+            <div class="placeholder-box placeholder-logo">Logo</div>
+            <h1>TCG World</h1>
+        </div>
+        <div class="game-info">
+            <div class="match-title">
+                <i class="fas fa-crown"></i>
+                <div class="title-text">
+                    <h2>Free-For-All Battle</h2>
+                    <p>Fantasy Realms - Standard Format</p>
+                </div>
+            </div>
+        </div>
+        <div class="game-controls">
+            <button class="btn-icon" title="Game Settings"><i class="fas fa-cog"></i></button>
+            <button class="btn-icon" title="Game Rules"><i class="fas fa-scroll"></i></button>
+            <button class="btn-icon" title="Emotes"><i class="fas fa-comment-dots"></i></button>
+            <button class="btn-icon" title="Surrender"><i class="fas fa-flag"></i></button>
+        </div>
+    </header>
+
+    <!-- GAME BOARD -->
+    <main class="game-main">
+        <!-- UI OVERLAY ELEMENTS -->
+        <div class="game-overlay-elements">
+            <!-- Energy Meter -->
+            <div class="energy-meter">
+                <span>85</span>
+            </div>
+            
+            <!-- Player Status -->
+            <div class="player-status">
+                <div class="status-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="status-text">
+                    <div class="status-title">Burning</div>
+                    <div class="status-description">-2 HP per turn (2 turns left)</div>
+                </div>
+            </div>
+            
+            <!-- Game Alerts -->
+            <div class="game-alerts">
+                <div class="alert-box">
+                    Critical Hit! +5 Damage
+                </div>
+            </div>
+            
+            <!-- Objective Tracker -->
+            <div class="objective-tracker">
+                <div class="objective-header">
+                    <span>Mission Objectives</span>
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="objective-items">
+                    <div class="objective-item">
+                        <div class="objective-checkbox completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>Defeat 2 enemy monsters</div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-checkbox"></div>
+                        <div>Play 3 spell cards</div>
+                    </div>
+                    <div class="objective-item">
+                        <div class="objective-checkbox"></div>
+                        <div>Reduce an opponent to 10 HP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PLAYERS SECTION -->
+        <div class="battlefield">
+            <!-- TOP PLAYER (OPPONENT 2) -->
+            <div class="player-section opponent top-player">
+                <div class="player-info">
+                    <div class="player-portrait">
+                        <img src="player3-avatar.png" alt="FrostMage42">
+                        <div class="player-level">Lvl 28</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="player-name-row">
+                            <h3>FrostMage42</h3>
+                            <div class="player-rank">Silver I</div>
+                        </div>
+                        <div class="player-resources">
+                            <div class="health-bar">
+                                <div class="bar-label">HP</div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 85%;"></div>
+                                    <div class="bar-value">25/30</div>
+                                </div>
+                            </div>
+                            <div class="mana-bar">
+                                <div class="bar-label">MANA</div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 60%;"></div>
+                                    <div class="bar-value">3/5</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="deck-info">
+                        <div class="deck-count">
+                            <i class="fas fa-layer-group"></i>
+                            <span>15</span>
+                        </div>
+                        <div class="card-count">
+                            <i class="fas fa-hand-paper"></i>
+                            <span>4</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-board">
+                    <div class="player-hand">
+                        <div class="card back"></div>
+                        <div class="card back"></div>
+                        <div class="card back"></div>
+                        <div class="card back"></div>
+                    </div>
+                    <div class="player-field">
+                        <div class="card monster frost-elemental">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Frost Elemental</div>
+                                <div class="card-stats">
+                                    <div class="card-power">3</div>
+                                    <div class="card-health">4</div>
+                                </div>
+                                <div class="card-effect">Frozen</div>
+                            </div>
+                        </div>
+                        <div class="card monster ice-wolf">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Ice Wolf</div>
+                                <div class="card-stats">
+                                    <div class="card-power">2</div>
+                                    <div class="card-health">3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER BOARD -->
+            <div class="center-board">
+                <!-- LEFT PLAYER (OPPONENT 1) -->
+                <div class="player-section opponent left-player">
+                    <div class="player-info vertical">
+                        <div class="player-portrait">
+                            <img src="player2-avatar.png" alt="DragonLord99">
+                            <div class="player-level">Lvl 46</div>
+                        </div>
+                        <div class="player-stats compact">
+                            <div class="player-name-row">
+                                <h3>DragonLord99</h3>
+                                <div class="player-rank">Gold III</div>
+                            </div>
+                            <div class="player-resources">
+                                <div class="health-bar">
+                                    <div class="bar-label">HP</div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 63%;"></div>
+                                        <div class="bar-value">19/30</div>
+                                    </div>
+                                </div>
+                                <div class="mana-bar">
+                                    <div class="bar-label">MANA</div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 80%;"></div>
+                                        <div class="bar-value">4/5</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="deck-info">
+                            <div class="deck-count">
+                                <i class="fas fa-layer-group"></i>
+                                <span>13</span>
+                            </div>
+                            <div class="card-count">
+                                <i class="fas fa-hand-paper"></i>
+                                <span>5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-board">
+                        <div class="player-field vertical">
+                            <div class="card monster flame-drake">
+                                <div class="card-frame">
+                                    <div class="card-image"></div>
+                                    <div class="card-title">Flame Drake</div>
+                                    <div class="card-stats">
+                                        <div class="card-power">4</div>
+                                        <div class="card-health">2</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card monster dragon-whelp">
+                                <div class="card-frame">
+                                    <div class="card-image"></div>
+                                    <div class="card-title">Dragon Whelp</div>
+                                    <div class="card-stats">
+                                        <div class="card-power">2</div>
+                                        <div class="card-health">1</div>
+                                    </div>
+                                    <div class="card-effect">Flying</div>
+                                </div>
+                            </div>
+                            <div class="card spell">
+                                <div class="card-frame">
+                                    <div class="card-image"></div>
+                                    <div class="card-title">Dragon's Fury</div>
+                                    <div class="card-effect">Enchantment</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-hand vertical">
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CENTRAL PLAY AREA -->
+                <div class="play-area">
+                    <div class="turn-indicator active">
+                        <div class="turn-icon">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="turn-info">
+                            <div class="turn-label">Current Turn</div>
+                            <div class="turn-player">Your Turn</div>
+                            <div class="turn-timer">0:42</div>
+                        </div>
+                    </div>
+                    <div class="battlefield-decoration">
+                        <div class="battlefield-center">
+                            <img src="battlefield-rune.png" alt="Battlefield Rune">
+                        </div>
+                    </div>
+                    <div class="action-log">
+                        <div class="log-header">
+                            <h4>Battle Log</h4>
+                            <button class="btn-icon small"><i class="fas fa-expand"></i></button>
+                        </div>
+                        <div class="log-entries">
+                            <div class="log-entry">
+                                <span class="entry-time">1:24:05</span>
+                                <span class="entry-text"><span class="player-name your-name">You</span> played <span class="card-name">Fire Mage</span></span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="entry-time">1:24:18</span>
+                                <span class="entry-text"><span class="player-name">DragonLord99</span> attacked <span class="player-name">FrostMage42</span> for <span class="damage">5</span> damage</span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="entry-time">1:24:30</span>
+                                <span class="entry-text"><span class="player-name">NatureBot</span> played <span class="card-name">Healing Spring</span></span>
+                            </div>
+                            <div class="log-entry current">
+                                <span class="entry-time">1:24:42</span>
+                                <span class="entry-text">It's <span class="player-name your-name">your</span> turn!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PLAYER (AI OPPONENT) -->
+                <div class="player-section opponent right-player">
+                    <div class="player-info vertical">
+                        <div class="player-portrait">
+                            <img src="ai-avatar.png" alt="NatureBot">
+                            <div class="player-level ai">AI</div>
+                        </div>
+                        <div class="player-stats compact">
+                            <div class="player-name-row">
+                                <h3>NatureBot</h3>
+                                <div class="player-rank">Silver III</div>
+                            </div>
+                            <div class="player-resources">
+                                <div class="health-bar">
+                                    <div class="bar-label">HP</div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 90%;"></div>
+                                        <div class="bar-value">27/30</div>
+                                    </div>
+                                </div>
+                                <div class="mana-bar">
+                                    <div class="bar-label">MANA</div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 40%;"></div>
+                                        <div class="bar-value">2/5</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="deck-info">
+                            <div class="deck-count">
+                                <i class="fas fa-layer-group"></i>
+                                <span>14</span>
+                            </div>
+                            <div class="card-count">
+                                <i class="fas fa-hand-paper"></i>
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-board">
+                        <div class="player-field vertical">
+                            <div class="card monster ancient-treant">
+                                <div class="card-frame">
+                                    <div class="card-image"></div>
+                                    <div class="card-title">Ancient Treant</div>
+                                    <div class="card-stats">
+                                        <div class="card-power">2</div>
+                                        <div class="card-health">6</div>
+                                    </div>
+                                    <div class="card-effect">Guardian</div>
+                                </div>
+                            </div>
+                            <div class="card spell">
+                                <div class="card-frame">
+                                    <div class="card-image"></div>
+                                    <div class="card-title">Healing Spring</div>
+                                    <div class="card-effect">Regeneration</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-hand vertical">
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                            <div class="card back"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM PLAYER (YOU) -->
+            <div class="player-section you">
+                <div class="player-board">
+                    <div class="player-field">
+                        <div class="card monster fire-mage">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Fire Mage</div>
+                                <div class="card-stats">
+                                    <div class="card-power">3</div>
+                                    <div class="card-health">2</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card monster flame-guardian active-card">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Flame Guardian</div>
+                                <div class="card-stats">
+                                    <div class="card-power">5</div>
+                                    <div class="card-health">5</div>
+                                </div>
+                                <div class="card-effect">Taunt</div>
+                            </div>
+                        </div>
+                        <div class="card-placeholder drop-target"></div>
+                    </div>
+                    <div class="player-hand">
+                        <div class="card spell">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Fireball</div>
+                                <div class="card-cost">3</div>
+                                <div class="card-effect">Deal 4 damage to any target</div>
+                            </div>
+                        </div>
+                        <div class="card monster ember-imp">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Ember Imp</div>
+                                <div class="card-cost">2</div>
+                                <div class="card-stats">
+                                    <div class="card-power">2</div>
+                                    <div class="card-health">2</div>
+                                </div>
+                                <div class="card-effect">Haste</div>
+                            </div>
+                        </div>
+                        <div class="card spell">
+                            <div class="card-frame">
+                                <div class="card-image"></div>
+                                <div class="card-title">Blazing Armor</div>
+                                <div class="card-cost">2</div>
+                                <div class="card-effect">Give a monster +0/+3 and Retaliate 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-info">
+                    <div class="deck-info">
+                        <div class="deck-count">
+                            <i class="fas fa-layer-group"></i>
+                            <span>11</span>
+                        </div>
+                        <div class="graveyard">
+                            <i class="fas fa-skull"></i>
+                            <span>2</span>
+                        </div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="player-resources">
+                            <div class="health-bar">
+                                <div class="bar-label">HP</div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 73%;"></div>
+                                    <div class="bar-value">22/30</div>
+                                </div>
+                            </div>
+                            <div class="mana-bar">
+                                <div class="bar-label">MANA</div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 100%;"></div>
+                                    <div class="bar-value">5/5</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-name-row">
+                            <h3>Player123</h3>
+                            <div class="player-rank">Silver II</div>
+                        </div>
+                    </div>
+                    <div class="player-portrait">
+                        <img src="avatar-placeholder.png" alt="Your Avatar">
+                        <div class="player-level">Lvl 42</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME SIDEBAR -->
+        <div class="game-sidebar">
+            <!-- PLAYER TARGETING PANEL -->
+            <div class="targeting-panel">
+                <h3>Target Player</h3>
+                <div class="targeting-options">
+                    <div class="target-player top">
+                        <img src="player3-avatar.png" alt="FrostMage42">
+                        <div class="target-name">FrostMage42</div>
+                        <div class="target-health">25 HP</div>
+                        <button class="btn-secondary target-btn">Target</button>
+                    </div>
+                    <div class="target-player left">
+                        <img src="player2-avatar.png" alt="DragonLord99">
+                        <div class="target-name">DragonLord99</div>
+                        <div class="target-health">19 HP</div>
+                        <button class="btn-secondary target-btn">Target</button>
+                    </div>
+                    <div class="target-player right">
+                        <img src="ai-avatar.png" alt="NatureBot">
+                        <div class="target-name">NatureBot (AI)</div>
+                        <div class="target-health">27 HP</div>
+                        <button class="btn-secondary target-btn">Target</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TURN ACTIONS PANEL -->
+            <div class="actions-panel">
+                <h3>Turn Actions</h3>
+                <div class="action-buttons">
+                    <button class="btn-primary action-btn active">
+                        <i class="fas fa-fist-raised"></i>
+                        <span>Attack</span>
+                    </button>
+                    <button class="btn-primary action-btn">
+                        <i class="fas fa-magic"></i>
+                        <span>Cast Spell</span>
+                    </button>
+                    <button class="btn-primary action-btn">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Defensive</span>
+                    </button>
+                    <button class="btn-secondary end-turn-btn">
+                        <i class="fas fa-hourglass-end"></i>
+                        <span>End Turn</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- GAME CHAT PANEL -->
+            <div class="game-chat-panel">
+                <div class="panel-header">
+                    <h3>Game Chat</h3>
+                    <div class="chat-tabs">
+                        <button class="chat-tab active">All</button>
+                        <button class="chat-tab">Team</button>
+                        <button class="chat-tab">Spectators</button>
+                    </div>
+                </div>
+                <div class="chat-messages">
+                    <div class="system-message">
+                        <span class="message-time">1:24:05</span>
+                        <p>Game has started! Good luck, have fun!</p>
+                    </div>
+                    <div class="chat-message">
+                        <img src="player2-avatar.png" alt="DragonLord99 Avatar" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">DragonLord99</span>
+                                <span class="message-time">1:24:15</span>
+                            </div>
+                            <p>Going for NatureBot first!</p>
+                        </div>
+                    </div>
+                    <div class="chat-message">
+                        <img src="player3-avatar.png" alt="FrostMage42 Avatar" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">FrostMage42</span>
+                                <span class="message-time">1:24:25</span>
+                            </div>
+                            <p>Holding my freeze spell for now</p>
+                        </div>
+                    </div>
+                    <div class="chat-message">
+                        <img src="avatar-placeholder.png" alt="Your Avatar" class="message-avatar">
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">Player123</span>
+                                <span class="message-time">1:24:42</span>
+                            </div>
+                            <p>Watch out for my Flame Guardian</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Type a message...">
+                    <button class="btn-send"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <!-- QUICK EMOTES -->
+            <div class="emotes-panel">
+                <div class="emote-grid">
+                    <button class="emote-btn">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>Nice Move!</span>
+                    </button>
+                    <button class="emote-btn">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Oops!</span>
+                    </button>
+                    <button class="emote-btn">
+                        <i class="fas fa-laugh-beam"></i>
+                        <span>Haha!</span>
+                    </button>
+                    <button class="emote-btn">
+                        <i class="fas fa-angry"></i>
+                        <span>Grr...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCG World - Technology Architecture</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tech-architecture.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="placeholder-fix.css">
+    <script src="placeholder-fix.js"></script>
+</head>
+<body class="tech-page">
+    <header class="tech-header">
+        <div class="logo-container">
+            <img src="logo-placeholder.png" alt="TCG World Logo">
+        </div>
+        <h1>System Architecture</h1>
+        <p class="tagline">How TCG World's technology stack powers the platform</p>
+    </header>
+
+    <main class="tech-container">
+        <!-- Introduction Section -->
+        <section class="tech-section intro">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-microchip"></i></div>
+                <h2>Technology Overview</h2>
+            </div>
+            
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <p>TCG World's architecture is built for <strong>scalability</strong>, <strong>flexibility</strong>, and <strong>creator-friendliness</strong>. Our platform combines Unity's 3D capabilities with powerful AI systems to transform natural language into playable card games.</p>
+                    <p>What makes our platform truly unique is the AI-powered rules engine that allows creators to define their game mechanics in plain English rather than code.</p>
+                </div>
+                <div class="intro-visual">
+                    <div class="tech-diagram architecture-overview">
+                        <div class="diagram-header">Core Systems</div>
+                        <div class="diagram-content">
+                            <div class="diagram-item creator">
+                                <div class="icon"><i class="fas fa-user-edit"></i></div>
+                                <div class="label">Creator Tools</div>
+                            </div>
+                            <div class="diagram-arrow right"><i class="fas fa-arrow-right"></i></div>
+                            <div class="diagram-item llm">
+                                <div class="icon"><i class="fas fa-brain"></i></div>
+                                <div class="label">LLM Bridge</div>
+                            </div>
+                            <div class="diagram-arrow right"><i class="fas fa-arrow-right"></i></div>
+                            <div class="diagram-item engine">
+                                <div class="icon"><i class="fas fa-cogs"></i></div>
+                                <div class="label">Rules Engine</div>
+                            </div>
+                            <div class="diagram-arrow right"><i class="fas fa-arrow-right"></i></div>
+                            <div class="diagram-item unity">
+                                <div class="icon"><i class="fas fa-gamepad"></i></div>
+                                <div class="label">Unity Client</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI-Assisted Pipeline Section -->
+        <section class="tech-section pipeline">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-robot"></i></div>
+                <h2>AI-Assisted Game Creation Pipeline</h2>
+            </div>
+            
+            <p class="section-intro">"We're building a rules engine that lets creators define a full game with just natural language. The LLM is the bridge between a human's vague ideas and a machine-readable format our engine can execute."</p>
+            
+            <div class="pipeline-steps">
+                <div class="pipeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Choose a Game Template</h3>
+                        <ul>
+                            <li>Magic-style? YuGiOh-style? Hearthstone-style?</li>
+                            <li>This gives the engine a baseline ruleset + script structure.</li>
+                        </ul>
+                        <div class="example-visual template-selection">
+                            <div class="template-option magic">
+                                <div class="template-icon"><i class="fas fa-hat-wizard"></i></div>
+                                <div class="template-name">Magic-style</div>
+                            </div>
+                            <div class="template-option yugioh">
+                                <div class="template-icon"><i class="fas fa-dragon"></i></div>
+                                <div class="template-name">YuGiOh-style</div>
+                            </div>
+                            <div class="template-option hearthstone selected">
+                                <div class="template-icon"><i class="fas fa-fire"></i></div>
+                                <div class="template-name">Hearthstone-style</div>
+                                <div class="selected-badge"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pipeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Prompt with Natural Language</h3>
+                        <div class="example-card">
+                            <div class="example-prompt">
+                                <div class="prompt-header">
+                                    <i class="fas fa-comment-alt"></i>
+                                    <span>Creator types:</span>
+                                </div>
+                                <div class="prompt-text">"Players draw two cards at the start of their turn. Creatures can attack any number of times if you pay 1 energy."</div>
+                            </div>
+                        </div>
+                        
+                        <div class="llm-process">
+                            <div class="process-icon"><i class="fas fa-magic"></i></div>
+                            <div class="process-label">LLM Processing</div>
+                            <div class="process-icon"><i class="fas fa-arrow-down"></i></div>
+                        </div>
+
+                        <div class="llm-output">
+                            <div class="output-tabs">
+                                <button class="output-tab active" data-tab="json">JSON Rules Object</button>
+                                <button class="output-tab" data-tab="script">Rules Script (Lua)</button>
+                            </div>
+                            <div class="output-content">
+                                <div class="output-panel active" id="json-output">
+                                    <div class="code-header">
+                                        <span>JSON Rules Object</span>
+                                        <div class="code-actions">
+                                            <button class="btn-copy" title="Copy code"><i class="fas fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <pre class="code-block json"><code>{
+  "drawPerTurn": 2,
+  "energyPerAttack": 1,
+  "zones": ["hand", "deck", "graveyard", "battlefield"],
+  "phases": ["start", "main", "end"]
+}</code></pre>
+                                </div>
+
+                                <div class="output-panel" id="script-output">
+                                    <div class="code-header">
+                                        <span>Rules Script (Lua)</span>
+                                        <div class="code-actions">
+                                            <button class="btn-copy" title="Copy code"><i class="fas fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <pre class="code-block lua"><code>function onStartTurn(player)
+  engine:drawCards(player, 2)
+end
+
+function canAttack(attacker)
+  return attacker.state.energy >= 1
+end
+
+function onAttack(attacker, target)
+  attacker.state.energy = attacker.state.energy - 1
+  engine:dealDamage(attacker, target, attacker.state.attack)
+end</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engine API Section -->
+        <section class="tech-section engine-api">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-plug"></i></div>
+                <h2>Exposed Engine Methods (Scriptable API)</h2>
+            </div>
+            
+            <p class="section-intro">"This is the contract between the game engine and the Lua rules script. These are the methods the LLM-generated scripts will hook into."</p>
+            
+            <div class="api-groups">
+                <div class="api-group">
+                    <h3><i class="fas fa-link"></i> Hookable Lifecycle Methods</h3>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span>Lifecycle Hooks</span>
+                            <div class="code-actions">
+                                <button class="btn-copy" title="Copy code"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <pre class="code-block lua"><code>function onStartTurn(player) end
+function onEndTurn(player) end
+function onPlayCard(player, card) end
+function onCastSpell(player, card, target) end
+function onAttack(attacker, target) end
+function canPlayCard(player, card) return true end
+function canAttack(attacker, target) return true end
+function onZoneChange(card, fromZone, toZone) end
+function onCardDestroyed(card) end</code></pre>
+                    </div>
+                </div>
+                
+                <div class="api-group">
+                    <h3><i class="fas fa-wrench"></i> Engine-Exposed Utility Methods</h3>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span>Engine Utilities</span>
+                            <div class="code-actions">
+                                <button class="btn-copy" title="Copy code"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <pre class="code-block lua"><code>engine:drawCards(player, count)
+engine:dealDamage(source, target, amount)
+engine:moveToZone(card, zone)
+engine:promptChoose(player, {type="target", zone="battlefield"}, callback)
+engine:getZone(player, "hand")
+engine:getCardState(card)
+engine:setCardState(card, key, value)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Per-Card Scripting Section -->
+        <section class="tech-section card-scripting">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-scroll"></i></div>
+                <h2>Per-Card Scripting via LLM Prompts</h2>
+            </div>
+            
+            <p class="section-intro">"Creators can describe what a card does, and the LLM writes the script."</p>
+            
+            <div class="card-example">
+                <div class="card-visual">
+                    <div class="card-container">
+                        <div class="card-frame">
+                            <div class="card-art"></div>
+                            <div class="card-title">Doom Blade</div>
+                            <div class="card-type">Instant Spell</div>
+                            <div class="card-text">When this card is played, destroy a target enemy creature.</div>
+                            <div class="card-cost">3</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-scripting-flow">
+                    <div class="flow-step prompt">
+                        <div class="step-header">
+                            <i class="fas fa-keyboard"></i>
+                            <span>Creator Prompt</span>
+                        </div>
+                        <div class="step-content">
+                            <p>"When this card is played, destroy a target enemy creature."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    
+                    <div class="flow-step generated-code">
+                        <div class="step-header">
+                            <i class="fas fa-code"></i>
+                            <span>LLM-Generated Script</span>
+                        </div>
+                        <div class="step-content">
+                            <pre class="code-block lua"><code>definition:addHook("onPlay", function(player, card)
+  engine:promptChoose(player, {type="enemy", zone="battlefield"}, function(target)
+    engine:destroy(target)
+  end)
+end)</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    
+                    <div class="flow-step execution">
+                        <div class="step-header">
+                            <i class="fas fa-play"></i>
+                            <span>Execution</span>
+                        </div>
+                        <div class="step-content">
+                            <ul>
+                                <li>This script gets attached to the card definition object.</li>
+                                <li>The engine loads all hooks at runtime and dispatches triggers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram Section -->
+        <section class="tech-section diagram">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-project-diagram"></i></div>
+                <h2>Full System Architecture</h2>
+            </div>
+            
+            <div class="architecture-diagram">
+                <div class="layer creator-layer">
+                    <div class="layer-label">Creator Layer</div>
+                    <div class="layer-components">
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-edit"></i></div>
+                            <div class="component-name">Game Editor</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-table"></i></div>
+                            <div class="component-name">Card Database</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-images"></i></div>
+                            <div class="component-name">Asset Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layer-connector"><i class="fas fa-angle-down"></i></div>
+                
+                <div class="layer llm-layer">
+                    <div class="layer-label">AI Bridge Layer</div>
+                    <div class="layer-components">
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-language"></i></div>
+                            <div class="component-name">NL Processor</div>
+                        </div>
+                        <div class="component highlight">
+                            <div class="component-icon"><i class="fas fa-brain"></i></div>
+                            <div class="component-name">LLM Core</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-code"></i></div>
+                            <div class="component-name">Script Generator</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layer-connector"><i class="fas fa-angle-down"></i></div>
+                
+                <div class="layer engine-layer">
+                    <div class="layer-label">Rules Engine Layer</div>
+                    <div class="layer-components">
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-file-code"></i></div>
+                            <div class="component-name">Lua VM</div>
+                        </div>
+                        <div class="component highlight">
+                            <div class="component-icon"><i class="fas fa-cogs"></i></div>
+                            <div class="component-name">Rules Engine</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-cubes"></i></div>
+                            <div class="component-name">State Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layer-connector"><i class="fas fa-angle-down"></i></div>
+                
+                <div class="layer client-layer">
+                    <div class="layer-label">Client Layer</div>
+                    <div class="layer-components">
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-gamepad"></i></div>
+                            <div class="component-name">Unity Client</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-users"></i></div>
+                            <div class="component-name">Multiplayer</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-icon"><i class="fas fa-robot"></i></div>
+                            <div class="component-name">AI Opponents</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Benefits Section -->
+        <section class="tech-section benefits">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-check-circle"></i></div>
+                <h2>Technical Benefits</h2>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Accessibility</h3>
+                    <p>Zero programming knowledge required to create complex games</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Speed</h3>
+                    <p>Create working game mechanics in minutes instead of days</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                    <h3>Flexibility</h3>
+                    <p>Easily modify rules without having to rewrite code</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Scalability</h3>
+                    <p>Architecture designed to grow with your game's complexity</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Security</h3>
+                    <p>Sandboxed execution environment for custom scripts</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-robot"></i></div>
+                    <h3>AI Integration</h3>
+                    <p>Built from the ground up to leverage AI capabilities</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="tech-section cta">
+            <div class="cta-content">
+                <h2>Ready to revolutionize card game creation?</h2>
+                <p>Join us in building the future of digital trading card games with AI-powered technology.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary btn-large">Get Developer Access</button>
+                    <button class="btn-secondary btn-large">Learn More</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="navigation.js"></script>
+    <script>
+        // Simple tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.output-tab');
+            const panels = document.querySelectorAll('.output-panel');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and panels
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panels.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding panel
+                    const panelId = tab.getAttribute('data-tab') + '-output';
+                    document.getElementById(panelId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

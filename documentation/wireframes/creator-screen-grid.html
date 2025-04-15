@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio - Hex Grid - TCG World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="creator-screen.css">
+    <link rel="stylesheet" href="creator-screen-grid.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="placeholder-div.css">
+</head>
+<body class="creator-theme">
+    <!-- STUDIO HEADER -->
+    <header class="studio-header">
+        <div class="logo">
+            <div class="placeholder-box placeholder-logo">Logo</div>
+            <h1>TCG World Creator Studio</h1>
+        </div>
+        <div class="project-info">
+            <div class="project-title">
+                <i class="fas fa-gamepad"></i>
+                <div class="title-text">
+                    <h2>Fantasy Realms</h2>
+                    <p>Card Game Project - v0.3.2</p>
+                </div>
+            </div>
+        </div>
+        <div class="studio-controls">
+            <button class="btn-primary"><i class="fas fa-play"></i> Test Game</button>
+            <button class="btn-secondary"><i class="fas fa-save"></i> Save</button>
+            <button class="btn-icon" title="Settings"><i class="fas fa-cog"></i></button>
+            <button class="btn-icon" title="Help"><i class="fas fa-question-circle"></i></button>
+        </div>
+    </header>
+
+    <!-- CREATOR WORKSPACE -->
+    <main class="creator-workspace">
+        <!-- GAME BOARD -->
+        <div class="game-board">
+            <!-- HEX GRID -->
+            <div class="hex-grid-container">
+                <div class="hex-grid">
+                    <!-- Row 1 -->
+                    <div class="hex-row">
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">0,0</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">0,1</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">0,2</div>
+                                <div class="card-placeholder blue"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">0,3</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">0,4</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 2 -->
+                    <div class="hex-row">
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">1,0</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex highlighted">
+                                <div class="hex-coords">1,1</div>
+                                <div class="card-placeholder green"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">1,2</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">1,3</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">1,4</div>
+                                <div class="card-placeholder red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 3 -->
+                    <div class="hex-row">
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">2,0</div>
+                                <div class="card-placeholder blue"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">2,1</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex highlighted">
+                                <div class="hex-coords">2,2</div>
+                                <div class="selected-indicator">
+                                    <i class="fas fa-crosshairs"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">2,3</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">2,4</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 4 -->
+                    <div class="hex-row">
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">3,0</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">3,1</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">3,2</div>
+                                <div class="card-placeholder red"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex highlighted">
+                                <div class="hex-coords">3,3</div>
+                                <div class="card-placeholder green"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">3,4</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 5 -->
+                    <div class="hex-row">
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">4,0</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">4,1</div>
+                                <div class="card-placeholder blue"></div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">4,2</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">4,3</div>
+                            </div>
+                        </div>
+                        <div class="hex-cell">
+                            <div class="hex">
+                                <div class="hex-coords">4,4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-controls">
+                    <div class="grid-info">
+                        <div class="info-label">Grid Mode:</div>
+                        <div class="info-value">5×5 Hex Grid</div>
+                    </div>
+                    <div class="grid-actions">
+                        <button class="grid-action-btn"><i class="fas fa-expand-arrows-alt"></i> Resize</button>
+                        <button class="grid-action-btn"><i class="fas fa-border-style"></i> Switch Grid Type</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOOLS OVERLAY -->
+        <div class="tools-overlay">
+            <!-- Top Toolbar -->
+            <div class="top-toolbar">
+                <div class="tool-section">
+                    <button class="tool-btn large"><i class="fas fa-scroll"></i> Rules</button>
+                    <button class="tool-btn active large"><i class="fas fa-th"></i> Grid</button>
+                    <button class="tool-btn large"><i class="fas fa-chess-board"></i> Board</button>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Tools -->
+            <div class="right-sidebar">
+                <div class="tool-group">
+                    <div class="tool-header">
+                        <h3>Grid Properties</h3>
+                    </div>
+                    <div class="property-list">
+                        <div class="property-item">
+                            <div class="property-label">Grid Type</div>
+                            <div class="property-value">Hexagonal</div>
+                        </div>
+                        <div class="property-item">
+                            <div class="property-label">Dimensions</div>
+                            <div class="property-value">5×5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tool-group">
+                    <div class="tool-header">
+                        <h3>Grid Rules</h3>
+                    </div>
+                    <div class="current-rules">
+                        <div class="rule-item active">
+                            <div class="rule-text">Cards can move to adjacent hex cells</div>
+                            <div class="rule-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-text">Attack range is limited to 2 hex distance</div>
+                            <div class="rule-actions">
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Rule Input -->
+            <div class="rule-input-panel">
+                <div class="input-label">
+                    <i class="fas fa-magic"></i>
+                    <span>Describe grid rules</span>
+                </div>
+                <div class="input-controls">
+                    <textarea id="rule-description" placeholder="Enter rule in natural language...">Change to a 5×5 hex grid where cards occupy hex cells instead of traditional zones</textarea>
+                    <div class="input-buttons">
+                        <button class="btn-primary large"><i class="fas fa-plus"></i> Add Rule</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div class="notification">
+                <i class="fas fa-check-circle"></i>
+                <span>Grid layout updated to 5×5 hex grid!</span>
+                <button class="btn-icon"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- STUDIO FOOTER -->
+    <footer class="studio-footer">
+        <div class="status-info">
+            <div class="status-item">
+                <i class="fas fa-check-circle status-icon success"></i>
+                <span>Validation: Passed</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-th status-icon"></i>
+                <span>Grid: 5×5 Hex</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-database status-icon"></i>
+                <span>Rules: 14</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-credit-card status-icon"></i>
+                <span>Cards: 54</span>
+            </div>
+        </div>
+        <div class="ai-assistant-btn">
+            <i class="fas fa-robot"></i>
+            <span>Ask AI Assistant</span>
+        </div>
+    </footer>
+    <script src="navigation.js"></script>
+</body>
+</html>

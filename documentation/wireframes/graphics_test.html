@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Card Animation</title>
+    <style>
+        /* Base styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ground styling */
+        .ground {
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 1));
+            transform: rotateX(90deg) translateZ(50px) translateY(50px) scale(2);
+            transform-origin: center bottom;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Card styling */
+        .card {
+            position: absolute;
+            width: 200px;
+            height: 280px;
+            background: linear-gradient(145deg, #8B0000, #FF5000);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 40, 0, 0.7);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            top: -400px;
+            animation: cardFall 3s cubic-bezier(.47,.01,.53,.99) forwards;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(255, 200, 50, 0.5);
+            border-radius: 7px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23FFD700" stroke-width="2"/><circle cx="50" cy="50" r="30" fill="%23A52A2A" stroke="%23FFD700" stroke-width="2"/><path d="M40,40 L60,60 M60,40 L40,60" stroke="%23FFD700" stroke-width="2"/></svg>') center center/80% no-repeat,
+                          linear-gradient(135deg, rgba(139, 0, 0, 0.8), rgba(255, 80, 0, 0.5));
+        }
+
+        /* Impact effects */
+        .impact-container {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 200px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .impact-ring {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: transparent;
+            border: 4px solid transparent;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            bottom: 0;
+            animation: none;
+        }
+
+        .flame-particles {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 200, 50, 0.9), rgba(255, 50, 0, 0.7));
+            transform-origin: center bottom;
+            opacity: 0;
+        }
+
+        /* Smoke effect */
+        .smoke-container {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 300px;
+            pointer-events: none;
+        }
+
+        .smoke-particle {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(200, 200, 200, 0.1);
+            opacity: 0;
+        }
+
+        /* Glow effect */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 80px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, rgba(255, 50, 0, 0.4), transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        /* Card embellishments */
+        .card-title {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 220, 120, 0.9);
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .card-type {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 220, 120, 0.9);
+            font-size: 12px;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .card-text {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 220, 120, 0.9);
+            font-size: 9px;
+            text-shadow: 0 0 2px #000;
+        }
+
+        /* Animations */
+        @keyframes cardFall {
+            0% {
+                top: -400px;
+                transform: rotateX(10deg) rotateY(5deg) rotateZ(15deg) translateZ(0px);
+            }
+            40% {
+                top: -200px;
+                transform: rotateX(30deg) rotateY(-10deg) rotateZ(-10deg) translateZ(0px);
+            }
+            75% {
+                top: 10px;
+                transform: rotateX(15deg) rotateY(5deg) rotateZ(0deg) translateZ(0px);
+            }
+            85% {
+                top: -20px; 
+                transform: rotateX(5deg) rotateY(0deg) rotateZ(0deg) translateZ(0px);
+            }
+            95%, 100% {
+                top: 0px;
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px);
+            }
+        }
+
+        @keyframes impactRing {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.8;
+                border-color: rgba(255, 200, 50, 0.9);
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+                border-color: rgba(255, 100, 0, 0);
+            }
+        }
+
+        @keyframes flameRise {
+            0% {
+                opacity: 0.9;
+                transform: translateY(0) scale(1);
+            }
+            60% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.2);
+            }
+        }
+
+        @keyframes smokeRise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            20% {
+                opacity: 0.4;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-300px) scale(3);
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.7;
+            }
+            70% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="ground"></div>
+        <div class="card">
+            <div class="card-title">Flame Impact</div>
+            <div class="card-type">Instant Spell</div>
+            <div class="card-text">Deals 3 damage to any target.</div>
+        </div>
+        <div class="impact-container">
+            <div class="impact-ring"></div>
+        </div>
+        <div class="flame-particles"></div>
+        <div class="smoke-container"></div>
+        <div class="glow"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.card');
+            const impactContainer = document.querySelector('.impact-container');
+            const impactRing = document.querySelector('.impact-ring');
+            const flameParticles = document.querySelector('.flame-particles');
+            const smokeContainer = document.querySelector('.smoke-container');
+            const glow = document.querySelector('.glow');
+            
+            // Trigger impact and smoke after card falls
+            setTimeout(() => {
+                // Show impact container
+                impactContainer.style.opacity = 1;
+                
+                // Animate impact ring
+                impactRing.style.animation = 'impactRing 0.6s ease-out forwards';
+                
+                // Create flame particles
+                for (let i = 0; i < 40; i++) {
+                    createFlameParticle();
+                }
+                
+                // Show glow effect
+                glow.style.opacity = 1;
+                glow.style.animation = 'glowPulse 1.5s ease-out forwards';
+                
+                // Create smoke after flame
+                setTimeout(() => {
+                    for (let i = 0; i < 15; i++) {
+                        setTimeout(() => {
+                            createSmokeParticle();
+                        }, i * 200);
+                    }
+                }, 400);
+                
+            }, 2800); // Timed to match when card hits ground
+            
+            function createFlameParticle() {
+                const flame = document.createElement('div');
+                flame.classList.add('flame');
+                
+                // Random position
+                const xPos = Math.random() * 180 - 90;
+                const size = Math.random() * 15 + 5;
+                
+                flame.style.left = `calc(50% + ${xPos}px)`;
+                flame.style.width = `${size}px`;
+                flame.style.height = `${size}px`;
+                
+                // Random animation
+                const duration = Math.random() * 0.6 + 0.4;
+                const delay = Math.random() * 0.3;
+                
+                flame.style.animation = `flameRise ${duration}s ease-out ${delay}s forwards`;
+                
+                flameParticles.appendChild(flame);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    flame.remove();
+                }, (duration + delay) * 1000 + 100);
+            }
+            
+            function createSmokeParticle() {
+                const smoke = document.createElement('div');
+                smoke.classList.add('smoke-particle');
+                
+                // Random position and size
+                const xPos = Math.random() * 160 - 80;
+                const size = Math.random() * 40 + 20;
+                
+                smoke.style.left = `calc(50% + ${xPos}px)`;
+                smoke.style.width = `${size}px`;
+                smoke.style.height = `${size}px`;
+                
+                // Random animation properties
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                
+                smoke.style.animation = `smokeRise ${duration}s ease-out ${delay}s forwards`;
+                
+                // Random smoke color variations
+                const opacity = Math.random() * 0.3 + 0.1;
+                const hue = Math.random() * 20;
+                smoke.style.backgroundColor = `hsla(${hue}, 10%, 90%, ${opacity})`;
+                
+                smokeContainer.appendChild(smoke);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    smoke.remove();
+                }, (duration + delay) * 1000 + 100);
+            }
+            
+            // Restart animation when clicking anywhere
+            document.addEventListener('click', function() {
+                // Reset card position
+                card.style.animation = 'none';
+                setTimeout(() => {
+                    card.style.animation = 'cardFall 3s cubic-bezier(.47,.01,.53,.99) forwards';
+                }, 10);
+                
+                // Clear existing particles
+                flameParticles.innerHTML = '';
+                smokeContainer.innerHTML = '';
+                
+                // Reset impact
+                impactContainer.style.opacity = 0;
+                impactRing.style.animation = 'none';
+                
+                // Reset glow
+                glow.style.opacity = 0;
+                glow.style.animation = 'none';
+                
+                // Retrigger the sequence
+                setTimeout(() => {
+                    impactContainer.style.opacity = 1;
+                    impactRing.style.animation = 'impactRing 0.6s ease-out forwards';
+                    
+                    for (let i = 0; i < 40; i++) {
+                        createFlameParticle();
+                    }
+                    
+                    glow.style.opacity = 1;
+                    glow.style.animation = 'glowPulse 1.5s ease-out forwards';
+                    
+                    setTimeout(() => {
+                        for (let i = 0; i < 15; i++) {
+                            setTimeout(() => {
+                                createSmokeParticle();
+                            }, i * 200);
+                        }
+                    }, 400);
+                    
+                }, 2800);
+            });
+        });
+    </script>
+</body>
+</html>

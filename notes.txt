@@ -1,9 +1,41 @@
-Tomorrow
-10-12pm work
-2-4pm work
+/client
+  /pages
+    index.html              ← Home / Marketing
+    dashboard.html          ← Creator dashboard (after login)
+    login.html              ← Login page
+    signup.html             ← Signup page
+    deckbuilder.html        ← Public deckbuilder
+    admin-game.html         ← Manage cards, upload, edit
+    pricing.html            ← Pricing page (marketing)
+    success.html            ← Post-subscription page
+  /js
+    auth.js                 ← Login/signup/session management
+    api.js                  ← Reusable fetch() wrappers for backend
+    deckbuilder.js          ← Card browsing, filters, deck assembly
+    dashboard.js            ← Creator UI logic
+    upload.js               ← Handle card upload + parsing
+    pricing.js              ← Handles Stripe or checkout logic
+  /components
+    header.js               ← Reusable nav bar
+    cardPreview.js          ← Renders a single card visually
+    deckList.js             ← Manages card list in a deck
+  /styles
+    global.css
+    deckbuilder.css
+    dashboard.css
+    auth.css
 
-So, what are we going to work on next, Frodo?
-1) Create some placeholder cards that don't have any attributes or anything (okay maybe some text? but they don't do anything). 
-2) Practice putting the cards into the different zones. Get some basic zone behaviors going on like: stacks/decks, rows, grids/arrays
-3) Adding and removing cards from a zone
-4) Moving cards between zones
+/server
+  server.js                 ← Main Express server (see previous response)
+  /routes
+    auth.js
+    games.js
+    cards.js
+    decks.js
+    billing.js
+  /db
+    schema.sql              ← If using SQL
+    db.js                   ← Database wrapper
+  /utils
+    parseCSV.js             ← CSV to JSON helper
+    verifyToken.js          ← JWT middleware

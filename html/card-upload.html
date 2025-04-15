@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCG Creator - Card Upload</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="project-title">
+                <h1>New Card Game</h1>
+                <span class="edit-icon">✏️</span>
+            </div>
+            <div class="status-indicator">Unsaved Project</div>
+            <button class="save-button">Save Your Work</button>
+        </header>
+        
+        <div class="page-heading">
+            <h1>Upload Your Cards</h1>
+            <p>Get your card game online quickly by uploading your cards using one of the methods below.</p>
+        </div>
+        
+        <div class="upload-methods">
+            <div class="method-card">
+                <div class="method-header">
+                    <h2>Primary Method</h2>
+                    <span class="recommended-badge">Recommended</span>
+                </div>
+                <p>Upload your cards using a Google Sheet and images</p>
+                
+                <div class="instructions">
+                    <h3>For best results, follow these instructions:</h3>
+                    <ol>
+                        <li>Include an image_filename column for each of your cards.</li>
+                        <li>Make sure there is a corresponding card image with that file name.</li>
+                        <li>Any other column names in your spreadsheet will become search parameters.</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sheet-link">Google Sheet Link</label>
+                    <input type="text" id="sheet-link" placeholder="https://docs.google.com/spreadsheets/d/...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Card Images</label>
+                    <div class="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag and drop image files here</p>
+                        <p>or <strong>click to browse</strong></p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image-url">Or provide URL to card images</label>
+                    <input type="text" id="image-url" placeholder="https://your-site.com/card-images/">
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <h2>Secondary Method</h2>
+                </div>
+                <p>No spreadsheet? Just upload your card images</p>
+                
+                <div class="instructions">
+                    <p>This method only requires your card images, but will have limited search/filtering capabilities.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Card Images</label>
+                    <div class="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag and drop image files here</p>
+                        <p>or <strong>click to browse</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <h2>Card Preview</h2>
+            <div class="placeholder-text">
+                <p>Your uploaded cards will appear here</p>
+                <p>Click "Process Cards" to begin</p>
+            </div>
+            
+            <div class="card-grid" style="display: none;">
+                <!-- Cards will be populated here -->
+                <div class="card-preview">
+                    <img src="/api/placeholder/150/200" alt="Card preview">
+                    <div class="card-info">
+                        <h3>Fire Dragon</h3>
+                        <p>Type: Creature</p>
+                        <p>Cost: 5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="primary-button">Process Cards</button>
+            <button class="secondary-button">Generate Deckbuilder</button>
+            <button class="secondary-button">Try Deckbuilder</button>
+        </div>
+    </div>
+</body>
+</html>

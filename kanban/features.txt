@@ -1,5 +1,0 @@
-3D Scene
-Basic Card and Groups of Cards Data Structures
-Basic GUI where I can see cards and groups of cards
-Basic JSON schema and parser with groups, group positions
- 

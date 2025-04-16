@@ -10,6 +10,6 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
 })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("gameName").innerText = data.name;
+    //document.getElementById("gameName").innerText = data.name;
     document.getElementById("cardCount").innerText = `Cards: ${data.cardCount}`;
   });

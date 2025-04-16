@@ -11,7 +11,7 @@
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "/login.html";
 
-    fetch("https://your-backend.up.railway.app/api/me", {
+    fetch("https://tcg-world-backend-production.up.railway.app/api/me", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

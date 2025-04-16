@@ -23,3 +23,28 @@ fetch("https://tcg-world-backend-production.up.railway.app/api/games", {
 			document.getElementById("games").innerText = `Your games: ${data}`;
 		}
 	});
+
+document.getElementById('createGameBtn').addEventListener('click', async () => {
+	const token = localStorage.getItem('token');
+	const gameName = prompt('Enter a name for your game');
+
+	if (!gameName) return;
+
+	const res = await fetch('api/games', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		},
+		body: JSON.stringify({ name: gameName})
+	});
+
+	if (res.ok){
+		const newGame = await res.json();
+		alert(`Game "${newGame.name}" created!`);
+		location.reload();
+	}else{
+		const err = await res.json();
+		alert('Failed to create game: ' + err.error);
+	}
+});

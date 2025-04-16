@@ -30,7 +30,7 @@ document.getElementById('createGameBtn').addEventListener('click', async () => {
 
 	if (!gameName) return;
 
-	const res = await fetch('/api/games', {
+	const res = await fetch('https://tcg-world-backend-production.up.railway.app/api/games', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

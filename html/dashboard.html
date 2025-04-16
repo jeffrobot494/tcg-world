@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard – TCG World</title>
+</head>
+<body>
+  <h1>Welcome to your dashboard!</h1>
+  <p id="email">Loading...</p>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "/login.html";
+
+    fetch("https://your-backend.up.railway.app/api/me", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.email) {
+          document.getElementById("email").innerText = `Logged in as: ${data.email}`;
+        } else {
+          window.location.href = "/login.html";
+        }
+      });
+  </script>
+</body>
+</html>

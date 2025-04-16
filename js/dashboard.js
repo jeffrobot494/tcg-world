@@ -20,7 +20,7 @@ fetch("https://tcg-world-backend-production.up.railway.app/api/games", {
 	.then (data => {
 		if(data.length > 0) {
 			const names = data.map(game => game.name).join(', ');
-			document.getElementById("games").innerText = `Your games: ${data.name}`;
+			document.getElementById("games").innerText = `Your games: ${game.name}`;
 		}
 	});
 

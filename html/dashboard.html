@@ -6,22 +6,7 @@
 <body>
   <h1>Welcome to your dashboard!</h1>
   <p id="email">Loading...</p>
-
-  <script>
-    const token = localStorage.getItem("token");
-    if (!token) window.location.href = "/login.html";
-
-    fetch("https://tcg-world-backend-production.up.railway.app/api/me", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.email) {
-          document.getElementById("email").innerText = `Logged in as: ${data.email}`;
-        } else {
-          window.location.href = "/login.html";
-        }
-      });
-  </script>
+  <p id="games"></p>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

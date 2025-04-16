@@ -19,8 +19,16 @@ fetch("https://tcg-world-backend-production.up.railway.app/api/games", {
 	.then (res => res.json())
 	.then (data => {
 		if(data.length > 0) {
-			const names = data.map(game => game.name).join(', ');
-			document.getElementById("games").innerText = `Your games: ${names}`;
+			const gamesDiv = document.getElementById('games');
+			gamesDiv.innerHTML = "<h3>Your Games</h3>";
+			
+			data.forEach(game => {
+				const link = document.createElement("a");
+				link.href = `game.html?gameId=${game.id}`;
+				link.innerText = game.name;
+				link.style.display = "block";
+				gamesDiv.appendChild(link);
+			})
 		}
 	});
 

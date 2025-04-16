@@ -3,7 +3,7 @@ const gameId = params.get("gameId");
 
 const token = localStorage.getItem("token");
 
-fetch(`/api/games/${gameId}`, {
+fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`, {
   headers: {
     Authorization: `Bearer ${token}`
   }

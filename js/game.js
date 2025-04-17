@@ -52,7 +52,7 @@ for (const file of files) {
     }
 
     const data = await res.json();
-    status.innerText = "Message from server: uploaded "+data.message+" at " +imageUrl;
+    status.innerText = "Message from server: uploaded "+data.message+" at " +data.imageUrl;
 }
 });
 

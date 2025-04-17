@@ -48,7 +48,7 @@
       
       container.innerHTML = cards.map(card => `
         <div class="card">
-          <img class="card-image" src="${BACKEND_URL}${card.image_url}" alt="${card.name}">
+          <img class="card-image" src="${card.image_url}" alt="${card.name}">
           <p>${card.name}</p>
         </div>
       `).join('');

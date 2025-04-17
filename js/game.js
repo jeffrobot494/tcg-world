@@ -205,11 +205,20 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   
         if (res.ok) {
           uploadedCount++;
-          status.innerText = `Uploaded ${uploadedCount} of ${files.length} cards`;
+          status.innerHTML = `Uploaded ${uploadedCount} of ${files.length} cards`;
           console.log("Uploaded to:", data.imageUrl);
         } else {
           failedCount++;
-          status.innerText = `Uploaded ${uploadedCount}, failed ${failedCount} of ${files.length} cards`;
+          
+          // Create status message with error details
+          let statusMsg = `Uploaded ${uploadedCount}, failed ${failedCount} of ${files.length} cards`;
+          
+          // Add specific error message if available
+          if (data.error) {
+            statusMsg += `<br><small style="color: red;">${file.name}: ${data.error}</small>`;
+          }
+          
+          status.innerHTML = statusMsg;
           console.error(`Failed to upload ${file.name}: ${data.error}`);
         }
   

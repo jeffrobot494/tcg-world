@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deck Builder - TCG World</title>
+  <link rel="stylesheet" href="../css/deckbuilder.css">
+</head>
+<body>
+  <h1>Deck Builder</h1>
+  <p>Game ID: <span id="gameId">5</span></p>
+  <div id="cardContainer" class="card-grid"></div>
+
+  <script>
+    const gameId = 5; // Hard-coded for now
+    const BACKEND_URL = 'https://tcg-world-backend-production.up.railway.app';
+
+    // Fetch cards for the specified game
+    async function loadCards() {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/games/${gameId}/cards`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to load cards');
+        }
+        
+        const cards = await response.json();
+        displayCards(cards);
+      } catch (error) {
+        console.error('Error loading cards:', error);
+        document.getElementById('cardContainer').innerHTML = 
+          '<p>Error loading cards. Please make sure you are logged in.</p>';
+      }
+    }
+
+    // Display cards in the grid
+    function displayCards(cards) {
+      const container = document.getElementById('cardContainer');
+      
+      if (cards.length === 0) {
+        container.innerHTML = '<p>No cards found for this game.</p>';
+        return;
+      }
+      
+      container.innerHTML = cards.map(card => `
+        <div class="card">
+          <img class="card-image" src="${BACKEND_URL}${card.image_url}" alt="${card.name}">
+          <p>${card.name}</p>
+        </div>
+      `).join('');
+    }
+
+    // Check for authentication
+    if (!localStorage.getItem('token')) {
+      document.getElementById('cardContainer').innerHTML = 
+        '<p>Please <a href="login.html">log in</a> to view cards.</p>';
+    } else {
+      loadCards();
+    }
+  </script>
+</body>
+</html>

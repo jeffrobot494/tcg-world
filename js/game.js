@@ -2,8 +2,10 @@ const params = new URLSearchParams(window.location.search);
 const gameId = params.get("gameId");
 
 const token = localStorage.getItem("token");
+const API_URL = "https://tcg-world-backend-production.up.railway.app";
 
-fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`, {
+// Fetch game data
+fetch(`${API_URL}/api/games/${gameId}`, {
   headers: {
     Authorization: `Bearer ${token}`
   }
@@ -17,6 +19,13 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
     const deckbuilderLink = document.getElementById("deckbuilderLink");
     if (deckbuilderLink) {
       deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
+    }
+    
+    // Set sheet URL if available
+    if (data.sheetUrl) {
+      document.getElementById("sheetUrl").value = data.sheetUrl;
+      document.getElementById("sheetStatus").innerText = "Sheet currently linked";
+      document.getElementById("sheetStatus").style.color = "green";
     }
   });
 
@@ -53,7 +62,7 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
       try {
         const imageUrl = await uploadToCloudinary(file);
   
-        const res = await fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}/cards`, {
+        const res = await fetch(`${API_URL}/api/games/${gameId}/cards`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -78,6 +87,53 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
         console.error("Upload error:", err);
         status.innerText = `Failed to upload ${file.name}: ${err.message}`;
       }
+    }
+  });
+  
+  // Link Google Sheet event handler
+  document.getElementById("linkSheetBtn").addEventListener("click", async () => {
+    const sheetUrl = document.getElementById("sheetUrl").value.trim();
+    const statusEl = document.getElementById("sheetStatus");
+    
+    if (!sheetUrl) {
+      statusEl.innerText = "Please enter a Google Sheets URL";
+      statusEl.style.color = "red";
+      return;
+    }
+    
+    // Basic validation for Google Sheets URL
+    if (!sheetUrl.includes("docs.google.com/spreadsheets")) {
+      statusEl.innerText = "Please enter a valid Google Sheets URL";
+      statusEl.style.color = "red";
+      return;
+    }
+    
+    statusEl.innerText = "Linking sheet...";
+    statusEl.style.color = "black";
+    
+    try {
+      const res = await fetch(`${API_URL}/api/games/${gameId}/sheet`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ sheetUrl })
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        statusEl.innerText = "Sheet linked successfully";
+        statusEl.style.color = "green";
+      } else {
+        statusEl.innerText = `Failed to link sheet: ${data.error}`;
+        statusEl.style.color = "red";
+      }
+    } catch (err) {
+      console.error("Error linking sheet:", err);
+      statusEl.innerText = `Error: ${err.message}`;
+      statusEl.style.color = "red";
     }
   });
   

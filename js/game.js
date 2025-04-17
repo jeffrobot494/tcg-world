@@ -14,45 +14,65 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
     document.getElementById("cardCount").innerText = `Cards: ${data.cardCount}`;
   });
 
-document.getElementById("uploadBtn").addEventListener("click", async () => {
-const input = document.getElementById("cardUploader");
-const files = input.files;
-const status = document.getElementById("uploadStatus");
-console.log("upload button clicked");
-if (files.length === 0) {
-    console.log("no fiiles!");
-    status.innerText = "No files selected.";
-    return;
-}
-
-const token = localStorage.getItem("token");
-const params = new URLSearchParams(window.location.search);
-const gameId = params.get("gameId");
-
-for (const file of files) {
-    console.log('looin files@');
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("name", file.name);
-
-    const res = await fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}/cards`, {
-    method: "POST",
-    headers: {
-        Authorization: `Bearer ${token}`
-    },
-    body: formData
-    });
-
-    if (res.ok) {
-        status.innerText = `Uploaded files`;
-        console.log('blastoff@');
-    } else {
-        const err = await res.json();
-        status.innerText = `Failed to upload ${file.name}: ${err.error}`;
+  document.getElementById("uploadBtn").addEventListener("click", async () => {
+    const input = document.getElementById("cardUploader");
+    const files = input.files;
+    const status = document.getElementById("uploadStatus");
+  
+    if (files.length === 0) {
+      status.innerText = "No files selected.";
+      return;
     }
-
-    const data = await res.json();
-    status.innerText = "Message from server: uploaded "+data.message+" at " +data.imageUrl;
-}
-});
+  
+    const token = localStorage.getItem("token");
+    const gameId = new URLSearchParams(window.location.search).get("gameId");
+  
+    const uploadToCloudinary = async (file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "TCG-World Unsigned");
+  
+      const res = await fetch("https://api.cloudinary.com/v1_1/dmfjx6e7z/image/upload", {
+        method: "POST",
+        body: formData
+      });
+  
+      if (!res.ok) throw new Error("Cloudinary upload failed");
+  
+      const data = await res.json();
+      return data.secure_url;
+    };
+  
+    for (const file of files) {
+      try {
+        const imageUrl = await uploadToCloudinary(file);
+  
+        const res = await fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}/cards`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            name: file.name,
+            imageUrl: imageUrl
+          })
+        });
+  
+        const data = await res.json();
+  
+        if (res.ok) {
+          status.innerText = `Uploaded ${file.name}`;
+          console.log("Uploaded to:", data.imageUrl);
+        } else {
+          status.innerText = `Failed to upload ${file.name}: ${data.error}`;
+        }
+  
+      } catch (err) {
+        console.error("Upload error:", err);
+        status.innerText = `Failed to upload ${file.name}: ${err.message}`;
+      }
+    }
+  });
+  
 

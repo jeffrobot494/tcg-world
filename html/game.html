@@ -3,38 +3,74 @@
 <head>
   <title>Game – TCG World</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <h1 id="gameName">Game Name</h1>
-  <p id="cardCount"></p>
-  
-  <div class="container">
-    <h2>Upload Cards</h2>
-    <div class="input-group">
-      <input type="file" id="cardUploader" multiple>
-      <button id="uploadBtn">Upload</button>
+  <div class="game-header">
+    <div>
+      <h1 id="gameName">Game Name</h1>
+      <p id="cardCount">Cards: 0</p>
     </div>
-    <p id="uploadStatus"></p>
+    <div class="header-actions">
+      <button id="addCardBtn" class="action-button"><i class="fas fa-plus"></i> Add Cards</button>
+      <a href="deckbuilder.html" id="deckbuilderLink" class="deck-link">Go to Deck Builder</a>
+    </div>
   </div>
   
-  <div class="container">
-    <h2>Link Google Sheet</h2>
-    <p>Link a Google Sheet containing your card data for advanced filtering and sorting in the Deck Builder.</p>
-    <div class="input-group">
-      <input type="text" id="sheetUrl" placeholder="Enter Google Sheets URL" style="width: 300px;">
-      <button id="linkSheetBtn">Link Sheet</button>
-    </div>
-    <p id="sheetStatus"></p>
-    <p class="help-text">
-      Your Google Sheet should:
-      <br>- Have a header row with column names like: name, type, cost, power, etc.
-      <br>- Be shared with "Anyone with the link can view" permissions
-      <br>- Include an 'image_url' column matching the uploaded card images
-    </p>
+  <!-- Card Table -->
+  <div class="card-table-container">
+    <table id="cardTable" class="card-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Card Name</th>
+          <th>Visibility</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Cards will be populated here by JavaScript -->
+      </tbody>
+    </table>
   </div>
   
-  <div class="container">
-    <a href="deckbuilder.html" id="deckbuilderLink">Go to Deck Builder</a>
+  <!-- Add Card Modal -->
+  <div id="addCardModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Cards</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-tabs">
+        <button class="tab-button active" data-tab="upload">Upload Images</button>
+        <button class="tab-button" data-tab="sheet">Link Google Sheet</button>
+      </div>
+      
+      <div id="uploadTab" class="tab-content active">
+        <h3>Upload Card Images</h3>
+        <div class="input-group">
+          <input type="file" id="cardUploader" multiple>
+          <button id="uploadBtn">Upload</button>
+        </div>
+        <p id="uploadStatus"></p>
+      </div>
+      
+      <div id="sheetTab" class="tab-content">
+        <h3>Link Google Sheet</h3>
+        <p>Link a Google Sheet containing your card data for advanced filtering and sorting.</p>
+        <div class="input-group">
+          <input type="text" id="sheetUrl" placeholder="Enter Google Sheets URL">
+          <button id="linkSheetBtn">Link Sheet</button>
+        </div>
+        <p id="sheetStatus"></p>
+        <p class="help-text">
+          Your Google Sheet should:
+          <br>- Have a header row with column names like: name, type, cost, power, etc.
+          <br>- Be shared with "Anyone with the link can view" permissions
+          <br>- Include an 'image_url' column matching the uploaded card images
+        </p>
+      </div>
+    </div>
   </div>
   
   <script src="../js/game.js"></script>

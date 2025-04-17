@@ -4,6 +4,83 @@ const gameId = params.get("gameId");
 const token = localStorage.getItem("token");
 const API_URL = "https://tcg-world-backend-production.up.railway.app";
 
+// Modal elements
+const addCardBtn = document.getElementById('addCardBtn');
+const modal = document.getElementById('addCardModal');
+const closeModal = document.querySelector('.close-modal');
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+
+// Open modal
+addCardBtn.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+// Close modal
+closeModal.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Close when clicking outside
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// Tab functionality
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Remove active class from all buttons and contents
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Add active class to clicked button and corresponding content
+    button.classList.add('active');
+    const tabName = button.getAttribute('data-tab');
+    document.getElementById(`${tabName}Tab`).classList.add('active');
+  });
+});
+
+// Function to render the card table
+function renderCardTable(cards) {
+  const tableBody = document.querySelector('#cardTable tbody');
+  
+  if (!cards || cards.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align: center; padding: 30px;">
+          No cards yet. Click the "Add Cards" button to get started.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+  
+  tableBody.innerHTML = cards.map(card => `
+    <tr data-card-id="${card.id}">
+      <td>
+        <img src="${card.image_url}" alt="${card.name}" class="card-image-thumbnail">
+      </td>
+      <td>${card.name}</td>
+      <td>
+        <label class="visibility-toggle">
+          <input type="checkbox" ${card.visible ? 'checked' : ''}>
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td>
+        <button class="icon-button edit-card" title="Edit Card">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="icon-button delete-card" title="Delete Card">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
 // Fetch game data
 fetch(`${API_URL}/api/games/${gameId}`, {
   headers: {
@@ -27,6 +104,20 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       document.getElementById("sheetStatus").innerText = "Sheet currently linked";
       document.getElementById("sheetStatus").style.color = "green";
     }
+    
+    // Fetch cards for the table
+    return fetch(`${API_URL}/api/games/${gameId}/cards`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  })
+  .then(res => res.json())
+  .then(cards => {
+    renderCardTable(cards);
+  })
+  .catch(err => {
+    console.error("Error fetching game data:", err);
   });
 
   document.getElementById("uploadBtn").addEventListener("click", async () => {
@@ -39,8 +130,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       return;
     }
   
-    const token = localStorage.getItem("token");
-    const gameId = new URLSearchParams(window.location.search).get("gameId");
+    status.innerText = "Uploading...";
   
     const uploadToCloudinary = async (file) => {
       const formData = new FormData();
@@ -57,6 +147,9 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       const data = await res.json();
       return data.secure_url;
     };
+  
+    let uploadedCount = 0;
+    let failedCount = 0;
   
     for (const file of files) {
       try {
@@ -77,17 +170,42 @@ fetch(`${API_URL}/api/games/${gameId}`, {
         const data = await res.json();
   
         if (res.ok) {
-          status.innerText = `Uploaded ${file.name}`;
+          uploadedCount++;
+          status.innerText = `Uploaded ${uploadedCount} of ${files.length} cards`;
           console.log("Uploaded to:", data.imageUrl);
         } else {
-          status.innerText = `Failed to upload ${file.name}: ${data.error}`;
+          failedCount++;
+          status.innerText = `Uploaded ${uploadedCount}, failed ${failedCount} of ${files.length} cards`;
+          console.error(`Failed to upload ${file.name}: ${data.error}`);
         }
   
       } catch (err) {
+        failedCount++;
         console.error("Upload error:", err);
-        status.innerText = `Failed to upload ${file.name}: ${err.message}`;
+        status.innerText = `Uploaded ${uploadedCount}, failed ${failedCount} of ${files.length} cards`;
       }
     }
+    
+    // After uploads are done, refresh the card table
+    fetch(`${API_URL}/api/games/${gameId}/cards`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(cards => {
+      renderCardTable(cards);
+      
+      // Update card count display
+      document.getElementById("cardCount").innerText = `Cards: ${cards.length}`;
+      
+      if (uploadedCount > 0) {
+        // Close modal after successful upload
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 1500);
+      }
+    });
   });
   
   // Link Google Sheet event handler
@@ -126,6 +244,11 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       if (res.ok) {
         statusEl.innerText = "Sheet linked successfully";
         statusEl.style.color = "green";
+        
+        // Close modal after successful link
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 1500);
       } else {
         statusEl.innerText = `Failed to link sheet: ${data.error}`;
         statusEl.style.color = "red";

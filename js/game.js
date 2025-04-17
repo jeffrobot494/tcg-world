@@ -50,6 +50,9 @@ for (const file of files) {
         const err = await res.json();
         status.innerText = `Failed to upload ${file.name}: ${err.error}`;
     }
+
+    const data = await res.json();
+    status.innerText = "Message from server: uploaded "+data.message+" at " +imageUrl;
 }
 });
 

@@ -98,22 +98,56 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
     }
     
-    // Set sheet URL if available
+    // Set sheet URL if available (legacy)
     if (data.sheetUrl) {
       document.getElementById("sheetUrl").value = data.sheetUrl;
       document.getElementById("sheetStatus").innerText = "Sheet currently linked";
       document.getElementById("sheetStatus").style.color = "green";
     }
     
-    // Fetch cards for the table
-    return fetch(`${API_URL}/api/games/${gameId}/cards`, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    // Populate sheet mappings if available
+    if (data.sheetMappings && data.sheetMappings.length > 0) {
+      const mappingsList = document.getElementById("sheetMappings");
+      if (mappingsList) {
+        mappingsList.innerHTML = data.sheetMappings.map(mapping => `
+          <div class="sheet-mapping">
+            <strong>${mapping.card_type}:</strong> 
+            <span class="sheet-url">${mapping.sheet_url}</span>
+            <span class="last-refreshed">
+              ${mapping.last_refreshed_at ? 
+                `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
+                'Not yet refreshed'}
+            </span>
+          </div>
+        `).join('');
       }
-    });
+    }
+    
+    // Use the newer images endpoint if available
+    try {
+      return fetch(`${API_URL}/api/games/${gameId}/images`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    } catch (err) {
+      // Fall back to the old cards endpoint
+      return fetch(`${API_URL}/api/games/${gameId}/cards`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
   })
   .then(res => res.json())
-  .then(cards => {
+  .then(images => {
+    // Convert image data to card format for the table
+    const cards = images.map(img => ({
+      id: img.id,
+      name: img.file_name || img.name,
+      image_url: img.cloudinary_url || img.image_url
+    }));
+    
     renderCardTable(cards);
   })
   .catch(err => {
@@ -211,10 +245,18 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   // Link Google Sheet event handler
   document.getElementById("linkSheetBtn").addEventListener("click", async () => {
     const sheetUrl = document.getElementById("sheetUrl").value.trim();
+    const cardTypeInput = document.getElementById("cardType") || { value: "default" };
+    const cardType = cardTypeInput.value.trim();
     const statusEl = document.getElementById("sheetStatus");
     
     if (!sheetUrl) {
       statusEl.innerText = "Please enter a Google Sheets URL";
+      statusEl.style.color = "red";
+      return;
+    }
+    
+    if (!cardType) {
+      statusEl.innerText = "Please enter a card type";
       statusEl.style.color = "red";
       return;
     }
@@ -236,19 +278,44 @@ fetch(`${API_URL}/api/games/${gameId}`, {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ sheetUrl })
+        body: JSON.stringify({ sheetUrl, cardType })
       });
       
       const data = await res.json();
       
       if (res.ok) {
-        statusEl.innerText = "Sheet linked successfully";
+        statusEl.innerText = `Sheet linked successfully for ${cardType} cards`;
         statusEl.style.color = "green";
         
         // Close modal after successful link
         setTimeout(() => {
           modal.style.display = 'none';
         }, 1500);
+        
+        // Refresh the game data to show new sheet mappings
+        fetch(`${API_URL}/api/games/${gameId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          // Update sheet mappings display if it exists
+          if (document.getElementById("sheetMappings")) {
+            const mappingsList = document.getElementById("sheetMappings");
+            mappingsList.innerHTML = data.sheetMappings.map(mapping => `
+              <div class="sheet-mapping">
+                <strong>${mapping.card_type}:</strong> 
+                <span class="sheet-url">${mapping.sheet_url}</span>
+                <span class="last-refreshed">
+                  ${mapping.last_refreshed_at ? 
+                    `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
+                    'Not yet refreshed'}
+                </span>
+              </div>
+            `).join('');
+          }
+        });
       } else {
         statusEl.innerText = `Failed to link sheet: ${data.error}`;
         statusEl.style.color = "red";

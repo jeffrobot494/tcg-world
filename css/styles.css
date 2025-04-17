@@ -347,3 +347,38 @@ input:checked + .toggle-slider:before {
 .delete-card {
   color: #f44336;
 }
+
+/* Sheet mappings styles */
+.sheet-mappings {
+  margin: 15px 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.sheet-mapping {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.sheet-mapping:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sheet-url {
+  font-size: 0.9em;
+  color: #4285f4;
+  word-break: break-all;
+}
+
+.last-refreshed {
+  font-size: 0.8em;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+}

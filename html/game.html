@@ -59,15 +59,19 @@
         <h3>Link Google Sheet</h3>
         <p>Link a Google Sheet containing your card data for advanced filtering and sorting.</p>
         <div class="input-group">
+          <input type="text" id="cardType" placeholder="Card Type (e.g., Unit, Spell, Event)">
+        </div>
+        <div class="input-group">
           <input type="text" id="sheetUrl" placeholder="Enter Google Sheets URL">
           <button id="linkSheetBtn">Link Sheet</button>
         </div>
         <p id="sheetStatus"></p>
+        <div id="sheetMappings" class="sheet-mappings"></div>
         <p class="help-text">
           Your Google Sheet should:
           <br>- Have a header row with column names like: name, type, cost, power, etc.
           <br>- Be shared with "Anyone with the link can view" permissions
-          <br>- Include an 'image_url' column matching the uploaded card images
+          <br>- Include a column to match card images (like file_name)
         </p>
       </div>
     </div>

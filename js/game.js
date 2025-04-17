@@ -18,8 +18,9 @@ document.getElementById("uploadBtn").addEventListener("click", async () => {
 const input = document.getElementById("cardUploader");
 const files = input.files;
 const status = document.getElementById("uploadStatus");
-
+console.log("upload button clicked");
 if (files.length === 0) {
+    console.log("no fiiles!");
     status.innerText = "No files selected.";
     return;
 }
@@ -29,6 +30,7 @@ const params = new URLSearchParams(window.location.search);
 const gameId = params.get("gameId");
 
 for (const file of files) {
+    console.log('looin files@');
     const formData = new FormData();
     formData.append("image", file);
     formData.append("name", file.name);
@@ -43,6 +45,7 @@ for (const file of files) {
 
     if (res.ok) {
         status.innerText = `Uploaded files`;
+        console.log('blastoff@');
     } else {
         const err = await res.json();
         status.innerText = `Failed to upload ${file.name}: ${err.error}`;

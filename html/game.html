@@ -66,12 +66,26 @@
           <button id="linkSheetBtn">Link Sheet</button>
         </div>
         <p id="sheetStatus"></p>
-        <div id="sheetMappings" class="sheet-mappings"></div>
+        
+        <div id="sheetMappings" class="sheet-mappings">
+          <h4>Linked Sheets</h4>
+          <div class="sheet-mappings-list"></div>
+          <div class="sheet-actions">
+            <div class="input-group">
+              <select id="syncSheetType" class="sync-selector">
+                <option value="">Select card type to sync</option>
+              </select>
+              <button id="syncSheetBtn" class="sync-btn" disabled>Refresh Data</button>
+            </div>
+            <div id="syncStatus" class="sync-status"></div>
+          </div>
+        </div>
+        
         <p class="help-text">
           Your Google Sheet should:
           <br>- Have a header row with column names like: name, type, cost, power, etc.
           <br>- Be shared with "Anyone with the link can view" permissions
-          <br>- Include a column to match card images (like file_name)
+          <br>- Include a column named "file_name" matching your uploaded card images
         </p>
       </div>
     </div>

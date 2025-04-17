@@ -107,8 +107,11 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     
     // Populate sheet mappings if available
     if (data.sheetMappings && data.sheetMappings.length > 0) {
-      const mappingsList = document.getElementById("sheetMappings");
+      const mappingsList = document.querySelector(".sheet-mappings-list");
+      const syncSelector = document.getElementById("syncSheetType");
+      
       if (mappingsList) {
+        // Populate the mappings list
         mappingsList.innerHTML = data.sheetMappings.map(mapping => `
           <div class="sheet-mapping">
             <strong>${mapping.card_type}:</strong> 
@@ -120,6 +123,17 @@ fetch(`${API_URL}/api/games/${gameId}`, {
             </span>
           </div>
         `).join('');
+        
+        // Populate the sync selector dropdown
+        syncSelector.innerHTML = '<option value="">Select card type to sync</option>';
+        data.sheetMappings.forEach(mapping => {
+          syncSelector.innerHTML += `<option value="${mapping.card_type}">${mapping.card_type}</option>`;
+        });
+        
+        // Enable the sync button when a card type is selected
+        syncSelector.addEventListener('change', () => {
+          document.getElementById('syncSheetBtn').disabled = !syncSelector.value;
+        });
       }
     }
     
@@ -252,6 +266,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   });
   
   // Link Google Sheet event handler
+  // Link Sheet Button Handler
   document.getElementById("linkSheetBtn").addEventListener("click", async () => {
     const sheetUrl = document.getElementById("sheetUrl").value.trim();
     const cardTypeInput = document.getElementById("cardType") || { value: "default" };
@@ -296,35 +311,17 @@ fetch(`${API_URL}/api/games/${gameId}`, {
         statusEl.innerText = `Sheet linked successfully for ${cardType} cards`;
         statusEl.style.color = "green";
         
+        // Clear input fields
+        document.getElementById("sheetUrl").value = "";
+        document.getElementById("cardType").value = "";
+        
+        // Refresh the game data to show new sheet mappings
+        refreshGameData();
+        
         // Close modal after successful link
         setTimeout(() => {
           modal.style.display = 'none';
         }, 1500);
-        
-        // Refresh the game data to show new sheet mappings
-        fetch(`${API_URL}/api/games/${gameId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-          // Update sheet mappings display if it exists
-          if (document.getElementById("sheetMappings")) {
-            const mappingsList = document.getElementById("sheetMappings");
-            mappingsList.innerHTML = data.sheetMappings.map(mapping => `
-              <div class="sheet-mapping">
-                <strong>${mapping.card_type}:</strong> 
-                <span class="sheet-url">${mapping.sheet_url}</span>
-                <span class="last-refreshed">
-                  ${mapping.last_refreshed_at ? 
-                    `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
-                    'Not yet refreshed'}
-                </span>
-              </div>
-            `).join('');
-          }
-        });
       } else {
         statusEl.innerText = `Failed to link sheet: ${data.error}`;
         statusEl.style.color = "red";
@@ -335,5 +332,132 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       statusEl.style.color = "red";
     }
   });
+  
+  // Sync Sheet Button Handler
+  document.getElementById("syncSheetBtn").addEventListener("click", async () => {
+    const cardType = document.getElementById("syncSheetType").value;
+    const syncStatusEl = document.getElementById("syncStatus");
+    
+    if (!cardType) {
+      syncStatusEl.innerHTML = `<div class="error">Please select a card type to sync</div>`;
+      return;
+    }
+    
+    // Disable the button during sync
+    const syncBtn = document.getElementById("syncSheetBtn");
+    syncBtn.disabled = true;
+    syncBtn.textContent = "Syncing...";
+    
+    // Show progress indicator
+    syncStatusEl.innerHTML = `
+      <div>Syncing ${cardType} data...</div>
+      <div class="progress-bar">
+        <div class="progress-bar-inner" style="width: 25%"></div>
+      </div>
+    `;
+    
+    try {
+      const res = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ cardType })
+      });
+      
+      const data = await res.json();
+      
+      // Update progress
+      syncStatusEl.querySelector('.progress-bar-inner').style.width = '100%';
+      
+      if (res.ok) {
+        // Success response
+        const summary = data.summary;
+        let statusHtml = `
+          <div class="success">
+            <strong>Sheet sync complete!</strong><br>
+            Processed ${summary.totalRows} rows<br>
+            Successfully imported: ${summary.importedCount}<br>
+            Errors: ${summary.errorCount}
+          </div>
+        `;
+        
+        // Show errors if any
+        if (summary.errorCount > 0 && summary.errors.length > 0) {
+          statusHtml += `
+            <div class="sync-errors">
+              <strong>Error details:</strong><br>
+              ${summary.errors.map(err => `- ${err}`).join('<br>')}
+              ${summary.errorCount > summary.errors.length ? 
+                `<br>...and ${summary.errorCount - summary.errors.length} more errors` : ''}
+            </div>
+          `;
+        }
+        
+        syncStatusEl.innerHTML = statusHtml;
+        
+        // Refresh the game data to update timestamps
+        refreshGameData();
+      } else {
+        // Error response
+        syncStatusEl.innerHTML = `<div class="error">Sync failed: ${data.error}</div>`;
+      }
+    } catch (err) {
+      console.error("Error syncing sheet:", err);
+      syncStatusEl.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+    } finally {
+      // Re-enable the button
+      syncBtn.disabled = false;
+      syncBtn.textContent = "Refresh Data";
+    }
+  });
+  
+  // Helper function to refresh game data
+  function refreshGameData() {
+    fetch(`${API_URL}/api/games/${gameId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      // Update sheet mappings
+      if (data.sheetMappings && data.sheetMappings.length > 0) {
+        const mappingsList = document.querySelector(".sheet-mappings-list");
+        const syncSelector = document.getElementById("syncSheetType");
+        
+        if (mappingsList) {
+          // Update mappings list
+          mappingsList.innerHTML = data.sheetMappings.map(mapping => `
+            <div class="sheet-mapping">
+              <strong>${mapping.card_type}:</strong> 
+              <span class="sheet-url">${mapping.sheet_url}</span>
+              <span class="last-refreshed">
+                ${mapping.last_refreshed_at ? 
+                  `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
+                  'Not yet refreshed'}
+              </span>
+            </div>
+          `).join('');
+          
+          // Update sync selector
+          const currentSelection = syncSelector.value;
+          syncSelector.innerHTML = '<option value="">Select card type to sync</option>';
+          
+          data.sheetMappings.forEach(mapping => {
+            const selected = mapping.card_type === currentSelection ? 'selected' : '';
+            syncSelector.innerHTML += `<option value="${mapping.card_type}" ${selected}>${mapping.card_type}</option>`;
+          });
+          
+          // Enable/disable sync button
+          document.getElementById('syncSheetBtn').disabled = !syncSelector.value;
+        }
+      }
+    })
+    .catch(err => {
+      console.error("Error refreshing game data:", err);
+    });
+  }
   
 

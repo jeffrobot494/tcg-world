@@ -382,3 +382,76 @@ input:checked + .toggle-slider:before {
   display: block;
   margin-top: 5px;
 }
+
+/* Sheet sync styles */
+.sheet-mappings h4 {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 1em;
+  color: #555;
+}
+
+.sheet-mappings-list {
+  margin-bottom: 12px;
+}
+
+.sheet-actions {
+  padding: 10px;
+  background-color: #f0f8ff;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.sync-selector {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.sync-btn {
+  background-color: #4CAF50;
+}
+
+.sync-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.sync-status {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.sync-status .error {
+  color: #f44336;
+}
+
+.sync-status .success {
+  color: #4CAF50;
+}
+
+.sync-errors {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #fff0f0;
+  border-radius: 4px;
+  border-left: 3px solid #f44336;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background-color: #4CAF50;
+  width: 0;
+  transition: width 0.3s ease;
+}

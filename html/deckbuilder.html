@@ -8,11 +8,13 @@
 </head>
 <body>
   <h1>Deck Builder</h1>
-  <p>Game ID: <span id="gameId">5</span></p>
+  <p>Game ID: <span id="gameId"></span></p>
   <div id="cardContainer" class="card-grid"></div>
 
   <script>
-    const gameId = 5; // Hard-coded for now
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('gameId') || 5; // Fallback to 5 if no gameId in URL
+    document.getElementById('gameId').textContent = gameId;
     const BACKEND_URL = 'https://tcg-world-backend-production.up.railway.app';
 
     // Fetch cards for the specified game

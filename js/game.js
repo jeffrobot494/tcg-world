@@ -12,6 +12,12 @@ fetch(`https://tcg-world-backend-production.up.railway.app/api/games/${gameId}`,
   .then(data => {
     document.getElementById("gameName").innerText = data.gameName;
     document.getElementById("cardCount").innerText = `Cards: ${data.cardCount}`;
+    
+    // Update deckbuilder link with the current game ID
+    const deckbuilderLink = document.getElementById("deckbuilderLink");
+    if (deckbuilderLink) {
+      deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
+    }
   });
 
   document.getElementById("uploadBtn").addEventListener("click", async () => {

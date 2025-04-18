@@ -433,6 +433,16 @@ fetch(`${API_URL}/api/games/${gameId}`, {
           
           // Enable/disable sync button
           document.getElementById('syncSheetBtn').disabled = !syncSelector.value;
+          
+          // Re-attach change event listener
+          syncSelector.addEventListener('change', () => {
+            document.getElementById('syncSheetBtn').disabled = !syncSelector.value;
+          });
+          
+          // Re-attach change event listener
+          syncSelector.addEventListener('change', () => {
+            document.getElementById('syncSheetBtn').disabled = !syncSelector.value;
+          });
         }
       }
     })

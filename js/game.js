@@ -199,8 +199,8 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   .then(res => res.json())
   .then(data => {
     // Handle potentially missing data with default values
-    const gameName = data.gameName || 'Game';
-    const cardCount = data.cardCount || 0;
+    const gameName = data.name || 'Game';
+    const cardCount = data.card_count || 0;
     
     document.getElementById("gameName").innerText = gameName;
     document.getElementById("cardCount").innerText = `Cards: ${cardCount}`;
@@ -211,20 +211,20 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
     }
     
-    // Populate sheet mappings if available
-    if (data.sheetMappings && data.sheetMappings.length > 0) {
+    // Populate card types if available
+    if (data.card_types && data.card_types.length > 0) {
       const mappingsList = document.querySelector(".sheet-mappings-list");
       const syncSelector = document.getElementById("syncSheetType");
       
       if (mappingsList) {
         // Populate the mappings list
-        mappingsList.innerHTML = data.sheetMappings.map(mapping => `
+        mappingsList.innerHTML = data.card_types.map(type => `
           <div class="sheet-mapping">
-            <strong>${mapping.card_type}:</strong> 
-            <span class="sheet-url">${mapping.sheet_url}</span>
+            <strong>${type.name}:</strong> 
+            <span class="sheet-url">${type.sheet_url}</span>
             <span class="last-refreshed">
-              ${mapping.last_refreshed_at ? 
-                `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
+              ${type.last_refreshed_at ? 
+                `Last refreshed: ${new Date(type.last_refreshed_at).toLocaleString()}` : 
                 'Not yet refreshed'}
             </span>
           </div>
@@ -232,8 +232,8 @@ fetch(`${API_URL}/api/games/${gameId}`, {
         
         // Populate the sync selector dropdown
         syncSelector.innerHTML = '<option value="">Select card type to sync</option>';
-        data.sheetMappings.forEach(mapping => {
-          syncSelector.innerHTML += `<option value="${mapping.card_type}">${mapping.card_type}</option>`;
+        data.card_types.forEach(type => {
+          syncSelector.innerHTML += `<option value="${type.name}">${type.name}</option>`;
         });
         
         // Enable the sync button when a card type is selected
@@ -506,20 +506,20 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     })
     .then(res => res.json())
     .then(data => {
-      // Update sheet mappings
-      if (data.sheetMappings && data.sheetMappings.length > 0) {
+      // Update card types
+      if (data.card_types && data.card_types.length > 0) {
         const mappingsList = document.querySelector(".sheet-mappings-list");
         const syncSelector = document.getElementById("syncSheetType");
         
         if (mappingsList) {
           // Update mappings list
-          mappingsList.innerHTML = data.sheetMappings.map(mapping => `
+          mappingsList.innerHTML = data.card_types.map(type => `
             <div class="sheet-mapping">
-              <strong>${mapping.card_type}:</strong> 
-              <span class="sheet-url">${mapping.sheet_url}</span>
+              <strong>${type.name}:</strong> 
+              <span class="sheet-url">${type.sheet_url}</span>
               <span class="last-refreshed">
-                ${mapping.last_refreshed_at ? 
-                  `Last refreshed: ${new Date(mapping.last_refreshed_at).toLocaleString()}` : 
+                ${type.last_refreshed_at ? 
+                  `Last refreshed: ${new Date(type.last_refreshed_at).toLocaleString()}` : 
                   'Not yet refreshed'}
               </span>
             </div>
@@ -529,9 +529,9 @@ fetch(`${API_URL}/api/games/${gameId}`, {
           const currentSelection = syncSelector.value;
           syncSelector.innerHTML = '<option value="">Select card type to sync</option>';
           
-          data.sheetMappings.forEach(mapping => {
-            const selected = mapping.card_type === currentSelection ? 'selected' : '';
-            syncSelector.innerHTML += `<option value="${mapping.card_type}" ${selected}>${mapping.card_type}</option>`;
+          data.card_types.forEach(type => {
+            const selected = type.name === currentSelection ? 'selected' : '';
+            syncSelector.innerHTML += `<option value="${type.name}" ${selected}>${type.name}</option>`;
           });
           
           // Enable/disable sync button

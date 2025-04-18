@@ -23,11 +23,32 @@ fetch("https://tcg-world-backend-production.up.railway.app/api/games", {
 			gamesDiv.innerHTML = "<h3>Your Games</h3>";
 			
 			data.forEach(game => {
+				// Create a container for each game
+				const gameContainer = document.createElement("div");
+				
+				// Game link (same as before)
 				const link = document.createElement("a");
 				link.href = `game.html?gameId=${game.id}`;
 				link.innerText = game.name;
 				link.style.display = "block";
-				gamesDiv.appendChild(link);
+				gameContainer.appendChild(link);
+				
+				// Game details line
+				const details = document.createElement("div");
+				
+				// Format date if available
+				let dateText = "";
+				if (game.created_at) {
+					const date = new Date(game.created_at);
+					dateText = `Created: ${date.toLocaleDateString()} • `;
+				}
+				
+				// Add card count if available
+				const cardCount = typeof game.cardCount === 'number' ? game.cardCount : 0;
+				details.innerText = `${dateText}Cards: ${cardCount}`;
+				
+				gameContainer.appendChild(details);
+				gamesDiv.appendChild(gameContainer);
 			})
 		}
 	});

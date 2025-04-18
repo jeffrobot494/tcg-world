@@ -43,10 +43,10 @@ tabButtons.forEach(button => {
 });
 
 // Function to render the card table
-function renderCardTable(cards) {
+function renderCardTable(images) {
   const tableBody = document.querySelector('#cardTable tbody');
   
-  if (!cards || cards.length === 0) {
+  if (!images || images.length === 0) {
     tableBody.innerHTML = `
       <tr>
         <td colspan="4" style="text-align: center; padding: 30px;">
@@ -57,15 +57,15 @@ function renderCardTable(cards) {
     return;
   }
   
-  tableBody.innerHTML = cards.map(card => `
-    <tr data-card-id="${card.id}">
+  tableBody.innerHTML = images.map(img => `
+    <tr data-card-id="${img.id}">
       <td>
-        <img src="${card.image_url}" alt="${card.name}" class="card-image-thumbnail">
+        <img src="${img.cloudinary_url}" alt="${img.file_name}" class="card-image-thumbnail">
       </td>
-      <td>${card.name}</td>
+      <td>${img.file_name}</td>
       <td>
         <label class="visibility-toggle">
-          <input type="checkbox" ${card.visible ? 'checked' : ''}>
+          <input type="checkbox" ${img.visible ? 'checked' : ''}>
           <span class="toggle-slider"></span>
         </label>
       </td>
@@ -89,20 +89,17 @@ fetch(`${API_URL}/api/games/${gameId}`, {
 })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("gameName").innerText = data.gameName;
-    document.getElementById("cardCount").innerText = `Cards: ${data.cardCount}`;
+    // Handle potentially missing data with default values
+    const gameName = data.gameName || 'Game';
+    const cardCount = data.cardCount || 0;
+    
+    document.getElementById("gameName").innerText = gameName;
+    document.getElementById("cardCount").innerText = `Cards: ${cardCount}`;
     
     // Update deckbuilder link with the current game ID
     const deckbuilderLink = document.getElementById("deckbuilderLink");
     if (deckbuilderLink) {
       deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
-    }
-    
-    // Set sheet URL if available (legacy)
-    if (data.sheetUrl) {
-      document.getElementById("sheetUrl").value = data.sheetUrl;
-      document.getElementById("sheetStatus").innerText = "Sheet currently linked";
-      document.getElementById("sheetStatus").style.color = "green";
     }
     
     // Populate sheet mappings if available
@@ -137,32 +134,16 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       }
     }
     
-    // Use the newer images endpoint if available
-    try {
-      return fetch(`${API_URL}/api/games/${gameId}/images`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      // Fall back to the old cards endpoint
-      return fetch(`${API_URL}/api/games/${gameId}/cards`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
+    // Fetch images
+    return fetch(`${API_URL}/api/games/${gameId}/images`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
   })
   .then(res => res.json())
   .then(images => {
-    // Convert image data to card format for the table
-    const cards = images.map(img => ({
-      id: img.id,
-      name: img.file_name || img.name,
-      image_url: img.cloudinary_url || img.image_url
-    }));
-    
-    renderCardTable(cards);
+    renderCardTable(images);
   })
   .catch(err => {
     console.error("Error fetching game data:", err);

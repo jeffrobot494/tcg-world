@@ -188,7 +188,7 @@ function showNotification(message, type = 'info') {
     }, 300);
   }, 3000);
 }
-}
+
 
 // Fetch game data
 fetch(`${API_URL}/api/games/${gameId}`, {

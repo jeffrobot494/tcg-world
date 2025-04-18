@@ -237,12 +237,8 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       // Update card count display
       document.getElementById("cardCount").innerText = `Cards: ${cards.length}`;
       
-      if (uploadedCount > 0) {
-        // Close modal after successful upload
-        setTimeout(() => {
-          modal.style.display = 'none';
-        }, 1500);
-      }
+      // No longer auto-closing modal after upload
+      // User will need to click outside or the X to close it
     });
   });
   
@@ -299,10 +295,8 @@ fetch(`${API_URL}/api/games/${gameId}`, {
         // Refresh the game data to show new sheet mappings
         refreshGameData();
         
-        // Close modal after successful link
-        setTimeout(() => {
-          modal.style.display = 'none';
-        }, 1500);
+        // No longer auto-closing modal after linking sheet
+        // User will need to click outside or the X to close it
       } else {
         statusEl.innerText = `Failed to link sheet: ${data.error}`;
         statusEl.style.color = "red";

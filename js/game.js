@@ -243,16 +243,16 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       }
     }
     
-    // Fetch images
-    return fetch(`${API_URL}/api/games/${gameId}/images`, {
+    // Fetch cards
+    return fetch(`${API_URL}/api/games/${gameId}/cards`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
   })
   .then(res => res.json())
-  .then(images => {
-    renderCardTable(images);
+  .then(cards => {
+    renderCardTable(cards);
   })
   .catch(err => {
     console.error("Error fetching game data:", err);
@@ -300,7 +300,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
             Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({
-            name: file.name,
+            display_name: file.name,
             imageUrl: imageUrl
           })
         });

@@ -58,7 +58,7 @@ function renderCardTable(images) {
   }
   
   tableBody.innerHTML = images.map(img => `
-    <tr data-card-id="${img.id}">
+    <tr data-card-id="${img.id}" data-file-name="${img.file_name}">
       <td>
         <img src="${img.cloudinary_url}" alt="${img.file_name}" class="card-image-thumbnail">
       </td>
@@ -79,6 +79,115 @@ function renderCardTable(images) {
       </td>
     </tr>
   `).join('');
+  
+  // Add event listeners for delete buttons
+  document.querySelectorAll('.delete-card').forEach(button => {
+    button.addEventListener('click', handleDeleteCard);
+  });
+}
+
+// Function to handle card deletion
+async function handleDeleteCard(event) {
+  // Find the card row
+  const cardRow = event.target.closest('tr');
+  const cardId = cardRow.dataset.cardId;
+  const fileName = cardRow.dataset.fileName;
+  
+  // Ask for confirmation
+  if (!confirm(`Are you sure you want to delete the card "${fileName}"?`)) {
+    return; // User cancelled
+  }
+  
+  try {
+    // Send delete request to the backend
+    const response = await fetch(`${API_URL}/api/games/${gameId}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      // Remove the row from the table
+      cardRow.remove();
+      
+      // Update card count
+      const cardCountEl = document.getElementById('cardCount');
+      const currentCount = parseInt(cardCountEl.textContent.match(/\d+/)[0] || '0');
+      cardCountEl.textContent = `Cards: ${Math.max(0, currentCount - 1)}`;
+      
+      // Show success message
+      showNotification('Card deleted successfully', 'success');
+    } else {
+      throw new Error(data.error || 'Failed to delete card');
+    }
+  } catch (error) {
+    console.error('Error deleting card:', error);
+    showNotification(`Error: ${error.message}`, 'error');
+  }
+}
+
+// Function to show notifications
+function showNotification(message, type = 'info') {
+  // Create notification element if it doesn't exist
+  let notificationEl = document.getElementById('notification');
+  if (!notificationEl) {
+    notificationEl = document.createElement('div');
+    notificationEl.id = 'notification';
+    notificationEl.className = 'notification';
+    document.body.appendChild(notificationEl);
+    
+    // Add styles if not already in CSS
+    if (!document.querySelector('style#notification-styles')) {
+      const style = document.createElement('style');
+      style.id = 'notification-styles';
+      style.textContent = `
+        .notification {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 10px 20px;
+          border-radius: 4px;
+          color: white;
+          font-weight: bold;
+          opacity: 0;
+          transition: opacity 0.3s;
+          z-index: 1000;
+        }
+        .notification.show {
+          opacity: 1;
+        }
+        .notification.info {
+          background-color: #2196F3;
+        }
+        .notification.success {
+          background-color: #4CAF50;
+        }
+        .notification.error {
+          background-color: #F44336;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  // Set message and type
+  notificationEl.textContent = message;
+  notificationEl.className = `notification ${type}`;
+  
+  // Show notification
+  setTimeout(() => notificationEl.classList.add('show'), 10);
+  
+  // Hide after 3 seconds
+  setTimeout(() => {
+    notificationEl.classList.remove('show');
+    setTimeout(() => {
+      notificationEl.textContent = '';
+    }, 300);
+  }, 3000);
+}
 }
 
 // Fetch game data

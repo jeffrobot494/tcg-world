@@ -31,6 +31,8 @@ fetch("https://tcg-world-backend-production.up.railway.app/api/games", {
 			})
 		}
 	});
+		}
+	});
 
 document.getElementById('createGameBtn').addEventListener('click', async () => {
 	const token = localStorage.getItem('token');

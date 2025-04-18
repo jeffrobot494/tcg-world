@@ -43,10 +43,10 @@ tabButtons.forEach(button => {
 });
 
 // Function to render the card table
-function renderCardTable(images) {
+function renderCardTable(cards) {
   const tableBody = document.querySelector('#cardTable tbody');
   
-  if (!images || images.length === 0) {
+  if (!cards || cards.length === 0) {
     tableBody.innerHTML = `
       <tr>
         <td colspan="4" style="text-align: center; padding: 30px;">
@@ -57,15 +57,15 @@ function renderCardTable(images) {
     return;
   }
   
-  tableBody.innerHTML = images.map(img => `
-    <tr data-card-id="${img.id}" data-file-name="${img.file_name}">
+  tableBody.innerHTML = cards.map(card => `
+    <tr data-card-id="${card.id}" data-file-name="${card.file_name}">
       <td>
-        <img src="${img.cloudinary_url}" alt="${img.file_name}" class="card-image-thumbnail">
+        <img src="${card.image_url}" alt="${card.display_name || card.file_name}" class="card-image-thumbnail">
       </td>
-      <td>${img.file_name}</td>
+      <td>${card.display_name || card.file_name}</td>
       <td>
         <label class="visibility-toggle">
-          <input type="checkbox" ${img.visible ? 'checked' : ''}>
+          <input type="checkbox" ${card.visible ? 'checked' : ''}>
           <span class="toggle-slider"></span>
         </label>
       </td>

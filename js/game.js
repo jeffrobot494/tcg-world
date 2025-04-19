@@ -62,7 +62,8 @@ function renderCardTable(cards) {
       <td>
         <img src="${card.image_url}" alt="${card.display_name || card.file_name}" class="card-image-thumbnail">
       </td>
-      <td>${card.display_name || card.file_name}</td>
+      <td>${card.display_name}</td>
+      <td>${card.file_name}</td>
       <td>
         <label class="visibility-toggle">
           <input type="checkbox" ${card.visible ? 'checked' : ''}>

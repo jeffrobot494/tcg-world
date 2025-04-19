@@ -166,7 +166,7 @@ p {
 
 .action-link {
   background-color: #4285f4;
-  color: white;
+  color: white !important;
   border: none;
   padding: 8px 15px;
   border-radius: 4px;

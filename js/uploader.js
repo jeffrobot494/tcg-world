@@ -17,7 +17,13 @@ const selectFolderBtn = document.getElementById('selectFolderBtn');
 const uploadStatus = document.getElementById('uploadStatus');
 const gameNameElement = document.getElementById('gameName');
 const gameIdElement = document.getElementById('gameId');
+const backLink = document.getElementById('backLink');
 gameIdElement.textContent = gameId;
+
+// Update the Back to Game link to include the game ID
+if (backLink) {
+    backLink.href = `game.html?gameId=${gameId}`;
+}
 
 // Fetch game details
 async function fetchGameDetails() {

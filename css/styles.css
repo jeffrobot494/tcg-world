@@ -203,6 +203,13 @@ p {
   border-bottom: 1px solid #f1f1f1;
 }
 
+/* Actions column - keep buttons horizontal */
+.card-table th:last-child,
+.card-table td:last-child {
+  white-space: nowrap;
+  min-width: 100px;
+}
+
 .card-table th {
   background-color: #f8f8f8;
   font-weight: bold;
@@ -352,6 +359,7 @@ input:checked + .toggle-slider:before {
   cursor: pointer;
   font-size: 16px;
   margin: 0 5px;
+  display: inline-block; /* Keep icons horizontal */
   padding: 5px;
 }
 

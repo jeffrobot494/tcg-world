@@ -49,7 +49,7 @@ function renderCardTable(cards) {
   if (!cards || cards.length === 0) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="4" style="text-align: center; padding: 30px;">
+        <td colspan="5" style="text-align: center; padding: 30px;">
           No cards yet. Click the "Add Cards" button to get started.
         </td>
       </tr>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Image Uploader</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/uploader.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Card Image Uploader</h1>
+        <div id="userInfo">
+            <span id="email"></span>
+            <a href="dashboard.html" class="nav-link">Back to Dashboard</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="game-details">
+            <h2 id="gameName">Loading game...</h2>
+            <div id="gameId" style="display: none;"></div>
+        </div>
+
+        <div class="uploader-container">
+            <div class="uploader-instructions">
+                <h3>Upload Card Images</h3>
+                <p>Select a folder containing card images (.jpg, .png). Each image will be uploaded and associated with this game.</p>
+                <p>The file names will be used as identifiers, so make sure they match your spreadsheet data.</p>
+            </div>
+
+            <div class="uploader-controls">
+                <button id="selectFolderBtn" class="primary-button">
+                    <i class="fas fa-folder-open"></i> Select Folder
+                </button>
+                <div id="uploadStatus" class="upload-status"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/uploader.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+/* Card Uploader Styles */
+.uploader-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.uploader-instructions {
+    margin-bottom: 20px;
+}
+
+.uploader-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.upload-status {
+    flex: 1;
+    color: #666;
+}
+
+.primary-button {
+    background: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.primary-button:hover {
+    background: #3b78e7;
+}
+
+.primary-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -211,6 +211,12 @@ fetch(`${API_URL}/api/games/${gameId}`, {
       deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
     }
     
+    // Update uploader link with the current game ID
+    const uploaderLink = document.getElementById("uploaderLink");
+    if (uploaderLink) {
+      uploaderLink.href = `uploader.html?gameId=${gameId}`;
+    }
+    
     // Populate card types if available
     if (data.card_types && data.card_types.length > 0) {
       const mappingsList = document.querySelector(".sheet-mappings-list");

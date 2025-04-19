@@ -164,6 +164,25 @@ p {
   gap: 5px;
 }
 
+.action-link {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+}
+
+.action-link:hover {
+  background-color: #3367d6;
+  text-decoration: none;
+}
+
 .card-table-container {
   background-color: white;
   border-radius: 8px;

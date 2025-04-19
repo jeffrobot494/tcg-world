@@ -223,6 +223,100 @@ async function uploadFiles() {
     
     // Re-enable upload button
     uploadImagesBtn.disabled = false;
+    
+    // Display results table if any images were uploaded successfully
+    if (successCount > 0) {
+        displayResults();
+    }
+}
+
+// Display uploaded images in the table
+function displayResults() {
+    const resultsContainer = document.querySelector('.results-container');
+    
+    // Show results container
+    resultsContainer.style.display = 'block';
+    
+    // Get the table body
+    const imagesTable = document.getElementById('imagesTable');
+    const tableBody = imagesTable.querySelector('tbody');
+    
+    // Clear existing rows
+    tableBody.innerHTML = '';
+    
+    // Check if we have images to display
+    if (uploadedImages.length === 0) {
+        const emptyRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.colSpan = 3;
+        emptyCell.textContent = 'No images uploaded yet.';
+        emptyCell.style.textAlign = 'center';
+        emptyCell.style.padding = '20px';
+        emptyRow.appendChild(emptyCell);
+        tableBody.appendChild(emptyRow);
+        return;
+    }
+    
+    // Sort images by file name
+    uploadedImages.sort((a, b) => a.file_name.localeCompare(b.file_name));
+    
+    // Add rows for each image
+    uploadedImages.forEach(image => {
+        const row = document.createElement('tr');
+        
+        // Thumbnail
+        const thumbnailCell = document.createElement('td');
+        const thumbnail = document.createElement('img');
+        thumbnail.src = image.image_url;
+        thumbnail.alt = image.file_name;
+        thumbnail.className = 'image-thumbnail';
+        thumbnailCell.appendChild(thumbnail);
+        
+        // File name with copy button
+        const fileNameCell = document.createElement('td');
+        const fileNameContainer = document.createElement('div');
+        fileNameContainer.className = 'image-url';
+        
+        const fileNameText = document.createElement('span');
+        fileNameText.className = 'url-text';
+        fileNameText.textContent = image.file_name;
+        
+        const copyBtn = document.createElement('button');
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+        copyBtn.className = 'copy-button';
+        copyBtn.title = 'Copy File Name';
+        copyBtn.onclick = function() {
+            navigator.clipboard.writeText(image.file_name)
+                .then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 1500);
+                });
+        };
+        
+        fileNameContainer.appendChild(fileNameText);
+        fileNameContainer.appendChild(copyBtn);
+        fileNameCell.appendChild(fileNameContainer);
+        
+        // Image URL
+        const urlCell = document.createElement('td');
+        const urlText = document.createElement('div');
+        urlText.className = 'url-text';
+        urlText.textContent = image.image_url;
+        urlCell.appendChild(urlText);
+        
+        // Add cells to row
+        row.appendChild(thumbnailCell);
+        row.appendChild(fileNameCell);
+        row.appendChild(urlCell);
+        
+        // Add row to table
+        tableBody.appendChild(row);
+    });
+    
+    // Scroll to results
+    resultsContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Initialize

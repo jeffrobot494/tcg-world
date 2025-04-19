@@ -589,8 +589,13 @@ async function syncGoogleSheet() {
         // Display sync results
         displaySyncResults(data.results);
         
-        // Refresh the linked sheets list
+        // Refresh the linked sheets list which will also update UI state
         fetchLinkedSheets();
+        
+        // After a short delay, hide the validation results to clean up the UI
+        setTimeout(() => {
+            document.getElementById('sheetValidationResults').style.display = 'none';
+        }, 5000);
         
     } catch (error) {
         console.error('Error syncing sheet data:', error);
@@ -700,55 +705,58 @@ async function fetchLinkedSheets() {
 // Display linked sheets in the UI
 function displayLinkedSheets() {
     const linkedSheetsList = document.getElementById('linkedSheetsList');
-    const emptyMessage = linkedSheetsList.querySelector('.empty-sheets-message');
+    const sheetInputForm = document.getElementById('sheetInputForm');
+    const addSheetControls = document.getElementById('addSheetControls');
     
     // Clear existing sheets
-    const existingEntries = linkedSheetsList.querySelectorAll('.sheet-entry');
-    existingEntries.forEach(entry => entry.remove());
+    linkedSheetsList.innerHTML = '';
     
-    // Show/hide empty message
+    // Handle UI state based on whether sheets exist
     if (linkedSheets.length === 0) {
-        if (emptyMessage) {
-            emptyMessage.style.display = 'block';
-        }
-        return;
-    } else if (emptyMessage) {
-        emptyMessage.style.display = 'none';
+        // No sheets - show input form, hide list and add button
+        linkedSheetsList.style.display = 'none';
+        sheetInputForm.style.display = 'block';
+        addSheetControls.style.display = 'none';
+    } else {
+        // Sheets exist - show list and add button, hide input form
+        linkedSheetsList.style.display = 'block';
+        sheetInputForm.style.display = 'none';
+        addSheetControls.style.display = 'block';
+        
+        // Create entries for each sheet
+        linkedSheets.forEach(sheet => {
+            const entry = document.createElement('div');
+            entry.className = 'sheet-entry';
+            entry.dataset.sheetId = sheet.id;
+            
+            // Create a shortened URL for display
+            const displayUrl = shortenUrl(sheet.sheet_url);
+            
+            entry.innerHTML = `
+                <div class="sheet-info">
+                    <div class="sheet-name">${sheet.name || 'Unnamed Sheet'}</div>
+                    <div class="sheet-url" title="${sheet.sheet_url}">${displayUrl}</div>
+                </div>
+                <div class="sheet-actions">
+                    <button class="sheet-refresh-btn" title="Refresh data from this sheet">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="sheet-remove-btn" title="Remove this sheet">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add event listeners
+            const refreshBtn = entry.querySelector('.sheet-refresh-btn');
+            refreshBtn.addEventListener('click', () => refreshSheet(sheet.id));
+            
+            const removeBtn = entry.querySelector('.sheet-remove-btn');
+            removeBtn.addEventListener('click', () => removeSheet(sheet.id));
+            
+            linkedSheetsList.appendChild(entry);
+        });
     }
-    
-    // Create entries for each sheet
-    linkedSheets.forEach(sheet => {
-        const entry = document.createElement('div');
-        entry.className = 'sheet-entry';
-        entry.dataset.sheetId = sheet.id;
-        
-        // Create a shortened URL for display
-        const displayUrl = shortenUrl(sheet.sheet_url);
-        
-        entry.innerHTML = `
-            <div class="sheet-info">
-                <div class="sheet-name">${sheet.name || 'Unnamed Sheet'}</div>
-                <div class="sheet-url" title="${sheet.sheet_url}">${displayUrl}</div>
-            </div>
-            <div class="sheet-actions">
-                <button class="sheet-refresh-btn" title="Refresh data from this sheet">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button class="sheet-remove-btn" title="Remove this sheet">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        `;
-        
-        // Add event listeners
-        const refreshBtn = entry.querySelector('.sheet-refresh-btn');
-        refreshBtn.addEventListener('click', () => refreshSheet(sheet.id));
-        
-        const removeBtn = entry.querySelector('.sheet-remove-btn');
-        removeBtn.addEventListener('click', () => removeSheet(sheet.id));
-        
-        linkedSheetsList.appendChild(entry);
-    });
 }
 
 // Shorten URL for display
@@ -807,6 +815,11 @@ async function refreshSheet(sheetId) {
         
         // Show sync results
         displaySyncResults(data.results);
+        
+        // After a short delay, hide the validation results to clean up the UI
+        setTimeout(() => {
+            document.getElementById('sheetValidationResults').style.display = 'none';
+        }, 5000);
     } catch (error) {
         console.error('Error refreshing sheet:', error);
         
@@ -872,6 +885,10 @@ function addNewSheetEntry() {
     
     // Hide validation results
     document.getElementById('sheetValidationResults').style.display = 'none';
+    
+    // Show input form, hide add button
+    document.getElementById('sheetInputForm').style.display = 'block';
+    document.getElementById('addSheetControls').style.display = 'none';
 }
 
 // Initialize

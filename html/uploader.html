@@ -41,42 +41,36 @@
             </div>
         </div>
 
-        <!-- Linked Google Sheets Section -->
-        <div class="uploader-container linked-sheets-section">
-            <div class="uploader-instructions">
-                <h3>Linked Google Sheets</h3>
-                <p>Google Sheets that you've linked to this game. Click the refresh button to update card data from the sheet.</p>
-            </div>
-            
-            <div id="linkedSheetsList" class="linked-sheets-list">
-                <!-- Linked sheets will be displayed here -->
-                <div class="empty-sheets-message" style="display: none;">
-                    No sheets linked yet. Add one below.
-                </div>
-            </div>
-            
-            <div class="add-sheet-controls">
-                <button id="addSheetBtn" class="secondary-button">
-                    <i class="fas fa-plus"></i> Add Sheet
-                </button>
-            </div>
-        </div>
-
         <!-- Advanced section for Google Sheets integration -->
         <div class="uploader-container advanced-section">
             <div class="uploader-instructions">
-                <h3>Advanced - Sync Data from Google Sheets</h3>
+                <h3>Advanced - Sync Card Data from Google Sheets</h3>
                 <p>Link a Google Sheet containing your card data. The sheet must have a column named "file_name" that matches your uploaded image filenames.</p>
                 <p>Your sheet must be shared with <strong>"Anyone with the link can view"</strong> permissions.</p>
             </div>
 
-            <div class="uploader-controls sheet-controls">
-                <input type="text" id="sheetNameInput" placeholder="Sheet Name (optional)" class="sheet-name-input">
-                <input type="text" id="sheetUrlInput" placeholder="Paste your Google Sheet URL here" class="sheet-url-input">
-                <button id="validateSheetBtn" class="primary-button">
-                    <i class="fas fa-check-circle"></i> Submit
+            <!-- Linked sheets list - shown only when sheets exist -->
+            <div id="linkedSheetsList" class="linked-sheets-list">
+                <!-- Linked sheets will be displayed here dynamically -->
+            </div>
+
+            <!-- Sheet input form - shown conditionally -->
+            <div id="sheetInputForm" class="sheet-input-form">
+                <div class="uploader-controls sheet-controls">
+                    <input type="text" id="sheetNameInput" placeholder="Sheet Name (optional)" class="sheet-name-input">
+                    <input type="text" id="sheetUrlInput" placeholder="Paste your Google Sheet URL here" class="sheet-url-input">
+                    <button id="validateSheetBtn" class="primary-button">
+                        <i class="fas fa-check-circle"></i> Submit
+                    </button>
+                    <div id="sheetStatus" class="upload-status"></div>
+                </div>
+            </div>
+
+            <!-- Add sheet button - shown only when sheets exist and input form is hidden -->
+            <div id="addSheetControls" class="add-sheet-controls" style="display: none;">
+                <button id="addSheetBtn" class="secondary-button">
+                    <i class="fas fa-plus"></i> Add Sheet
                 </button>
-                <div id="sheetStatus" class="upload-status"></div>
             </div>
 
             <!-- Sheet validation results -->

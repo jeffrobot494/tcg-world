@@ -50,8 +50,8 @@
       
       container.innerHTML = cards.map(card => `
         <div class="card">
-          <img class="card-image" src="${card.cloudinary_url}" alt="${card.file_name}">
-          <p>${card.file_name}</p>
+          <img class="card-image" src="${card.image_url}" alt="${card.file_name}">
+          <p>${card.display_name || card.file_name}</p>
         </div>
       `).join('');
     }

@@ -500,6 +500,101 @@ function displaySheetValidation(validation) {
     resultsContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Sync Google Sheet data to cards
+async function syncGoogleSheet() {
+    const syncStatus = document.getElementById('syncStatus');
+    const submitBtn = document.getElementById('submitSheetBtn');
+    const sheetUrl = document.getElementById('sheetUrlInput').value.trim();
+    
+    if (!sheetUrl) {
+        syncStatus.textContent = 'Missing sheet URL. Please validate a sheet first.';
+        return;
+    }
+    
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    syncStatus.textContent = 'Syncing data from Google Sheet...';
+    
+    try {
+        const response = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ 
+                sheetUrl,
+                cardType: '' // Optional - could add a field for this
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to sync sheet data');
+        }
+        
+        // Update status
+        syncStatus.textContent = 'Sheet data synchronized successfully!';
+        
+        // Display sync results
+        displaySyncResults(data.results);
+        
+    } catch (error) {
+        console.error('Error syncing sheet data:', error);
+        syncStatus.textContent = error.message || 'Error syncing sheet data';
+    } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+    }
+}
+
+// Display sync results
+function displaySyncResults(results) {
+    const syncResultsDiv = document.getElementById('syncResults');
+    const syncResultsContent = document.getElementById('syncResultsContent');
+    
+    // Show the results container
+    syncResultsDiv.style.display = 'block';
+    
+    // Create summary stats
+    const summaryHTML = `
+        <div class="sync-summary">
+            <div class="sync-stat">
+                <div class="sync-stat-label">Total Rows</div>
+                <div class="sync-stat-value">${results.total}</div>
+            </div>
+            <div class="sync-stat">
+                <div class="sync-stat-label">Successful</div>
+                <div class="sync-stat-value success">${results.success}</div>
+            </div>
+            <div class="sync-stat">
+                <div class="sync-stat-label">Skipped</div>
+                <div class="sync-stat-value skipped">${results.skipped}</div>
+            </div>
+        </div>
+    `;
+    
+    // Add errors list if there are any
+    let errorsHTML = '';
+    if (results.errors && results.errors.length > 0) {
+        errorsHTML = `
+            <div class="sync-errors">
+                <h5>Errors (${results.errors.length})</h5>
+                <ul>
+                    ${results.errors.map(error => `<li>${error}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Update content
+    syncResultsContent.innerHTML = summaryHTML + errorsHTML;
+    
+    // Scroll to results
+    syncResultsDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameDetails();
@@ -515,5 +610,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const validateSheetBtn = document.getElementById('validateSheetBtn');
     if (validateSheetBtn) {
         validateSheetBtn.addEventListener('click', validateGoogleSheet);
+    }
+    
+    // Add event listener for sheet sync
+    const submitSheetBtn = document.getElementById('submitSheetBtn');
+    if (submitSheetBtn) {
+        submitSheetBtn.addEventListener('click', syncGoogleSheet);
     }
 });

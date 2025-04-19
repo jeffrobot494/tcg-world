@@ -90,6 +90,13 @@
                     </table>
                 </div>
                 
+                <div class="sync-actions">
+                    <button id="submitSheetBtn" class="primary-button">
+                        <i class="fas fa-check"></i> Submit
+                    </button>
+                    <div id="syncStatus" class="sync-status"></div>
+                </div>
+                
                 <h4>Sample Data</h4>
                 <div class="table-container">
                     <table id="sampleDataTable">
@@ -102,6 +109,11 @@
                             <!-- Sample data rows will be added here -->
                         </tbody>
                     </table>
+                </div>
+                
+                <div id="syncResults" class="sync-results" style="display: none;">
+                    <h4>Sync Results</h4>
+                    <div id="syncResultsContent"></div>
                 </div>
             </div>
         </div>

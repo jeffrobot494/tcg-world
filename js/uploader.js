@@ -551,8 +551,29 @@ async function syncGoogleSheet() {
 
 // Display sync results
 function displaySyncResults(results) {
+    // Get references to the validation elements
+    const validationSummary = document.querySelector('.validation-summary');
+    const columnsTable = document.getElementById('sheetColumnsTable').parentNode;
+    const sampleDataHeader = document.querySelector('.sheet-validation-results h4:nth-of-type(2)');
+    const sampleDataTable = document.getElementById('sampleDataTable').parentNode;
+    const syncActions = document.querySelector('.sync-actions');
+    
+    // Hide all the validation elements
+    if (validationSummary) validationSummary.style.display = 'none';
+    if (columnsTable) columnsTable.style.display = 'none';
+    if (sampleDataHeader) sampleDataHeader.style.display = 'none';
+    if (sampleDataTable) sampleDataTable.style.display = 'none';
+    if (syncActions) syncActions.style.display = 'none';
+    
+    // Show only the sync results
     const syncResultsDiv = document.getElementById('syncResults');
     const syncResultsContent = document.getElementById('syncResultsContent');
+    
+    // Update the main header to show completion
+    const resultsHeader = document.querySelector('.sheet-validation-results h4:first-of-type');
+    if (resultsHeader) {
+        resultsHeader.textContent = 'Sheet Data Synchronized';
+    }
     
     // Show the results container
     syncResultsDiv.style.display = 'block';
@@ -588,8 +609,17 @@ function displaySyncResults(results) {
         `;
     }
     
+    // Add a button to start over
+    const startOverHTML = `
+        <div class="sync-actions" style="margin-top: 20px;">
+            <button onclick="window.location.reload()" class="primary-button">
+                <i class="fas fa-redo"></i> Start Over
+            </button>
+        </div>
+    `;
+    
     // Update content
-    syncResultsContent.innerHTML = summaryHTML + errorsHTML;
+    syncResultsContent.innerHTML = summaryHTML + errorsHTML + startOverHTML;
     
     // Scroll to results
     syncResultsDiv.scrollIntoView({ behavior: 'smooth' });

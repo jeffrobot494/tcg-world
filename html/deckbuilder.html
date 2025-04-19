@@ -44,12 +44,29 @@
         return;
       }
       
-      container.innerHTML = cards.map(card => `
-        <div class="card">
-          <img class="card-image" src="${card.image_url}" alt="${card.file_name}">
-          <p>${card.display_name || card.file_name}</p>
-        </div>
-      `).join('');
+      container.innerHTML = cards.map(card => {
+        // Format the card data for display (if it exists)
+        let cardDataHtml = '';
+        if (card.data && Object.keys(card.data).length > 0) {
+          const dataItems = Object.entries(card.data).map(([key, value]) => {
+            return `<span class="data-item"><strong>${key}:</strong> ${value}</span>`;
+          }).join('');
+          
+          cardDataHtml = `
+            <div class="card-data">
+              ${dataItems}
+            </div>
+          `;
+        }
+        
+        return `
+          <div class="card">
+            <img class="card-image" src="${card.image_url}" alt="${card.file_name}">
+            <p class="card-name">${card.display_name || card.file_name}</p>
+            ${cardDataHtml}
+          </div>
+        `;
+      }).join('');
     }
 
     // Load cards immediately without checking for authentication

@@ -14,3 +14,29 @@
   width: 100%;
   height: auto;
 }
+
+.card-name {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* Debugging display for card data */
+.card-data {
+  background-color: #f8f9fa;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 5px;
+  font-size: 10px;
+  overflow-x: auto;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.data-item {
+  display: block;
+  margin: 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -17,14 +17,10 @@
     document.getElementById('gameId').textContent = gameId;
     const BACKEND_URL = 'https://tcg-world-backend-production.up.railway.app';
 
-    // Fetch cards for the specified game
+    // Fetch cards for the specified game - no authentication required
     async function loadCards() {
       try {
-        const response = await fetch(`${BACKEND_URL}/api/games/${gameId}/cards`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+        const response = await fetch(`${BACKEND_URL}/api/games/${gameId}/cards`);
         
         if (!response.ok) {
           throw new Error('Failed to load cards');
@@ -35,7 +31,7 @@
       } catch (error) {
         console.error('Error loading cards:', error);
         document.getElementById('cardContainer').innerHTML = 
-          '<p>Error loading cards. Please make sure you are logged in.</p>';
+          '<p>Error loading cards. Please try again later.</p>';
       }
     }
 
@@ -56,13 +52,8 @@
       `).join('');
     }
 
-    // Check for authentication
-    if (!localStorage.getItem('token')) {
-      document.getElementById('cardContainer').innerHTML = 
-        '<p>Please <a href="login.html">log in</a> to view cards.</p>';
-    } else {
-      loadCards();
-    }
+    // Load cards immediately without checking for authentication
+    loadCards();
   </script>
 </body>
 </html>

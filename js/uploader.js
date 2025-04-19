@@ -190,7 +190,7 @@ async function uploadFiles() {
                 },
                 body: JSON.stringify({
                     display_name: name,
-                    file_name: name,
+                    file_name: name.toLowerCase(), // Lowercase the filename for consistency
                     image_url: imageUrl
                 })
             });
@@ -201,9 +201,10 @@ async function uploadFiles() {
             
             const result = await response.json();
             
-            // Add to uploaded images array
+            // Add to uploaded images array with lowercase filename
             uploadedImages.push({
-                file_name: name,
+                file_name: name.toLowerCase(), // Store lowercase filename
+                original_name: name, // Store original name for display purposes
                 image_url: imageUrl,
                 path: path
             });
@@ -279,7 +280,13 @@ function displayResults() {
         
         const fileNameText = document.createElement('span');
         fileNameText.className = 'url-text';
-        fileNameText.textContent = image.file_name;
+        
+        // Show the lowercase filename, and the original name if different
+        if (image.original_name && image.original_name.toLowerCase() !== image.file_name) {
+            fileNameText.innerHTML = `${image.file_name} <small style="color:#999">(original: ${image.original_name})</small>`;
+        } else {
+            fileNameText.textContent = image.file_name;
+        }
         
         const copyBtn = document.createElement('button');
         copyBtn.innerHTML = '<i class="fas fa-copy"></i>';

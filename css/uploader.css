@@ -200,3 +200,23 @@
     background-color: #fce8e6;
     color: #c5221f;
 }
+
+/* Match summary styling */
+.match-summary {
+    margin: 15px 0;
+    padding: 12px;
+    background-color: #f1f3f4;
+    border-radius: 8px;
+    border-left: 4px solid #4285f4;
+}
+
+.match-summary p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Add pagination if needed for large datasets */
+#sampleDataTable {
+    max-height: 600px;
+    overflow-y: auto;
+}

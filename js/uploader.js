@@ -429,7 +429,21 @@ function displaySheetValidation(validation) {
         columnsBody.appendChild(row);
     });
     
-    // Display sample data
+    // Create match summary section
+    const matchSummaryDiv = document.createElement('div');
+    matchSummaryDiv.className = 'match-summary';
+    matchSummaryDiv.innerHTML = `
+        <p>Total records: <strong>${validation.match_summary.total}</strong></p>
+        <p>Matched with images: <strong>${validation.match_summary.matched}</strong></p>
+        <p>Unmatched (no image found): <strong>${validation.match_summary.unmatched}</strong></p>
+    `;
+    
+    // Find the sample data section
+    const sampleHeading = document.querySelector('.sheet-validation-results h4:last-of-type');
+    sampleHeading.textContent = 'All Records'; // Change heading from "Sample Data" to "All Records"
+    sampleHeading.parentNode.insertBefore(matchSummaryDiv, sampleHeading);
+    
+    // Display all data
     const sampleTable = document.getElementById('sampleDataTable');
     const sampleHeader = sampleTable.querySelector('thead tr');
     const sampleBody = sampleTable.querySelector('tbody');
@@ -448,13 +462,23 @@ function displaySheetValidation(validation) {
         sampleHeader.appendChild(th);
     });
     
-    // Add sample data rows
-    validation.sample_data.forEach(rowData => {
+    // Group data by match status (unmatched first, then matched)
+    const unmatchedRows = validation.all_data.filter(row => !row.has_match);
+    const matchedRows = validation.all_data.filter(row => row.has_match);
+    const groupedRows = [...unmatchedRows, ...matchedRows];
+    
+    // Add all data rows with unmatched rows highlighted
+    groupedRows.forEach(rowData => {
         const row = document.createElement('tr');
+        
+        // Apply special styling for unmatched rows
+        if (!rowData.has_match) {
+            row.style.backgroundColor = '#fef7e0'; // Light yellow background
+        }
         
         validation.columns.forEach((column, index) => {
             const cell = document.createElement('td');
-            cell.textContent = rowData[index] || '';
+            cell.textContent = rowData.values[index] || '';
             row.appendChild(cell);
         });
         

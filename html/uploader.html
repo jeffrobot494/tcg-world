@@ -41,6 +41,27 @@
             </div>
         </div>
 
+        <!-- Linked Google Sheets Section -->
+        <div class="uploader-container linked-sheets-section">
+            <div class="uploader-instructions">
+                <h3>Linked Google Sheets</h3>
+                <p>Google Sheets that you've linked to this game. Click the refresh button to update card data from the sheet.</p>
+            </div>
+            
+            <div id="linkedSheetsList" class="linked-sheets-list">
+                <!-- Linked sheets will be displayed here -->
+                <div class="empty-sheets-message" style="display: none;">
+                    No sheets linked yet. Add one below.
+                </div>
+            </div>
+            
+            <div class="add-sheet-controls">
+                <button id="addSheetBtn" class="secondary-button">
+                    <i class="fas fa-plus"></i> Add Sheet
+                </button>
+            </div>
+        </div>
+
         <!-- Advanced section for Google Sheets integration -->
         <div class="uploader-container advanced-section">
             <div class="uploader-instructions">
@@ -50,6 +71,7 @@
             </div>
 
             <div class="uploader-controls sheet-controls">
+                <input type="text" id="sheetNameInput" placeholder="Sheet Name (optional)" class="sheet-name-input">
                 <input type="text" id="sheetUrlInput" placeholder="Paste your Google Sheet URL here" class="sheet-url-input">
                 <button id="validateSheetBtn" class="primary-button">
                     <i class="fas fa-check-circle"></i> Submit
@@ -72,6 +94,10 @@
                     <div class="validation-stat">
                         <span id="fileNameCol"></span>
                         <label>File Name Column</label>
+                    </div>
+                    <div class="validation-stat">
+                        <span id="sheetName"></span>
+                        <label>Sheet Name</label>
                     </div>
                 </div>
                 

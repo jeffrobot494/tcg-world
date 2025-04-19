@@ -21,8 +21,9 @@ const gameIdElement = document.getElementById('gameId');
 const backLink = document.getElementById('backLink');
 gameIdElement.textContent = gameId;
 
-// Global variable for uploaded images
+// Global variables
 let uploadedImages = [];
+let linkedSheets = [];
 
 // Update the Back to Game link to include the game ID
 if (backLink) {
@@ -328,8 +329,10 @@ function displayResults() {
 
 // Google Sheet Validation
 async function validateGoogleSheet() {
+    const sheetNameInput = document.getElementById('sheetNameInput');
     const sheetUrlInput = document.getElementById('sheetUrlInput');
     const sheetStatus = document.getElementById('sheetStatus');
+    const sheetName = sheetNameInput.value.trim();
     const sheetUrl = sheetUrlInput.value.trim();
     
     if (!sheetUrl) {
@@ -364,6 +367,32 @@ async function validateGoogleSheet() {
         // Update status
         sheetStatus.textContent = 'Sheet validated successfully!';
         
+        // Try to extract sheet name if not provided
+        if (!sheetName) {
+            // Try to extract from URL title or path
+            try {
+                const urlObj = new URL(sheetUrl);
+                const pathParts = urlObj.pathname.split('/');
+                // Look for the part of the path after /d/ and before /edit
+                for (let i = 0; i < pathParts.length; i++) {
+                    if (pathParts[i] === 'd' && i < pathParts.length - 1) {
+                        // Use a more user-friendly name
+                        sheetNameInput.value = `Sheet ${pathParts[i+1].substring(0, 8)}`;
+                        break;
+                    }
+                }
+            } catch (e) {
+                // Just use a default name if URL parsing fails
+                sheetNameInput.value = 'Sheet';
+            }
+        }
+        
+        // Store the validated sheet info
+        window.validatedSheet = {
+            url: sheetUrl,
+            name: sheetNameInput.value
+        };
+        
         // Display validation results
         displaySheetValidation(data.validation);
         
@@ -382,6 +411,7 @@ function displaySheetValidation(validation) {
     document.getElementById('columnCount').textContent = validation.columns.length;
     document.getElementById('rowCount').textContent = validation.record_count;
     document.getElementById('fileNameCol').textContent = validation.columns[validation.file_name_column_index].name;
+    document.getElementById('sheetName').textContent = window.validatedSheet?.name || 'Unnamed';
     
     // Display columns table
     const columnsTable = document.getElementById('sheetColumnsTable');
@@ -504,9 +534,8 @@ function displaySheetValidation(validation) {
 async function syncGoogleSheet() {
     const syncStatus = document.getElementById('syncStatus');
     const submitBtn = document.getElementById('submitSheetBtn');
-    const sheetUrl = document.getElementById('sheetUrlInput').value.trim();
     
-    if (!sheetUrl) {
+    if (!window.validatedSheet || !window.validatedSheet.url) {
         syncStatus.textContent = 'Missing sheet URL. Please validate a sheet first.';
         return;
     }
@@ -516,6 +545,26 @@ async function syncGoogleSheet() {
     syncStatus.textContent = 'Syncing data from Google Sheet...';
     
     try {
+        // First, store the sheet in the database
+        const addSheetResponse = await fetch(`${API_URL}/api/games/${gameId}/sheets`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name: window.validatedSheet.name,
+                sheet_url: window.validatedSheet.url
+            })
+        });
+        
+        const sheetData = await addSheetResponse.json();
+        
+        if (!addSheetResponse.ok) {
+            throw new Error(sheetData.error || 'Failed to add sheet');
+        }
+        
+        // Then sync the data
         const response = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
             method: 'POST',
             headers: {
@@ -523,7 +572,7 @@ async function syncGoogleSheet() {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ 
-                sheetUrl,
+                sheetUrl: window.validatedSheet.url,
                 cardType: '' // Optional - could add a field for this
             })
         });
@@ -539,6 +588,9 @@ async function syncGoogleSheet() {
         
         // Display sync results
         displaySyncResults(data.results);
+        
+        // Refresh the linked sheets list
+        fetchLinkedSheets();
         
     } catch (error) {
         console.error('Error syncing sheet data:', error);
@@ -625,10 +677,208 @@ function displaySyncResults(results) {
     syncResultsDiv.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Fetch linked sheets for this game
+async function fetchLinkedSheets() {
+    try {
+        const response = await fetch(`${API_URL}/api/games/${gameId}/sheets`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch linked sheets');
+        }
+        
+        linkedSheets = await response.json();
+        displayLinkedSheets();
+    } catch (error) {
+        console.error('Error fetching linked sheets:', error);
+    }
+}
+
+// Display linked sheets in the UI
+function displayLinkedSheets() {
+    const linkedSheetsList = document.getElementById('linkedSheetsList');
+    const emptyMessage = linkedSheetsList.querySelector('.empty-sheets-message');
+    
+    // Clear existing sheets
+    const existingEntries = linkedSheetsList.querySelectorAll('.sheet-entry');
+    existingEntries.forEach(entry => entry.remove());
+    
+    // Show/hide empty message
+    if (linkedSheets.length === 0) {
+        if (emptyMessage) {
+            emptyMessage.style.display = 'block';
+        }
+        return;
+    } else if (emptyMessage) {
+        emptyMessage.style.display = 'none';
+    }
+    
+    // Create entries for each sheet
+    linkedSheets.forEach(sheet => {
+        const entry = document.createElement('div');
+        entry.className = 'sheet-entry';
+        entry.dataset.sheetId = sheet.id;
+        
+        // Create a shortened URL for display
+        const displayUrl = shortenUrl(sheet.sheet_url);
+        
+        entry.innerHTML = `
+            <div class="sheet-info">
+                <div class="sheet-name">${sheet.name || 'Unnamed Sheet'}</div>
+                <div class="sheet-url" title="${sheet.sheet_url}">${displayUrl}</div>
+            </div>
+            <div class="sheet-actions">
+                <button class="sheet-refresh-btn" title="Refresh data from this sheet">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="sheet-remove-btn" title="Remove this sheet">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners
+        const refreshBtn = entry.querySelector('.sheet-refresh-btn');
+        refreshBtn.addEventListener('click', () => refreshSheet(sheet.id));
+        
+        const removeBtn = entry.querySelector('.sheet-remove-btn');
+        removeBtn.addEventListener('click', () => removeSheet(sheet.id));
+        
+        linkedSheetsList.appendChild(entry);
+    });
+}
+
+// Shorten URL for display
+function shortenUrl(url) {
+    if (!url) return '';
+    
+    // Try to extract the document ID
+    const matches = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (matches && matches[1]) {
+        const documentId = matches[1];
+        return `...${documentId.substring(0, 8)}...`;
+    }
+    
+    // Fallback: truncate the URL
+    if (url.length > 30) {
+        return url.substring(0, 15) + '...' + url.substring(url.length - 10);
+    }
+    
+    return url;
+}
+
+// Refresh data from a specific sheet
+async function refreshSheet(sheetId) {
+    // Find the sheet entry in the UI
+    const sheetEntry = document.querySelector(`.sheet-entry[data-sheet-id="${sheetId}"]`);
+    if (!sheetEntry) return;
+    
+    // Show loading state
+    const refreshBtn = sheetEntry.querySelector('.sheet-refresh-btn');
+    const originalHTML = refreshBtn.innerHTML;
+    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    refreshBtn.disabled = true;
+    
+    try {
+        const response = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ sheetId })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to sync sheet');
+        }
+        
+        // Show success state briefly
+        refreshBtn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+            refreshBtn.innerHTML = originalHTML;
+            refreshBtn.disabled = false;
+        }, 2000);
+        
+        // Show sync results
+        displaySyncResults(data.results);
+    } catch (error) {
+        console.error('Error refreshing sheet:', error);
+        
+        // Show error state briefly
+        refreshBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+        setTimeout(() => {
+            refreshBtn.innerHTML = originalHTML;
+            refreshBtn.disabled = false;
+        }, 2000);
+        
+        // Show error message
+        alert(`Error syncing sheet: ${error.message}`);
+    }
+}
+
+// Remove a sheet
+async function removeSheet(sheetId) {
+    if (!confirm('Are you sure you want to remove this sheet? This will not delete any card data that has already been synced.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_URL}/api/games/${gameId}/sheets/${sheetId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.error || 'Failed to remove sheet');
+        }
+        
+        // Remove from UI
+        const sheetEntry = document.querySelector(`.sheet-entry[data-sheet-id="${sheetId}"]`);
+        if (sheetEntry) {
+            sheetEntry.remove();
+        }
+        
+        // Remove from local array
+        linkedSheets = linkedSheets.filter(sheet => sheet.id !== sheetId);
+        
+        // Show empty message if needed
+        if (linkedSheets.length === 0) {
+            const emptyMessage = document.querySelector('.empty-sheets-message');
+            if (emptyMessage) {
+                emptyMessage.style.display = 'block';
+            }
+        }
+    } catch (error) {
+        console.error('Error removing sheet:', error);
+        alert(`Error removing sheet: ${error.message}`);
+    }
+}
+
+// Add a new sheet input field
+function addNewSheetEntry() {
+    // Clear current inputs
+    document.getElementById('sheetNameInput').value = '';
+    document.getElementById('sheetUrlInput').value = '';
+    document.getElementById('sheetStatus').textContent = '';
+    
+    // Hide validation results
+    document.getElementById('sheetValidationResults').style.display = 'none';
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameDetails();
     fetchUserInfo();
+    fetchLinkedSheets(); // Add this line to load sheets
     
     // Add event listener for folder selection
     selectFolderBtn.addEventListener('click', selectFolder);
@@ -646,5 +896,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitSheetBtn = document.getElementById('submitSheetBtn');
     if (submitSheetBtn) {
         submitSheetBtn.addEventListener('click', syncGoogleSheet);
+    }
+    
+    // Add event listener for adding a new sheet
+    const addSheetBtn = document.getElementById('addSheetBtn');
+    if (addSheetBtn) {
+        addSheetBtn.addEventListener('click', addNewSheetEntry);
     }
 });

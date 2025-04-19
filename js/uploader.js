@@ -181,8 +181,8 @@ async function uploadFiles() {
             const cloudinaryData = await cloudinaryResponse.json();
             const imageUrl = cloudinaryData.secure_url;
             
-            // Then save to our backend
-            const response = await fetch(`${API_URL}/api/games/${gameId}/cards`, {
+            // Save to our backend using the upload-card endpoint
+            const response = await fetch(`${API_URL}/api/games/${gameId}/upload-card`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +190,8 @@ async function uploadFiles() {
                 },
                 body: JSON.stringify({
                     display_name: name,
-                    imageUrl: imageUrl
+                    file_name: name,
+                    image_url: imageUrl
                 })
             });
             

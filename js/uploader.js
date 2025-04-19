@@ -14,11 +14,15 @@ if (!gameId) {
 
 // DOM Elements
 const selectFolderBtn = document.getElementById('selectFolderBtn');
+const uploadImagesBtn = document.getElementById('uploadImagesBtn');
 const uploadStatus = document.getElementById('uploadStatus');
 const gameNameElement = document.getElementById('gameName');
 const gameIdElement = document.getElementById('gameId');
 const backLink = document.getElementById('backLink');
 gameIdElement.textContent = gameId;
+
+// Global variable for uploaded images
+let uploadedImages = [];
 
 // Update the Back to Game link to include the game ID
 if (backLink) {
@@ -114,6 +118,9 @@ async function processDirectory(dirHandle) {
     
     // Store the files in a global variable for step 2
     window.selectedImageFiles = imageFiles;
+    
+    // Enable upload button
+    uploadImagesBtn.disabled = false;
 }
 
 // Get user info
@@ -136,6 +143,87 @@ async function fetchUserInfo() {
     }
 }
 
+// Upload files to the server
+async function uploadFiles() {
+    if (!window.selectedImageFiles || window.selectedImageFiles.length === 0) {
+        uploadStatus.textContent = 'No images selected. Please select a folder first.';
+        return;
+    }
+    
+    const imageFiles = window.selectedImageFiles;
+    uploadStatus.textContent = `Uploading 0/${imageFiles.length} images...`;
+    uploadedImages = [];
+    
+    let successCount = 0;
+    let errorCount = 0;
+    
+    // Disable upload button during upload
+    uploadImagesBtn.disabled = true;
+    
+    for (let i = 0; i < imageFiles.length; i++) {
+        const {file, path, name} = imageFiles[i];
+        
+        try {
+            // Upload to Cloudinary first
+            const cloudinaryFormData = new FormData();
+            cloudinaryFormData.append('file', file);
+            cloudinaryFormData.append('upload_preset', 'TCG-World Unsigned');
+            
+            const cloudinaryResponse = await fetch('https://api.cloudinary.com/v1_1/dmfjx6e7z/image/upload', {
+                method: 'POST',
+                body: cloudinaryFormData
+            });
+            
+            if (!cloudinaryResponse.ok) {
+                throw new Error(`Failed to upload to Cloudinary: ${cloudinaryResponse.statusText}`);
+            }
+            
+            const cloudinaryData = await cloudinaryResponse.json();
+            const imageUrl = cloudinaryData.secure_url;
+            
+            // Then save to our backend
+            const response = await fetch(`${API_URL}/api/games/${gameId}/cards`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    display_name: name,
+                    imageUrl: imageUrl
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Failed to save card: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            // Add to uploaded images array
+            uploadedImages.push({
+                file_name: name,
+                image_url: imageUrl,
+                path: path
+            });
+            
+            successCount++;
+        } catch (error) {
+            console.error(`Error uploading ${name}:`, error);
+            errorCount++;
+        }
+        
+        // Update status
+        uploadStatus.textContent = `Uploading ${i + 1}/${imageFiles.length} images... (${successCount} succeeded, ${errorCount} failed)`;
+    }
+    
+    // Final status update
+    uploadStatus.textContent = `Upload complete. ${successCount} images uploaded successfully, ${errorCount} failed.`;
+    
+    // Re-enable upload button
+    uploadImagesBtn.disabled = false;
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameDetails();
@@ -143,4 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add event listener for folder selection
     selectFolderBtn.addEventListener('click', selectFolder);
+    
+    // Add event listener for image upload
+    uploadImagesBtn.addEventListener('click', uploadFiles);
 });

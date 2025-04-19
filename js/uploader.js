@@ -429,19 +429,30 @@ function displaySheetValidation(validation) {
         columnsBody.appendChild(row);
     });
     
-    // Create match summary section
-    const matchSummaryDiv = document.createElement('div');
-    matchSummaryDiv.className = 'match-summary';
-    matchSummaryDiv.innerHTML = `
-        <p>Total records: <strong>${validation.match_summary.total}</strong></p>
-        <p>Matched with images: <strong>${validation.match_summary.matched}</strong></p>
-        <p>Unmatched (no image found): <strong>${validation.match_summary.unmatched}</strong></p>
-    `;
-    
-    // Find the sample data section
+    // Find the sample data section and update heading
     const sampleHeading = document.querySelector('.sheet-validation-results h4:last-of-type');
     sampleHeading.textContent = 'All Records'; // Change heading from "Sample Data" to "All Records"
-    sampleHeading.parentNode.insertBefore(matchSummaryDiv, sampleHeading);
+    
+    // Look for existing match summary div to update or remove
+    let matchSummaryDiv = document.querySelector('.match-summary');
+    if (matchSummaryDiv) {
+        // If it exists, update its content
+        matchSummaryDiv.innerHTML = `
+            <p>Total records: <strong>${validation.match_summary.total}</strong></p>
+            <p>Matched with images: <strong>${validation.match_summary.matched}</strong></p>
+            <p>Unmatched (no image found): <strong>${validation.match_summary.unmatched}</strong></p>
+        `;
+    } else {
+        // If it doesn't exist yet, create it
+        matchSummaryDiv = document.createElement('div');
+        matchSummaryDiv.className = 'match-summary';
+        matchSummaryDiv.innerHTML = `
+            <p>Total records: <strong>${validation.match_summary.total}</strong></p>
+            <p>Matched with images: <strong>${validation.match_summary.matched}</strong></p>
+            <p>Unmatched (no image found): <strong>${validation.match_summary.unmatched}</strong></p>
+        `;
+        sampleHeading.parentNode.insertBefore(matchSummaryDiv, sampleHeading);
+    }
     
     // Display all data
     const sampleTable = document.getElementById('sampleDataTable');

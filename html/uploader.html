@@ -41,6 +41,71 @@
             </div>
         </div>
 
+        <!-- Advanced section for Google Sheets integration -->
+        <div class="uploader-container advanced-section">
+            <div class="uploader-instructions">
+                <h3>Advanced - Sync Data from Google Sheets</h3>
+                <p>Link a Google Sheet containing your card data. The sheet must have a column named "file_name" that matches your uploaded image filenames.</p>
+                <p>Your sheet must be shared with <strong>"Anyone with the link can view"</strong> permissions.</p>
+            </div>
+
+            <div class="uploader-controls sheet-controls">
+                <input type="text" id="sheetUrlInput" placeholder="Paste your Google Sheet URL here" class="sheet-url-input">
+                <button id="validateSheetBtn" class="primary-button">
+                    <i class="fas fa-check-circle"></i> Submit
+                </button>
+                <div id="sheetStatus" class="upload-status"></div>
+            </div>
+
+            <!-- Sheet validation results -->
+            <div id="sheetValidationResults" class="sheet-validation-results" style="display: none;">
+                <h4>Sheet Validation Results</h4>
+                <div class="validation-summary">
+                    <div class="validation-stat">
+                        <span id="columnCount">0</span>
+                        <label>Columns</label>
+                    </div>
+                    <div class="validation-stat">
+                        <span id="rowCount">0</span>
+                        <label>Rows</label>
+                    </div>
+                    <div class="validation-stat">
+                        <span id="fileNameCol"></span>
+                        <label>File Name Column</label>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="sheetColumnsTable">
+                        <thead>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Data Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sheet columns will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4>Sample Data</h4>
+                <div class="table-container">
+                    <table id="sampleDataTable">
+                        <thead>
+                            <tr>
+                                <!-- Sample data headers will be added here -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample data rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Results container for uploaded images -->
         <div class="results-container" style="display: none;">
             <h3>Uploaded Images</h3>

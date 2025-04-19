@@ -326,6 +326,145 @@ function displayResults() {
     resultsContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Google Sheet Validation
+async function validateGoogleSheet() {
+    const sheetUrlInput = document.getElementById('sheetUrlInput');
+    const sheetStatus = document.getElementById('sheetStatus');
+    const sheetUrl = sheetUrlInput.value.trim();
+    
+    if (!sheetUrl) {
+        sheetStatus.textContent = 'Please enter a Google Sheet URL';
+        return;
+    }
+    
+    if (!sheetUrl.includes('docs.google.com/spreadsheets')) {
+        sheetStatus.textContent = 'Invalid Google Sheet URL. Must be a Google Sheets link.';
+        return;
+    }
+    
+    // Update status
+    sheetStatus.textContent = 'Validating sheet...';
+    
+    try {
+        const response = await fetch(`${API_URL}/api/games/${gameId}/validate-sheet`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ sheetUrl })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to validate sheet');
+        }
+        
+        // Update status
+        sheetStatus.textContent = 'Sheet validated successfully!';
+        
+        // Display validation results
+        displaySheetValidation(data.validation);
+        
+    } catch (error) {
+        console.error('Error validating sheet:', error);
+        sheetStatus.textContent = error.message || 'Error validating sheet';
+    }
+}
+
+// Display Sheet Validation Results
+function displaySheetValidation(validation) {
+    const resultsContainer = document.getElementById('sheetValidationResults');
+    resultsContainer.style.display = 'block';
+    
+    // Update summary stats
+    document.getElementById('columnCount').textContent = validation.columns.length;
+    document.getElementById('rowCount').textContent = validation.record_count;
+    document.getElementById('fileNameCol').textContent = validation.columns[validation.file_name_column_index].name;
+    
+    // Display columns table
+    const columnsTable = document.getElementById('sheetColumnsTable');
+    const columnsBody = columnsTable.querySelector('tbody');
+    columnsBody.innerHTML = '';
+    
+    validation.columns.forEach(column => {
+        const row = document.createElement('tr');
+        
+        // Column name
+        const nameCell = document.createElement('td');
+        nameCell.textContent = column.name;
+        if (column.file_name_column) {
+            nameCell.style.fontWeight = 'bold';
+        }
+        
+        // Data type
+        const typeCell = document.createElement('td');
+        typeCell.textContent = column.type.toUpperCase();
+        
+        // Status
+        const statusCell = document.createElement('td');
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'column-status';
+        
+        if (column.file_name_column) {
+            statusSpan.textContent = 'Required';
+            statusSpan.classList.add('status-valid');
+        } else if (column.nullable) {
+            statusSpan.textContent = 'Optional';
+            statusSpan.classList.add('status-warning');
+        } else {
+            statusSpan.textContent = 'Valid';
+            statusSpan.classList.add('status-valid');
+        }
+        
+        statusCell.appendChild(statusSpan);
+        
+        // Add cells to row
+        row.appendChild(nameCell);
+        row.appendChild(typeCell);
+        row.appendChild(statusCell);
+        
+        // Add row to table
+        columnsBody.appendChild(row);
+    });
+    
+    // Display sample data
+    const sampleTable = document.getElementById('sampleDataTable');
+    const sampleHeader = sampleTable.querySelector('thead tr');
+    const sampleBody = sampleTable.querySelector('tbody');
+    
+    // Clear existing content
+    sampleHeader.innerHTML = '';
+    sampleBody.innerHTML = '';
+    
+    // Add headers
+    validation.columns.forEach(column => {
+        const th = document.createElement('th');
+        th.textContent = column.name;
+        if (column.file_name_column) {
+            th.style.fontWeight = 'bold';
+        }
+        sampleHeader.appendChild(th);
+    });
+    
+    // Add sample data rows
+    validation.sample_data.forEach(rowData => {
+        const row = document.createElement('tr');
+        
+        validation.columns.forEach((column, index) => {
+            const cell = document.createElement('td');
+            cell.textContent = rowData[index] || '';
+            row.appendChild(cell);
+        });
+        
+        sampleBody.appendChild(row);
+    });
+    
+    // Scroll to results
+    resultsContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     fetchGameDetails();
@@ -336,4 +475,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add event listener for image upload
     uploadImagesBtn.addEventListener('click', uploadFiles);
+    
+    // Add event listener for sheet validation
+    const validateSheetBtn = document.getElementById('validateSheetBtn');
+    if (validateSheetBtn) {
+        validateSheetBtn.addEventListener('click', validateGoogleSheet);
+    }
 });

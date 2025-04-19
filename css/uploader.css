@@ -108,3 +108,95 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* Google Sheets integration styles */
+.advanced-section {
+    margin-top: 30px;
+    border-top: 2px dashed #eaeaea;
+    padding-top: 30px;
+}
+
+.sheet-controls {
+    flex-wrap: wrap;
+}
+
+.sheet-url-input {
+    flex: 1;
+    min-width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.sheet-validation-results {
+    margin-top: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.validation-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.validation-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.validation-stat span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4285f4;
+}
+
+.validation-stat label {
+    font-size: 14px;
+    color: #666;
+}
+
+#sheetColumnsTable, #sampleDataTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+#sheetColumnsTable th, #sheetColumnsTable td,
+#sampleDataTable th, #sampleDataTable td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#sheetColumnsTable th, #sampleDataTable th {
+    background-color: #f1f3f4;
+    color: #333;
+    font-weight: 600;
+}
+
+.column-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-valid {
+    background-color: #e6f4ea;
+    color: #137333;
+}
+
+.status-warning {
+    background-color: #fef7e0;
+    color: #b06000;
+}
+
+.status-error {
+    background-color: #fce8e6;
+    color: #c5221f;
+}

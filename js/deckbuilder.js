@@ -438,6 +438,7 @@ function removeCardFromDeck(cardId) {
  */
 async function fetchGameName() {
   try {
+    // Make sure we're using the correct endpoint to get game details
     const response = await fetch(`${API_URL}/api/games/${state.gameId}`);
     
     if (!response.ok) {
@@ -445,7 +446,10 @@ async function fetchGameName() {
     }
     
     // Parse the response
-    state.gameData = await response.json();
+    const gameData = await response.json();
+    state.gameData = gameData;
+    
+    console.log('Game data fetched:', gameData); // Debug log
     
     // Update page elements with the game name
     updatePageElements();

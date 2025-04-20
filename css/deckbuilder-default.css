@@ -162,11 +162,12 @@ body {
 /* Card grid styles for direct page placement */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
-  gap: 0px; /* Removed spacing between cards */
+  grid-template-columns: repeat(auto-fill, var(--card-width));
+  gap: 0; /* No gap between cards */
   width: 100%; /* Full width since we're using padding on the container */
   padding: 0;
   margin-bottom: 40px; /* Add space at the bottom */
+  justify-content: start; /* Align to the left */
 }
 
 .page-controls {
@@ -192,28 +193,31 @@ body {
 
 /* Card Styles */
 .card {
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: none; /* Removed border */
+  border-radius: 0; /* Removed border radius */
   padding: 0; /* Removed padding */
+  margin: 0; /* Ensure no margin */
   background-color: white;
   display: flex;
   flex-direction: column;
   transition: transform 0.1s, box-shadow 0.1s;
   cursor: pointer; /* Show pointer cursor on hover */
+  width: var(--card-width); /* Fixed width */
 }
 
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-color: var(--primary-color); /* Highlight border on hover */
+  outline: 1px solid var(--primary-color); /* Using outline instead of border */
 }
 
 .card-image {
   width: 100%;
   height: calc(var(--card-width) * var(--card-aspect-ratio));
   object-fit: contain;
-  border-radius: 4px;
-  margin-bottom: 0; /* Removed bottom margin */
+  border-radius: 0; /* Removed border radius */
+  margin: 0; /* Ensure no margin */
+  padding: 0; /* Ensure no padding */
 }
 
 .card-name {

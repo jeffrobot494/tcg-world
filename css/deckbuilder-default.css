@@ -30,8 +30,6 @@ body {
   color: var(--text-color);
   background-color: #fff;
   min-height: 100vh;
-  height: 100vh; /* Full viewport height */
-  max-height: 100vh; /* Prevent overflow */
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -46,8 +44,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
   z-index: 100;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -85,18 +81,15 @@ body {
 .layout-container {
   display: flex;
   flex: 1;
-  height: calc(100vh - var(--header-height));
 }
 
 /* Main Content */
 .main-container {
   flex: 1;
-  padding: 20px;
+  padding: 20px 320px 20px 20px; /* Add padding on right to account for fixed deck panel */
   display: flex;
   flex-direction: column;
   gap: 20px;
-  overflow-y: auto; /* Enable scrolling */
-  height: calc(100vh - var(--header-height));
 }
 
 /* Section title removed to save vertical space */
@@ -107,9 +100,7 @@ body {
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: var(--header-height);
-  z-index: 10;
+  margin-bottom: 20px;
 }
 
 .search-controls {
@@ -166,9 +157,6 @@ body {
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 /* Card grid styles for direct page placement */
@@ -176,7 +164,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
   gap: 20px;
-  width: 100%;
+  width: 100%; /* Full width since we're using padding on the container */
   padding: 0;
   margin-bottom: 40px; /* Add space at the bottom */
 }
@@ -275,9 +263,10 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - var(--header-height));
-  position: sticky;
-  top: var(--header-height);
+  position: fixed;
+  top: 70px;
+  right: 0;
+  bottom: 0;
   overflow-y: auto;
 }
 
@@ -395,14 +384,16 @@ body.debug-mode .debug-only {
   }
   
   .main-container {
-    height: auto;
-    overflow-y: visible;
+    padding: 20px; /* Reset padding for mobile */
   }
   
   .deck-section {
     width: 100%;
     height: 400px;
-    position: static;
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
     border-radius: 8px;
     margin-top: 20px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);

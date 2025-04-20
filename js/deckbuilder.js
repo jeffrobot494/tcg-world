@@ -315,14 +315,7 @@ function renderCards() {
       <img class="card-image" src="${card.image_url}" alt="${card.display_name || card.file_name}">
       <h3 class="card-name debug-only">${card.display_name || card.file_name}</h3>
       ${cardDataHtml}
-      <button class="add-to-deck-btn">Add to Deck</button>
     `;
-    
-    // Add event listener to the Add to Deck button
-    const addButton = cardElement.querySelector('.add-to-deck-btn');
-    addButton.addEventListener('click', () => {
-      addCardToDeck(card);
-    });
     
     // Add the card to the grid
     cardGrid.appendChild(cardElement);

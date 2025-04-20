@@ -145,7 +145,7 @@ body {
 .content-container {
   display: flex;
   gap: 20px;
-  height: calc(100vh - var(--header-height) - var(--footer-height) - 120px);
+  height: calc(100vh - var(--header-height) - 80px); /* Adjusted since footer is removed */
   min-height: 500px;
 }
 
@@ -350,16 +350,7 @@ body {
   color: var(--accent-color);
 }
 
-/* Footer */
-.site-footer {
-  height: var(--footer-height);
-  background-color: var(--neutral-color);
-  text-align: center;
-  padding: 10px;
-  font-size: 0.9rem;
-  color: #666;
-  border-top: 1px solid var(--border-color);
-}
+/* Footer removed to maximize vertical space */
 
 /* Miscellaneous UI Elements */
 .empty-deck {
@@ -373,6 +364,16 @@ body {
   padding: 20px;
   text-align: center;
   color: #666;
+}
+
+/* Debug mode styling */
+.debug-only {
+  display: none; /* Hidden by default */
+}
+
+/* When debug mode is active */
+body.debug-mode .debug-only {
+  display: block; /* Show in debug mode */
 }
 
 /* Responsive Adjustments */

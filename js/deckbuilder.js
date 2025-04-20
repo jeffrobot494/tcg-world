@@ -31,6 +31,11 @@ function initializeDeckbuilder() {
   const urlParams = new URLSearchParams(window.location.search);
   state.gameId = urlParams.get('gameId') || 5; // Fallback to 5 if no gameId in URL
   
+  // Check for debug mode
+  if (urlParams.get('debug') === 'true') {
+    document.body.classList.add('debug-mode');
+  }
+  
   // Update game title and navigation links
   updatePageElements();
   
@@ -299,7 +304,7 @@ function renderCards() {
       }).join('');
       
       cardDataHtml = `
-        <div class="card-data">
+        <div class="card-data debug-only">
           ${dataItems}
         </div>
       `;
@@ -308,7 +313,7 @@ function renderCards() {
     // Set the card's inner HTML
     cardElement.innerHTML = `
       <img class="card-image" src="${card.image_url}" alt="${card.display_name || card.file_name}">
-      <h3 class="card-name">${card.display_name || card.file_name}</h3>
+      <h3 class="card-name debug-only">${card.display_name || card.file_name}</h3>
       ${cardDataHtml}
       <button class="add-to-deck-btn">Add to Deck</button>
     `;

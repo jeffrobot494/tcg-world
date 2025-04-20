@@ -36,8 +36,8 @@ function initializeDeckbuilder() {
     document.body.classList.add('debug-mode');
   }
   
-  // Update game title and navigation links
-  updatePageElements();
+  // Fetch game details and name
+  fetchGameName();
   
   // Load cards
   loadCards();
@@ -50,7 +50,9 @@ function initializeDeckbuilder() {
  * Update page elements with game information
  */
 function updatePageElements() {
-  document.getElementById('gameTitle').textContent = `Deck Builder (Game #${state.gameId})`;
+  // Use game name if available, otherwise fallback to game ID
+  const gameName = state.gameData?.name || `Game #${state.gameId}`;
+  document.getElementById('gameTitle').textContent = `Deck Builder - ${gameName}`;
   
   // Update game link
   const gameLink = document.getElementById('gameLink');
@@ -429,4 +431,28 @@ function renderDeck() {
 function removeCardFromDeck(cardId) {
   state.deck = state.deck.filter(card => card.id !== cardId);
   renderDeck();
+}
+
+/**
+ * Fetch game details including name
+ */
+async function fetchGameName() {
+  try {
+    const response = await fetch(`${API_URL}/api/games/${state.gameId}`);
+    
+    if (!response.ok) {
+      throw new Error('Failed to load game data');
+    }
+    
+    // Parse the response
+    state.gameData = await response.json();
+    
+    // Update page elements with the game name
+    updatePageElements();
+    
+  } catch (error) {
+    console.error('Error loading game data:', error);
+    // Still update page elements with fallback title if error occurs
+    updatePageElements();
+  }
 }

@@ -163,17 +163,6 @@
   </template>
 
   <!-- Load JavaScript -->
-  <script>
-    // Minimal JavaScript just to get the game ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameId = urlParams.get('gameId') || 5; // Fallback to 5 if no gameId in URL
-    document.getElementById('gameTitle').textContent = `Deck Builder (Game #${gameId})`;
-    
-    // Update game link
-    const gameLink = document.getElementById('gameLink');
-    if (gameLink) {
-      gameLink.href = `game.html?gameId=${gameId}`;
-    }
-  </script>
+  <script src="../js/deckbuilder.js"></script>
 </body>
 </html>

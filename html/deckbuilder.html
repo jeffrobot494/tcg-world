@@ -5,72 +5,175 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deck Builder - TCG World</title>
   <link rel="stylesheet" href="../css/deckbuilder.css">
+  <!-- Optional custom CSS can be loaded here -->
 </head>
 <body>
-  <h1>Deck Builder</h1>
-  <p>Game ID: <span id="gameId"></span></p>
-  <div id="cardContainer" class="card-grid"></div>
+  <!-- Header and Navigation -->
+  <header id="mainHeader" class="site-header">
+    <h1 id="gameTitle" class="game-title">Deck Builder</h1>
+    <nav id="mainNav" class="main-navigation">
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link" id="homeLink">Home</a></li>
+        <li><a href="game.html" class="nav-link" id="gameLink">Game Page</a></li>
+        <li><a href="dashboard.html" class="nav-link" id="dashboardLink">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <!-- Main Content Container -->
+  <main id="mainContent" class="main-container">
+    <!-- Search and Filter Panel -->
+    <section id="searchPanel" class="search-panel">
+      <h2 class="section-title">Search Cards</h2>
+      <div class="search-controls">
+        <div class="search-field">
+          <label for="nameSearch">Card Name</label>
+          <input type="text" id="nameSearch" placeholder="Search by name...">
+        </div>
+        <div class="search-field">
+          <label for="typeFilter">Card Type</label>
+          <select id="typeFilter">
+            <option value="">All Types</option>
+            <!-- Types will be populated dynamically -->
+          </select>
+        </div>
+        <div class="search-field" id="attributeFilters">
+          <!-- Dynamic attribute filters will go here -->
+        </div>
+        <button id="searchButton" class="search-button">Search</button>
+        <button id="resetButton" class="reset-button">Reset</button>
+      </div>
+    </section>
+
+    <!-- Main Container for Card Grid and Deck -->
+    <div class="content-container">
+      <!-- Card Display Grid -->
+      <section id="cardDisplaySection" class="card-display-section">
+        <h2 class="section-title">Card Library</h2>
+        <div id="cardPagination" class="pagination-controls">
+          <span id="cardCount" class="result-count">0 cards found</span>
+          <div class="page-controls">
+            <button id="prevPage" class="page-button" disabled>Previous</button>
+            <span id="pageIndicator">Page 1 of 1</span>
+            <button id="nextPage" class="page-button" disabled>Next</button>
+          </div>
+        </div>
+        <div id="cardGrid" class="card-grid">
+          <!-- Cards will be displayed here -->
+          <!-- For HTML structure only, adding a few sample cards for visual reference -->
+          <div class="card" data-card-id="1">
+            <img class="card-image" src="https://via.placeholder.com/180x252" alt="Sample Card 1">
+            <h3 class="card-name">Sample Card 1</h3>
+            <div class="card-data">
+              <span class="data-item"><strong>Type:</strong> Creature</span>
+              <span class="data-item"><strong>Power:</strong> 3</span>
+              <span class="data-item"><strong>Defense:</strong> 2</span>
+            </div>
+            <button class="add-to-deck-btn">Add to Deck</button>
+          </div>
+          <div class="card" data-card-id="2">
+            <img class="card-image" src="https://via.placeholder.com/180x252" alt="Sample Card 2">
+            <h3 class="card-name">Sample Card 2</h3>
+            <div class="card-data">
+              <span class="data-item"><strong>Type:</strong> Spell</span>
+              <span class="data-item"><strong>Effect:</strong> Draw 2 cards</span>
+            </div>
+            <button class="add-to-deck-btn">Add to Deck</button>
+          </div>
+          <div class="card" data-card-id="3">
+            <img class="card-image" src="https://via.placeholder.com/180x252" alt="Sample Card 3">
+            <h3 class="card-name">Sample Card 3</h3>
+            <div class="card-data">
+              <span class="data-item"><strong>Type:</strong> Item</span>
+              <span class="data-item"><strong>Bonus:</strong> +1 power</span>
+            </div>
+            <button class="add-to-deck-btn">Add to Deck</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deck Section -->
+      <section id="deckSection" class="deck-section">
+        <h2 class="section-title">Your Deck</h2>
+        <div class="deck-controls">
+          <button id="saveDeckBtn" class="deck-button">Save</button>
+          <button id="exportDeckBtn" class="deck-button">Export</button>
+          <button id="importDeckBtn" class="deck-button">Import</button>
+          <button id="clearDeckBtn" class="deck-button">Clear</button>
+        </div>
+        <div class="deck-stats">
+          <span id="deckCardCount" class="deck-stat">3 cards</span>
+        </div>
+        <div id="deckList" class="deck-list">
+          <!-- Sample deck cards for HTML structure -->
+          <div class="deck-card" data-card-id="1">
+            <div class="deck-card-info">
+              <span class="deck-card-quantity">2x</span>
+              <span class="deck-card-name">Sample Card 1</span>
+            </div>
+            <div class="deck-card-controls">
+              <button class="increment-card-btn">+</button>
+              <button class="decrement-card-btn">-</button>
+              <button class="remove-card-btn">×</button>
+            </div>
+          </div>
+          <div class="deck-card" data-card-id="2">
+            <div class="deck-card-info">
+              <span class="deck-card-quantity">1x</span>
+              <span class="deck-card-name">Sample Card 2</span>
+            </div>
+            <div class="deck-card-controls">
+              <button class="increment-card-btn">+</button>
+              <button class="decrement-card-btn">-</button>
+              <button class="remove-card-btn">×</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="mainFooter" class="site-footer">
+    <p>TCG World Deckbuilder - Create and share your decks</p>
+  </footer>
+
+  <!-- Templates (for future JavaScript implementation) -->
+  <template id="cardTemplate">
+    <div class="card" data-card-id="">
+      <img class="card-image" src="" alt="">
+      <h3 class="card-name"></h3>
+      <div class="card-data"></div>
+      <button class="add-to-deck-btn">Add to Deck</button>
+    </div>
+  </template>
+
+  <template id="deckCardTemplate">
+    <div class="deck-card" data-card-id="">
+      <div class="deck-card-info">
+        <span class="deck-card-quantity">1x</span>
+        <span class="deck-card-name"></span>
+      </div>
+      <div class="deck-card-controls">
+        <button class="increment-card-btn">+</button>
+        <button class="decrement-card-btn">-</button>
+        <button class="remove-card-btn">×</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Load JavaScript -->
   <script>
+    // Minimal JavaScript just to get the game ID from URL
     const urlParams = new URLSearchParams(window.location.search);
     const gameId = urlParams.get('gameId') || 5; // Fallback to 5 if no gameId in URL
-    document.getElementById('gameId').textContent = gameId;
-    const BACKEND_URL = 'https://tcg-world-backend-production.up.railway.app';
-
-    // Fetch cards for the specified game - no authentication required
-    async function loadCards() {
-      try {
-        const response = await fetch(`${BACKEND_URL}/api/games/${gameId}/cards`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to load cards');
-        }
-        
-        const cards = await response.json();
-        displayCards(cards);
-      } catch (error) {
-        console.error('Error loading cards:', error);
-        document.getElementById('cardContainer').innerHTML = 
-          '<p>Error loading cards. Please try again later.</p>';
-      }
+    document.getElementById('gameTitle').textContent = `Deck Builder (Game #${gameId})`;
+    
+    // Update game link
+    const gameLink = document.getElementById('gameLink');
+    if (gameLink) {
+      gameLink.href = `game.html?gameId=${gameId}`;
     }
-
-    // Display cards in the grid
-    function displayCards(cards) {
-      const container = document.getElementById('cardContainer');
-      
-      if (cards.length === 0) {
-        container.innerHTML = '<p>No cards found for this game.</p>';
-        return;
-      }
-      
-      container.innerHTML = cards.map(card => {
-        // Format the card data for display (if it exists)
-        let cardDataHtml = '';
-        if (card.data && Object.keys(card.data).length > 0) {
-          const dataItems = Object.entries(card.data).map(([key, value]) => {
-            return `<span class="data-item"><strong>${key}:</strong> ${value}</span>`;
-          }).join('');
-          
-          cardDataHtml = `
-            <div class="card-data">
-              ${dataItems}
-            </div>
-          `;
-        }
-        
-        return `
-          <div class="card">
-            <img class="card-image" src="${card.image_url}" alt="${card.file_name}">
-            <p class="card-name">${card.display_name || card.file_name}</p>
-            ${cardDataHtml}
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Load cards immediately without checking for authentication
-    loadCards();
   </script>
 </body>
 </html>

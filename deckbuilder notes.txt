@@ -1,0 +1,19 @@
+Rules for building the deckbuilder:
+1) Use the proposal-review system we always use, where you propose changes and give me a full code review, and then I either give approval or make changes.
+2) We want the user's to be able to use their own css sheets. This means all styles will be kept in a separate, dedicated css sheet. 
+3) All important divs will have intuitively-named ids and/or classes.
+4) We will have a "default style" css sheet that each deckbuilder will use until the creator changes it. It will be clean and simple. 
+
+Elements
+1) Header and Navbar
+2) Search bar
+3) Card display grid
+4) Decklist
+
+1) The Header and navbar is very simple. Displays the game name and has buttons to take you back home, game page, or dashboard.
+
+2) The search bar is where users enter parameters to filter cards. It is between the header and the card display grid.
+
+3) Card Display Grid - this takes up 3/4 of the width of the page. Cards are displayed in rows of 5. There are 50 cards per page. The user scrolls to move the grid and view more cards. 
+
+4) The right quarter of the screen is where the the deck is displayed. The deckbuilder has a selection of buttons and labels at the top, like "save", "download", "import", etc. Below that is the list of the cards in the deck.

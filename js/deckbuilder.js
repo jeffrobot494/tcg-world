@@ -296,6 +296,11 @@ function renderCards() {
     cardElement.className = 'card';
     cardElement.dataset.cardId = card.id;
     
+    // Add click event to add to deck
+    cardElement.addEventListener('click', () => {
+      addCardToDeck(card);
+    });
+    
     // Format card data for display
     let cardDataHtml = '';
     if (card.data && Object.keys(card.data).length > 0) {

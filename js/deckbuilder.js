@@ -10,9 +10,9 @@ const CARDS_PER_PAGE = 50;
 // Base URL configuration
 const CONFIG = {
   API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "html/", // Path to HTML directory
-  BASE_CSS_PATH: "css/",   // Path to CSS directory 
-  BASE_JS_PATH: "js/"      // Path to JS directory
+  BASE_HTML_PATH: "", // Same directory for HTML files
+  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
+  BASE_JS_PATH: "../js/"      // Path to JS directory
 };
 
 // Application State

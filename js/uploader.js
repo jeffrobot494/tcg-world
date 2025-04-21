@@ -6,9 +6,9 @@ const API_URL = "https://tcg-world-backend-production.up.railway.app";
 // Base URL configuration
 const CONFIG = {
   API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "html/", // Path to HTML directory
-  BASE_CSS_PATH: "css/",   // Path to CSS directory 
-  BASE_JS_PATH: "js/"      // Path to JS directory
+  BASE_HTML_PATH: "", // Same directory for HTML files
+  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
+  BASE_JS_PATH: "../js/"      // Path to JS directory
 };
 
 // Check for auth and game ID

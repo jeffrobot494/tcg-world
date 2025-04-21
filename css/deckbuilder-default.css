@@ -196,7 +196,7 @@ body {
   border: none; /* Removed border */
   border-radius: 0; /* Removed border radius */
   padding: 0; /* Removed padding */
-  margin: 0; /* Ensure no margin */
+  margin: 1px; /* Add 1px spacing on all sides */
   background-color: white;
   display: flex;
   flex-direction: column;

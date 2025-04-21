@@ -4,6 +4,14 @@ const gameId = params.get("gameId");
 const token = localStorage.getItem("token");
 const API_URL = "https://tcg-world-backend-production.up.railway.app";
 
+// Base URL configuration
+const CONFIG = {
+  API_URL: "https://tcg-world-backend-production.up.railway.app",
+  BASE_HTML_PATH: "html/", // Path to HTML directory
+  BASE_CSS_PATH: "css/",   // Path to CSS directory 
+  BASE_JS_PATH: "js/"      // Path to JS directory
+};
+
 // Function to render the card table
 function renderCardTable(cards) {
   const tableBody = document.querySelector('#cardTable tbody');
@@ -171,13 +179,13 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     // Update deckbuilder link with the current game ID
     const deckbuilderLink = document.getElementById("deckbuilderLink");
     if (deckbuilderLink) {
-      deckbuilderLink.href = `deckbuilder.html?gameId=${gameId}`;
+      deckbuilderLink.href = `${CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${gameId}`;
     }
     
     // Update uploader link with the current game ID
     const uploaderLink = document.getElementById("uploaderLink");
     if (uploaderLink) {
-      uploaderLink.href = `uploader.html?gameId=${gameId}`;
+      uploaderLink.href = `${CONFIG.BASE_HTML_PATH}uploader.html?gameId=${gameId}`;
     }
     
     // Populate card types if available

@@ -7,6 +7,14 @@
 const API_URL = "https://tcg-world-backend-production.up.railway.app";
 const CARDS_PER_PAGE = 50;
 
+// Base URL configuration
+const CONFIG = {
+  API_URL: "https://tcg-world-backend-production.up.railway.app",
+  BASE_HTML_PATH: "html/", // Path to HTML directory
+  BASE_CSS_PATH: "css/",   // Path to CSS directory 
+  BASE_JS_PATH: "js/"      // Path to JS directory
+};
+
 // Application State
 const state = {
   gameId: null,
@@ -57,7 +65,7 @@ function updatePageElements() {
   // Update game link
   const gameLink = document.getElementById('gameLink');
   if (gameLink) {
-    gameLink.href = `game.html?gameId=${state.gameId}`;
+    gameLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${state.gameId}`;
   }
 }
 

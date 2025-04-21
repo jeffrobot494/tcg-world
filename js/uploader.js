@@ -3,13 +3,21 @@ const gameId = params.get("gameId");
 const token = localStorage.getItem("token");
 const API_URL = "https://tcg-world-backend-production.up.railway.app";
 
+// Base URL configuration
+const CONFIG = {
+  API_URL: "https://tcg-world-backend-production.up.railway.app",
+  BASE_HTML_PATH: "html/", // Path to HTML directory
+  BASE_CSS_PATH: "css/",   // Path to CSS directory 
+  BASE_JS_PATH: "js/"      // Path to JS directory
+};
+
 // Check for auth and game ID
 if (!token) {
-    window.location.href = "/login.html";
+    window.location.href = `${CONFIG.BASE_HTML_PATH}login.html`;
 }
 
 if (!gameId) {
-    window.location.href = "/dashboard.html";
+    window.location.href = `${CONFIG.BASE_HTML_PATH}dashboard.html`;
 }
 
 // DOM Elements
@@ -27,7 +35,7 @@ let linkedSheets = [];
 
 // Update the Back to Game link to include the game ID
 if (backLink) {
-    backLink.href = `game.html?gameId=${gameId}`;
+    backLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${gameId}`;
 }
 
 // Fetch game details

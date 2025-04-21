@@ -26,10 +26,8 @@ const state = {
   deck: []
 };
 
-// DOM Ready Event
-document.addEventListener('DOMContentLoaded', () => {
-  initializeDeckbuilder();
-});
+// DOM Element Cache
+let elements = {};
 
 /**
  * Initialize the deckbuilder application
@@ -44,14 +42,38 @@ function initializeDeckbuilder() {
     document.body.classList.add('debug-mode');
   }
   
+  // Cache DOM elements
+  cacheDOMElements();
+  
   // Fetch game details and name
   fetchGameName();
   
   // Load cards
   loadCards();
   
-  // Set up event listeners for pagination
+  // Set up event listeners for UI interactions
   setupEventListeners();
+}
+
+/**
+ * Cache DOM elements for better performance
+ */
+function cacheDOMElements() {
+  elements = {
+    cardGrid: document.getElementById('cardGrid'),
+    deckList: document.getElementById('deckList'),
+    pageIndicator: document.getElementById('pageIndicator'),
+    cardCount: document.getElementById('cardCount'),
+    deckCardCount: document.getElementById('deckCardCount'),
+    prevPageBtn: document.getElementById('prevPage'),
+    nextPageBtn: document.getElementById('nextPage'),
+    searchBtn: document.getElementById('searchButton'),
+    resetBtn: document.getElementById('resetButton'),
+    nameSearch: document.getElementById('nameSearch'),
+    typeFilter: document.getElementById('typeFilter'),
+    gameTitle: document.getElementById('gameTitle'),
+    gameLink: document.getElementById('gameLink')
+  };
 }
 
 /**
@@ -60,12 +82,14 @@ function initializeDeckbuilder() {
 function updatePageElements() {
   // Use game name if available, otherwise fallback to game ID
   const gameName = state.gameData?.name || `Game #${state.gameId}`;
-  document.getElementById('gameTitle').textContent = `Deck Builder - ${gameName}`;
+  
+  if (elements.gameTitle) {
+    elements.gameTitle.textContent = `Deck Builder - ${gameName}`;
+  }
   
   // Update game link
-  const gameLink = document.getElementById('gameLink');
-  if (gameLink) {
-    gameLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${state.gameId}`;
+  if (elements.gameLink) {
+    elements.gameLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${state.gameId}`;
   }
 }
 
@@ -73,41 +97,124 @@ function updatePageElements() {
  * Set up event listeners for UI interactions
  */
 function setupEventListeners() {
+  // Card grid event listeners
+  if (elements.cardGrid) {
+    // Right-click on card to remove from deck
+    elements.cardGrid.addEventListener('contextmenu', handleCardRightClick);
+  }
+  
   // Pagination buttons
-  const prevPage = document.getElementById('prevPage');
-  if (prevPage) {
-    prevPage.addEventListener('click', () => {
+  if (elements.prevPageBtn) {
+    elements.prevPageBtn.addEventListener('click', () => {
       if (state.currentPage > 1) {
-        state.currentPage--;
-        renderCards();
+        changePage(state.currentPage - 1);
       }
     });
   }
   
-  const nextPage = document.getElementById('nextPage');
-  if (nextPage) {
-    nextPage.addEventListener('click', () => {
+  if (elements.nextPageBtn) {
+    elements.nextPageBtn.addEventListener('click', () => {
       if (state.currentPage < state.totalPages) {
-        state.currentPage++;
-        renderCards();
+        changePage(state.currentPage + 1);
       }
     });
   }
 
   // Search button
-  const searchButton = document.getElementById('searchButton');
-  if (searchButton) {
-    searchButton.addEventListener('click', () => {
+  if (elements.searchBtn) {
+    elements.searchBtn.addEventListener('click', () => {
       applyFilters();
     });
   }
 
   // Reset button
-  const resetButton = document.getElementById('resetButton');
-  if (resetButton) {
-    resetButton.addEventListener('click', () => {
+  if (elements.resetBtn) {
+    elements.resetBtn.addEventListener('click', () => {
       resetFilters();
     });
+  }
+}
+
+/**
+ * Change the current page
+ * @param {number} pageNumber - The page number to change to
+ */
+function changePage(pageNumber) {
+  state.currentPage = pageNumber;
+  renderCards();
+}
+
+/**
+ * Handle right-click on card (to remove from deck)
+ * @param {Event} event - The context menu event
+ */
+function handleCardRightClick(event) {
+  event.preventDefault(); // Prevent default context menu
+  
+  // Find the clicked card element
+  const cardElement = event.target.closest('.card');
+  if (!cardElement) return;
+  
+  // Get the card ID
+  const cardId = parseInt(cardElement.dataset.cardId);
+  
+  // Only remove if it's in the deck
+  const cardInDeck = findCardInDeck(cardId);
+  if (cardInDeck) {
+    if (cardInDeck.quantity > 1) {
+      // Reduce quantity by 1
+      cardInDeck.quantity -= 1;
+      renderDeck();
+    } else {
+      // Remove completely
+      removeCardFromDeck(cardId);
+    }
+    // Re-render to update card highlights
+    renderCards();
+  }
+}
+
+/**
+ * Find a card in the deck by ID
+ * @param {number} cardId - The card ID to find
+ * @returns {Object|null} The card object if found, or null
+ */
+function findCardInDeck(cardId) {
+  return state.deck.find(item => item.id === cardId) || null;
+}
+
+/**
+ * Check if a card is in the deck
+ * @param {number} cardId - The card ID to check
+ * @returns {boolean} True if the card is in the deck
+ */
+function isCardInDeck(cardId) {
+  return state.deck.some(item => item.id === cardId);
+}
+
+/**
+ * Fetch game details including name
+ */
+async function fetchGameName() {
+  try {
+    // Make sure we're using the correct endpoint to get game details
+    const response = await fetch(`${API_URL}/api/games/${state.gameId}`);
+    
+    if (!response.ok) {
+      throw new Error('Failed to load game data');
+    }
+    
+    // Parse the response
+    const gameData = await response.json();
+    state.gameData = gameData;
+    
+    // Update page elements with the game name
+    updatePageElements();
+    
+  } catch (error) {
+    console.error('Error loading game data:', error);
+    // Still update page elements with fallback title if error occurs
+    updatePageElements();
   }
 }
 
@@ -150,8 +257,10 @@ async function loadCards() {
     
   } catch (error) {
     console.error('Error loading cards:', error);
-    document.getElementById('cardGrid').innerHTML = 
-      '<div class="no-results">Error loading cards. Please try again later.</div>';
+    if (elements.cardGrid) {
+      elements.cardGrid.innerHTML = 
+        '<div class="no-results">Error loading cards. Please try again later.</div>';
+    }
   }
 }
 
@@ -159,16 +268,30 @@ async function loadCards() {
  * Initialize filter options based on card data
  */
 function initializeFilters() {
-  // Find unique card types from data fields
-  const typeFilter = document.getElementById('typeFilter');
-  if (!typeFilter || !state.cards.length) return;
+  if (!elements.typeFilter || !state.cards.length) return;
 
   // Clear any existing options except the first one
-  while (typeFilter.options.length > 1) {
-    typeFilter.options.remove(1);
+  while (elements.typeFilter.options.length > 1) {
+    elements.typeFilter.options.remove(1);
   }
 
   // Extract unique types from card data
+  const types = extractCardTypes();
+  
+  // Add options to the select element
+  types.forEach(type => {
+    const option = document.createElement('option');
+    option.value = type;
+    option.textContent = type;
+    elements.typeFilter.appendChild(option);
+  });
+}
+
+/**
+ * Extract unique card types from all cards
+ * @returns {string[]} Array of unique card types
+ */
+function extractCardTypes() {
   const types = new Set();
   
   state.cards.forEach(card => {
@@ -182,23 +305,34 @@ function initializeFilters() {
     }
   });
 
-  // Add options to the select element
-  Array.from(types).sort().forEach(type => {
-    const option = document.createElement('option');
-    option.value = type;
-    option.textContent = type;
-    typeFilter.appendChild(option);
-  });
+  return Array.from(types).sort();
 }
 
 /**
  * Apply search filters to the cards
  */
 function applyFilters() {
-  const nameSearch = document.getElementById('nameSearch').value.toLowerCase();
-  const typeFilter = document.getElementById('typeFilter').value;
+  if (!elements.nameSearch || !elements.typeFilter) return;
   
-  state.filteredCards = state.cards.filter(card => {
+  const nameSearch = elements.nameSearch.value.toLowerCase();
+  const typeFilter = elements.typeFilter.value;
+  
+  state.filteredCards = filterCards(nameSearch, typeFilter);
+  
+  // Reset to first page and update display
+  state.currentPage = 1;
+  updatePagination();
+  renderCards();
+}
+
+/**
+ * Filter cards based on criteria
+ * @param {string} nameSearch - Text to search in card names
+ * @param {string} typeFilter - Card type to filter by
+ * @returns {Object[]} Filtered array of cards
+ */
+function filterCards(nameSearch, typeFilter) {
+  return state.cards.filter(card => {
     let matchesName = true;
     let matchesType = true;
     
@@ -222,20 +356,17 @@ function applyFilters() {
     
     return matchesName && matchesType;
   });
-  
-  // Reset to first page and update display
-  state.currentPage = 1;
-  updatePagination();
-  renderCards();
 }
 
 /**
  * Reset all filters
  */
 function resetFilters() {
+  if (!elements.nameSearch || !elements.typeFilter) return;
+  
   // Clear filter inputs
-  document.getElementById('nameSearch').value = '';
-  document.getElementById('typeFilter').value = '';
+  elements.nameSearch.value = '';
+  elements.typeFilter.value = '';
   
   // Reset to all cards
   state.filteredCards = [...state.cards];
@@ -252,43 +383,89 @@ function updatePagination() {
   state.totalPages = Math.max(1, Math.ceil(state.filteredCards.length / CARDS_PER_PAGE));
   
   // Update page indicator
-  const pageIndicator = document.getElementById('pageIndicator');
-  if (pageIndicator) {
-    pageIndicator.textContent = `Page ${state.currentPage} of ${state.totalPages}`;
+  if (elements.pageIndicator) {
+    elements.pageIndicator.textContent = `Page ${state.currentPage} of ${state.totalPages}`;
   }
   
   // Update card count
-  const cardCount = document.getElementById('cardCount');
-  if (cardCount) {
-    cardCount.textContent = `${state.filteredCards.length} cards found`;
+  if (elements.cardCount) {
+    elements.cardCount.textContent = `${state.filteredCards.length} cards found`;
   }
   
   // Update button states
-  const prevPage = document.getElementById('prevPage');
-  const nextPage = document.getElementById('nextPage');
-  
-  if (prevPage) {
-    prevPage.disabled = state.currentPage <= 1;
+  if (elements.prevPageBtn) {
+    elements.prevPageBtn.disabled = state.currentPage <= 1;
   }
   
-  if (nextPage) {
-    nextPage.disabled = state.currentPage >= state.totalPages;
+  if (elements.nextPageBtn) {
+    elements.nextPageBtn.disabled = state.currentPage >= state.totalPages;
   }
+}
+
+/**
+ * Create a card element for display
+ * @param {Object} card - Card data
+ * @returns {HTMLElement} The card DOM element
+ */
+function createCardElement(card) {
+  const cardElement = document.createElement('div');
+  cardElement.className = 'card';
+  cardElement.dataset.cardId = card.id;
+  
+  // Add in-deck class if card is in the deck
+  if (isCardInDeck(card.id)) {
+    cardElement.classList.add('in-deck');
+  }
+  
+  // Add click event to add to deck
+  cardElement.addEventListener('click', () => {
+    addCardToDeck(card);
+  });
+  
+  // Format card data for display
+  let cardDataHtml = formatCardDataHTML(card);
+  
+  // Set the card's inner HTML
+  cardElement.innerHTML = `
+    <img class="card-image" src="${card.image_url}" alt="${card.display_name || card.file_name}">
+    <h3 class="card-name debug-only">${card.display_name || card.file_name}</h3>
+    ${cardDataHtml}
+  `;
+  
+  return cardElement;
+}
+
+/**
+ * Format card data as HTML
+ * @param {Object} card - Card data
+ * @returns {string} HTML string of card data
+ */
+function formatCardDataHTML(card) {
+  if (!card.data || Object.keys(card.data).length === 0) return '';
+  
+  const dataItems = Object.entries(card.data).map(([key, value]) => {
+    return `<span class="data-item"><strong>${key}:</strong> ${value}</span>`;
+  }).join('');
+  
+  return `
+    <div class="card-data debug-only">
+      ${dataItems}
+    </div>
+  `;
 }
 
 /**
  * Render the current page of cards
  */
 function renderCards() {
-  const cardGrid = document.getElementById('cardGrid');
-  if (!cardGrid) return;
+  if (!elements.cardGrid) return;
   
   // Clear the grid
-  cardGrid.innerHTML = '';
+  elements.cardGrid.innerHTML = '';
   
   // Check if there are any cards to display
   if (state.filteredCards.length === 0) {
-    cardGrid.innerHTML = '<div class="no-results">No cards found matching your criteria.</div>';
+    elements.cardGrid.innerHTML = '<div class="no-results">No cards found matching your criteria.</div>';
     return;
   }
   
@@ -301,43 +478,9 @@ function renderCards() {
   
   // Render each card
   pageCards.forEach(card => {
-    // Create the card element
-    const cardElement = document.createElement('div');
-    cardElement.className = 'card';
-    cardElement.dataset.cardId = card.id;
-    
-    // Add click event to add to deck
-    cardElement.addEventListener('click', () => {
-      addCardToDeck(card);
-    });
-    
-    // Format card data for display
-    let cardDataHtml = '';
-    if (card.data && Object.keys(card.data).length > 0) {
-      const dataItems = Object.entries(card.data).map(([key, value]) => {
-        return `<span class="data-item"><strong>${key}:</strong> ${value}</span>`;
-      }).join('');
-      
-      cardDataHtml = `
-        <div class="card-data debug-only">
-          ${dataItems}
-        </div>
-      `;
-    }
-    
-    // Set the card's inner HTML
-    cardElement.innerHTML = `
-      <img class="card-image" src="${card.image_url}" alt="${card.display_name || card.file_name}">
-      <h3 class="card-name debug-only">${card.display_name || card.file_name}</h3>
-      ${cardDataHtml}
-    `;
-    
-    // Add the card to the grid
-    cardGrid.appendChild(cardElement);
+    const cardElement = createCardElement(card);
+    elements.cardGrid.appendChild(cardElement);
   });
-  
-  // Update pagination information
-  updatePagination();
 }
 
 /**
@@ -345,7 +488,7 @@ function renderCards() {
  */
 function addCardToDeck(card) {
   // Find if card already exists in deck
-  const existingCard = state.deck.find(item => item.id === card.id);
+  const existingCard = findCardInDeck(card.id);
   
   if (existingCard) {
     // Increment quantity if already in deck
@@ -361,110 +504,138 @@ function addCardToDeck(card) {
   
   // Update the deck display
   renderDeck();
+  
+  // Re-render cards to update in-deck highlights
+  renderCards();
+}
+
+/**
+ * Create a deck card element
+ * @param {Object} card - Card data from the deck
+ * @returns {HTMLElement} Deck card DOM element
+ */
+function createDeckCardElement(card) {
+  const deckCard = document.createElement('div');
+  deckCard.className = 'deck-card';
+  deckCard.dataset.cardId = card.id;
+  
+  deckCard.innerHTML = `
+    <div class="deck-card-info">
+      <span class="deck-card-quantity">${card.quantity}x</span>
+      <span class="deck-card-name">${card.name}</span>
+    </div>
+    <div class="deck-card-controls">
+      <button class="increment-card-btn">+</button>
+      <button class="decrement-card-btn">-</button>
+      <button class="remove-card-btn">×</button>
+    </div>
+  `;
+  
+  // Add event listeners for deck card buttons
+  deckCard.querySelector('.increment-card-btn').addEventListener('click', () => {
+    incrementCardQuantity(card.id);
+  });
+  
+  deckCard.querySelector('.decrement-card-btn').addEventListener('click', () => {
+    decrementCardQuantity(card.id);
+  });
+  
+  deckCard.querySelector('.remove-card-btn').addEventListener('click', () => {
+    removeCardFromDeck(card.id);
+  });
+  
+  return deckCard;
+}
+
+/**
+ * Increment card quantity in the deck
+ * @param {number} cardId - ID of the card to increment
+ */
+function incrementCardQuantity(cardId) {
+  const card = findCardInDeck(cardId);
+  if (card) {
+    card.quantity += 1;
+    renderDeck();
+    renderCards(); // Update card highlights
+  }
+}
+
+/**
+ * Decrement card quantity in the deck
+ * @param {number} cardId - ID of the card to decrement
+ */
+function decrementCardQuantity(cardId) {
+  const card = findCardInDeck(cardId);
+  if (card) {
+    if (card.quantity > 1) {
+      card.quantity -= 1;
+      renderDeck();
+    } else {
+      // Remove if quantity would be 0
+      removeCardFromDeck(cardId);
+    }
+    renderCards(); // Update card highlights
+  }
+}
+
+/**
+ * Calculate total cards in the deck
+ * @returns {number} Total card count
+ */
+function calculateTotalCards() {
+  return state.deck.reduce((sum, card) => sum + card.quantity, 0);
 }
 
 /**
  * Render the current deck
  */
 function renderDeck() {
-  const deckList = document.getElementById('deckList');
-  if (!deckList) return;
+  if (!elements.deckList) return;
   
   // Clear the current deck display
-  deckList.innerHTML = '';
+  elements.deckList.innerHTML = '';
   
   // Check if deck is empty
   if (state.deck.length === 0) {
-    deckList.innerHTML = '<div class="empty-deck">Your deck is empty. Add cards from the library.</div>';
+    elements.deckList.innerHTML = '<div class="empty-deck">Your deck is empty. Add cards from the library.</div>';
     return;
   }
   
   // Calculate total cards in deck
-  const totalCards = state.deck.reduce((sum, card) => sum + card.quantity, 0);
+  const totalCards = calculateTotalCards();
   
   // Update deck count
-  const deckCardCount = document.getElementById('deckCardCount');
-  if (deckCardCount) {
-    deckCardCount.textContent = `${totalCards} cards`;
+  if (elements.deckCardCount) {
+    elements.deckCardCount.textContent = `${totalCards} cards`;
   }
   
   // Sort the deck by card name
-  const sortedDeck = [...state.deck].sort((a, b) => a.name.localeCompare(b.name));
+  const sortedDeck = sortDeckByName();
   
   // Render each card in the deck
   sortedDeck.forEach(card => {
-    const deckCard = document.createElement('div');
-    deckCard.className = 'deck-card';
-    deckCard.dataset.cardId = card.id;
-    
-    deckCard.innerHTML = `
-      <div class="deck-card-info">
-        <span class="deck-card-quantity">${card.quantity}x</span>
-        <span class="deck-card-name">${card.name}</span>
-      </div>
-      <div class="deck-card-controls">
-        <button class="increment-card-btn">+</button>
-        <button class="decrement-card-btn">-</button>
-        <button class="remove-card-btn">×</button>
-      </div>
-    `;
-    
-    // Add event listeners for deck card buttons
-    deckCard.querySelector('.increment-card-btn').addEventListener('click', () => {
-      card.quantity += 1;
-      renderDeck();
-    });
-    
-    deckCard.querySelector('.decrement-card-btn').addEventListener('click', () => {
-      if (card.quantity > 1) {
-        card.quantity -= 1;
-        renderDeck();
-      } else {
-        // Remove if quantity would be 0
-        removeCardFromDeck(card.id);
-      }
-    });
-    
-    deckCard.querySelector('.remove-card-btn').addEventListener('click', () => {
-      removeCardFromDeck(card.id);
-    });
-    
-    deckList.appendChild(deckCard);
+    const deckCard = createDeckCardElement(card);
+    elements.deckList.appendChild(deckCard);
   });
 }
 
 /**
+ * Sort deck cards by name
+ * @returns {Object[]} Sorted deck array
+ */
+function sortDeckByName() {
+  return [...state.deck].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/**
  * Remove a card from the deck
+ * @param {number} cardId - ID of the card to remove
  */
 function removeCardFromDeck(cardId) {
   state.deck = state.deck.filter(card => card.id !== cardId);
   renderDeck();
+  renderCards(); // Re-render to update highlights
 }
 
-/**
- * Fetch game details including name
- */
-async function fetchGameName() {
-  try {
-    // Make sure we're using the correct endpoint to get game details
-    const response = await fetch(`${API_URL}/api/games/${state.gameId}`);
-    
-    if (!response.ok) {
-      throw new Error('Failed to load game data');
-    }
-    
-    // Parse the response
-    const gameData = await response.json();
-    state.gameData = gameData;
-    
-    console.log('Game data fetched:', gameData); // Debug log
-    
-    // Update page elements with the game name
-    updatePageElements();
-    
-  } catch (error) {
-    console.error('Error loading game data:', error);
-    // Still update page elements with fallback title if error occurs
-    updatePageElements();
-  }
-}
+// Initialize the application when the DOM is ready
+document.addEventListener('DOMContentLoaded', initializeDeckbuilder);

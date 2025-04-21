@@ -212,6 +212,12 @@ body {
   outline: 1px solid var(--primary-color); /* Using outline instead of border */
 }
 
+/* Card in deck highlight */
+.card.in-deck {
+  border: 2px solid #ffd700; /* Yellow border */
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Subtle glow */
+}
+
 .card-image {
   width: 100%;
   height: calc(var(--card-width) * var(--card-aspect-ratio));

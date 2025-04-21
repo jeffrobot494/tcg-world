@@ -101,38 +101,44 @@
     margin-top: 20px;
 }
 
-.input-row {
-    display: flex;
-    width: 100%;
-}
-
 .button-row {
     display: flex;
     gap: 12px;
+    justify-content: flex-start;
 }
 
-.input-group {
+.type-row {
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-start;
+}
+
+.card-type-input-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    max-width: 300px;
 }
 
-.input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
+.small-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 3px;
+    font-weight: normal;
 }
 
-.input-group input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+.small-input {
+    padding: 5px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 12px;
+    width: 250px;
 }
 
 .input-help-text {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
+    font-size: 10px;
+    color: #888;
+    margin-top: 3px;
+    font-style: italic;
 }
 
 .upload-status {

@@ -31,13 +31,6 @@
             </div>
 
             <div class="uploader-controls">
-                <div class="input-row">
-                    <div class="input-group">
-                        <label for="cardTypeInput">Card Type (Optional):</label>
-                        <input type="text" id="cardTypeInput" placeholder="Enter card type">
-                        <p class="input-help-text">If all uploaded images belong to a single type, enter it here. Otherwise, leave this field empty.</p>
-                    </div>
-                </div>
                 <div class="button-row">
                     <button id="selectFolderBtn" class="primary-button">
                         <i class="fas fa-folder-open"></i> Select Folder
@@ -45,6 +38,13 @@
                     <button id="uploadImagesBtn" class="primary-button" disabled>
                         <i class="fas fa-upload"></i> Upload Images
                     </button>
+                </div>
+                <div class="type-row">
+                    <div class="card-type-input-container">
+                        <label for="cardTypeInput" class="small-label">Card Type (optional):</label>
+                        <input type="text" id="cardTypeInput" placeholder="Enter type for all cards" class="small-input">
+                        <p class="input-help-text">If all images belong to a single type, enter it here. Otherwise, leave empty.</p>
+                    </div>
                 </div>
                 <div id="uploadStatus" class="upload-status"></div>
             </div>

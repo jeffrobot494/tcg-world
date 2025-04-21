@@ -482,3 +482,58 @@ input:checked + .toggle-slider:before {
   width: 0;
   transition: width 0.3s ease;
 }
+
+.danger-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.danger-button:hover {
+  background-color: #c82333;
+}
+
+.danger-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+.notification.show {
+  opacity: 1;
+}
+.notification.info {
+  background-color: #2196F3;
+}
+.notification.success {
+  background-color: #4CAF50;
+}
+.notification.error {
+  background-color: #F44336;
+}
+.notification.warning {
+  background-color: #FFC107;
+  color: #333;
+}
+

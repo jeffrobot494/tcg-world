@@ -432,3 +432,68 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   }
   
 
+
+// Delete All Cards functionality
+const deleteAllCardsBtn = document.getElementById('deleteAllCardsBtn');
+if (deleteAllCardsBtn) {
+  deleteAllCardsBtn.addEventListener('click', async () => {
+    // Ask for confirmation with warning
+    const confirmDelete = confirm(
+      "WARNING: This will permanently delete ALL cards in this game. This action cannot be undone.\n\nAre you sure you want to delete all cards?"
+    );
+    
+    if (\!confirmDelete) {
+      return; // User cancelled the operation
+    }
+    
+    // Show a second confirmation for extra safety
+    const confirmDeleteAgain = confirm(
+      "You are about to delete ALL cards. This is your last chance to cancel.\n\nAre you REALLY sure?"
+    );
+    
+    if (\!confirmDeleteAgain) {
+      return; // User cancelled the operation
+    }
+    
+    try {
+      // Disable the button to prevent multiple clicks
+      deleteAllCardsBtn.disabled = true;
+      deleteAllCardsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+      
+      // Make the API call to delete all cards
+      const response = await fetch(`${API_URL}/api/games/${gameId}/cards`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (\!response.ok) {
+        throw new Error(`Failed to delete cards: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      // Show success message
+      showNotification(result.message, 'success');
+      
+      // Reset card table
+      renderCardTable([]);
+      
+      // Update card count display
+      const cardCountEl = document.getElementById('cardCount');
+      if (cardCountEl) {
+        cardCountEl.textContent = 'Cards: 0';
+      }
+      
+    } catch (error) {
+      console.error('Error deleting all cards:', error);
+      showNotification(`Error: ${error.message}`, 'error');
+    } finally {
+      // Re-enable the button
+      deleteAllCardsBtn.disabled = false;
+      deleteAllCardsBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete All Cards';
+    }
+  });
+}
+

@@ -31,12 +31,21 @@
             </div>
 
             <div class="uploader-controls">
-                <button id="selectFolderBtn" class="primary-button">
-                    <i class="fas fa-folder-open"></i> Select Folder
-                </button>
-                <button id="uploadImagesBtn" class="primary-button" disabled>
-                    <i class="fas fa-upload"></i> Upload Images
-                </button>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="cardTypeInput">Card Type (Optional):</label>
+                        <input type="text" id="cardTypeInput" placeholder="Enter card type">
+                        <p class="input-help-text">If all uploaded images belong to a single type, enter it here. Otherwise, leave this field empty.</p>
+                    </div>
+                </div>
+                <div class="button-row">
+                    <button id="selectFolderBtn" class="primary-button">
+                        <i class="fas fa-folder-open"></i> Select Folder
+                    </button>
+                    <button id="uploadImagesBtn" class="primary-button" disabled>
+                        <i class="fas fa-upload"></i> Upload Images
+                    </button>
+                </div>
                 <div id="uploadStatus" class="upload-status"></div>
             </div>
         </div>

@@ -158,6 +158,10 @@ async function uploadFiles() {
     let successCount = 0;
     let errorCount = 0;
     
+    // Get the card type if specified
+    const cardTypeInput = document.getElementById('cardTypeInput');
+    const cardType = cardTypeInput ? cardTypeInput.value.trim() : '';
+    
     // Disable upload button during upload
     uploadImagesBtn.disabled = true;
     
@@ -182,6 +186,18 @@ async function uploadFiles() {
             const cloudinaryData = await cloudinaryResponse.json();
             const imageUrl = cloudinaryData.secure_url;
             
+            // Prepare request payload
+            const payload = {
+                display_name: name,
+                file_name: name.toLowerCase(), // Lowercase the filename for consistency
+                image_url: imageUrl
+            };
+            
+            // Add card type if provided
+            if (cardType) {
+                payload.card_type = cardType;
+            }
+            
             // Save to our backend using the upload-card endpoint
             const response = await fetch(`${API_URL}/api/games/${gameId}/upload-card`, {
                 method: 'POST',
@@ -189,11 +205,7 @@ async function uploadFiles() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    display_name: name,
-                    file_name: name.toLowerCase(), // Lowercase the filename for consistency
-                    image_url: imageUrl
-                })
+                body: JSON.stringify(payload)
             });
             
             if (!response.ok) {

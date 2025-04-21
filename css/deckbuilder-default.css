@@ -16,6 +16,7 @@
   --footer-height: 40px;
   --card-width: 180px;
   --card-aspect-ratio: 1.4; /* Standard card ratio */
+  --card-spacing: 1px; /* Defined spacing variable for consistency */
 }
 
 * {
@@ -162,7 +163,7 @@ body {
 /* Card grid styles for direct page placement */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, var(--card-width));
+  grid-template-columns: repeat(auto-fill, calc(var(--card-width) + 2px)); /* Add 2px for left+right margins */
   gap: 0; /* No gap between cards */
   width: 100%; /* Full width since we're using padding on the container */
   padding: 0;
@@ -196,13 +197,13 @@ body {
   border: none; /* Removed border */
   border-radius: 0; /* Removed border radius */
   padding: 0; /* Removed padding */
-  margin: 1px; /* Add 1px spacing on all sides */
+  margin: var(--card-spacing); /* Consistent 1px spacing on all sides */
   background-color: white;
   display: flex;
   flex-direction: column;
   transition: transform 0.1s, box-shadow 0.1s;
   cursor: pointer; /* Show pointer cursor on hover */
-  width: var(--card-width); /* Fixed width */
+  width: calc(var(--card-width) - 2px); /* Account for left and right margins */
 }
 
 .card:hover {

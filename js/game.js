@@ -454,15 +454,6 @@ if (deleteAllCardsBtn) {
       return; // User cancelled the operation
     }
     
-    // Show a second confirmation for extra safety
-    const confirmDeleteAgain = confirm(
-      "You are about to delete ALL cards. This is your last chance to cancel.\n\nAre you REALLY sure?"
-    );
-    
-    if (!confirmDeleteAgain) {
-      return; // User cancelled the operation
-    }
-    
     try {
       // Disable the button to prevent multiple clicks
       deleteAllCardsBtn.disabled = true;

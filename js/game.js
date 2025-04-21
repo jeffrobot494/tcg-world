@@ -450,7 +450,7 @@ if (deleteAllCardsBtn) {
       "WARNING: This will permanently delete ALL cards in this game. This action cannot be undone.\n\nAre you sure you want to delete all cards?"
     );
     
-    if (\!confirmDelete) {
+    if (!confirmDelete) {
       return; // User cancelled the operation
     }
     
@@ -459,7 +459,7 @@ if (deleteAllCardsBtn) {
       "You are about to delete ALL cards. This is your last chance to cancel.\n\nAre you REALLY sure?"
     );
     
-    if (\!confirmDeleteAgain) {
+    if (!confirmDeleteAgain) {
       return; // User cancelled the operation
     }
     
@@ -476,7 +476,7 @@ if (deleteAllCardsBtn) {
         }
       });
       
-      if (\!response.ok) {
+      if (!response.ok) {
         throw new Error(`Failed to delete cards: ${response.statusText}`);
       }
       

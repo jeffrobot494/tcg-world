@@ -1,23 +1,15 @@
 const params = new URLSearchParams(window.location.search);
 const gameId = params.get("gameId");
 const token = localStorage.getItem("token");
-const API_URL = "https://tcg-world-backend-production.up.railway.app";
-
-// Base URL configuration
-const CONFIG = {
-  API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "", // Same directory for HTML files
-  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
-  BASE_JS_PATH: "../js/"      // Path to JS directory
-};
+// Use global CONFIG from config-loader.js
 
 // Check for auth and game ID
 if (!token) {
-    window.location.href = `${CONFIG.BASE_HTML_PATH}login.html`;
+    window.location.href = `${window.CONFIG.BASE_HTML_PATH}login.html`;
 }
 
 if (!gameId) {
-    window.location.href = `${CONFIG.BASE_HTML_PATH}dashboard.html`;
+    window.location.href = `${window.CONFIG.BASE_HTML_PATH}dashboard.html`;
 }
 
 // DOM Elements
@@ -35,13 +27,13 @@ let linkedSheets = [];
 
 // Update the Back to Game link to include the game ID
 if (backLink) {
-    backLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${gameId}`;
+    backLink.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${gameId}`;
 }
 
 // Fetch game details
 async function fetchGameDetails() {
     try {
-        const response = await fetch(`${API_URL}/api/games/${gameId}`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -135,7 +127,7 @@ async function processDirectory(dirHandle) {
 // Get user info
 async function fetchUserInfo() {
     try {
-        const response = await fetch(`${API_URL}/api/me`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/me`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -207,7 +199,7 @@ async function uploadFiles() {
             }
             
             // Save to our backend using the upload-card endpoint
-            const response = await fetch(`${API_URL}/api/games/${gameId}/upload-card`, {
+            const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/upload-card`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -369,7 +361,7 @@ async function validateGoogleSheet() {
     sheetStatus.textContent = 'Validating sheet...';
     
     try {
-        const response = await fetch(`${API_URL}/api/games/${gameId}/validate-sheet`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/validate-sheet`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -566,7 +558,7 @@ async function syncGoogleSheet() {
     
     try {
         // First, store the sheet in the database
-        const addSheetResponse = await fetch(`${API_URL}/api/games/${gameId}/sheets`, {
+        const addSheetResponse = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sheets`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -585,7 +577,7 @@ async function syncGoogleSheet() {
         }
         
         // Then sync the data
-        const response = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sync-sheet`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -705,7 +697,7 @@ function displaySyncResults(results) {
 // Fetch linked sheets for this game
 async function fetchLinkedSheets() {
     try {
-        const response = await fetch(`${API_URL}/api/games/${gameId}/sheets`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sheets`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -811,7 +803,7 @@ async function refreshSheet(sheetId) {
     refreshBtn.disabled = true;
     
     try {
-        const response = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sync-sheet`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -862,7 +854,7 @@ async function removeSheet(sheetId) {
     }
     
     try {
-        const response = await fetch(`${API_URL}/api/games/${gameId}/sheets/${sheetId}`, {
+        const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sheets/${sheetId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`

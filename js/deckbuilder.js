@@ -3,17 +3,8 @@
  * Handles fetching, displaying, and managing cards in the deckbuilder interface
  */
 
-// Configuration and Constants
-const API_URL = "https://tcg-world-backend-production.up.railway.app";
+// Configuration Constants
 const CARDS_PER_PAGE = 50;
-
-// Base URL configuration
-const CONFIG = {
-  API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "", // Same directory for HTML files
-  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
-  BASE_JS_PATH: "../js/"      // Path to JS directory
-};
 
 // Application State
 const state = {
@@ -198,7 +189,7 @@ function isCardInDeck(cardId) {
 async function fetchGameName() {
   try {
     // Make sure we're using the correct endpoint to get game details
-    const response = await fetch(`${API_URL}/api/games/${state.gameId}`);
+    const response = await fetch(`${window.CONFIG.API_URL}/api/games/${state.gameId}`);
     
     if (!response.ok) {
       throw new Error('Failed to load game data');
@@ -224,7 +215,7 @@ async function fetchGameName() {
 async function loadCards() {
   try {
     // Use POST endpoint which allows for sorting
-    const response = await fetch(`${API_URL}/api/games/${state.gameId}/cards`, {
+    const response = await fetch(`${window.CONFIG.API_URL}/api/games/${state.gameId}/cards`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

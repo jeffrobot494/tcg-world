@@ -2,15 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const gameId = params.get("gameId");
 
 const token = localStorage.getItem("token");
-const API_URL = "https://tcg-world-backend-production.up.railway.app";
-
-// Base URL configuration
-const CONFIG = {
-  API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "", // Same directory for HTML files
-  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
-  BASE_JS_PATH: "../js/"      // Path to JS directory
-};
+// Use global CONFIG from config-loader.js
 
 // Function to render the card table
 function renderCardTable(cards) {
@@ -72,7 +64,7 @@ async function handleDeleteCard(event) {
   
   try {
     // Send delete request to the backend
-    const response = await fetch(`${API_URL}/api/games/${gameId}/cards/${cardId}`, {
+    const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -163,7 +155,7 @@ function showNotification(message, type = 'info') {
 
 
 // Fetch game data
-fetch(`${API_URL}/api/games/${gameId}`, {
+fetch(`${window.CONFIG.API_URL}/api/games/${gameId}`, {
   headers: {
     Authorization: `Bearer ${token}`
   }
@@ -222,7 +214,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     }
     
     // Fetch cards
-    return fetch(`${API_URL}/api/games/${gameId}/cards`, {
+    return fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/cards`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -268,7 +260,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     statusEl.style.color = "black";
     
     try {
-      const res = await fetch(`${API_URL}/api/games/${gameId}/sheet`, {
+      const res = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sheet`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -327,7 +319,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
     `;
     
     try {
-      const res = await fetch(`${API_URL}/api/games/${gameId}/sync-sheet`, {
+      const res = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/sync-sheet`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -385,7 +377,7 @@ fetch(`${API_URL}/api/games/${gameId}`, {
   
   // Helper function to refresh game data
   function refreshGameData() {
-    fetch(`${API_URL}/api/games/${gameId}`, {
+    fetch(`${window.CONFIG.API_URL}/api/games/${gameId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -461,7 +453,7 @@ if (deleteAllCardsBtn) {
       deleteAllCardsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
       
       // Make the API call to delete all cards
-      const response = await fetch(`${API_URL}/api/games/${gameId}/cards`, {
+      const response = await fetch(`${window.CONFIG.API_URL}/api/games/${gameId}/cards`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

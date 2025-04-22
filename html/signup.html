@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Sign Up – TCG World</title>
   <link rel="stylesheet" href="../css/auth.css">
+  <script src="../js/config-loader.js"></script>
 </head>
 <body>
   <div class="auth-container">
@@ -17,15 +18,13 @@
   </div>
 
   <script>
-	const BACKEND_URL = 'https://tcg-world-backend-production.up.railway.app';
-
     const form = document.getElementById('signupForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = form.email.value;
       const password = form.password.value;
 
-      const res = await fetch(`${BACKEND_URL}/api/signup`, {
+      const res = await fetch(`${window.CONFIG.API_URL}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

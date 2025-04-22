@@ -1,15 +1,9 @@
-// Base URL configuration
-const CONFIG = {
-  API_URL: "https://tcg-world-backend-production.up.railway.app",
-  BASE_HTML_PATH: "", // Same directory for HTML files
-  BASE_CSS_PATH: "../css/",   // Path to CSS directory 
-  BASE_JS_PATH: "../js/"      // Path to JS directory
-};
+// Use global CONFIG from config-loader.js
 
 const token = localStorage.getItem("token");
-if (!token) window.location.href = `${CONFIG.BASE_HTML_PATH}login.html`;
+if (!token) window.location.href = `${window.CONFIG.BASE_HTML_PATH}login.html`;
 
-fetch(`${CONFIG.API_URL}/api/me`, {
+fetch(`${window.CONFIG.API_URL}/api/me`, {
   headers: { Authorization: `Bearer ${token}` }
 })
   .then(res => res.json())
@@ -17,11 +11,11 @@ fetch(`${CONFIG.API_URL}/api/me`, {
     if (data.email) {
       document.getElementById("email").innerText = `Logged in as: ${data.email}`;
     } else {
-      window.location.href = `${CONFIG.BASE_HTML_PATH}login.html`;
+      window.location.href = `${window.CONFIG.BASE_HTML_PATH}login.html`;
     }
   });
   
-fetch(`${CONFIG.API_URL}/api/games`, {
+fetch(`${window.CONFIG.API_URL}/api/games`, {
     headers: { Authorization: `Bearer ${token}` }
 })
     .then (res => res.json())
@@ -36,7 +30,7 @@ fetch(`${CONFIG.API_URL}/api/games`, {
                 
                 // Game link (same as before)
                 const link = document.createElement("a");
-                link.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${game.id}`;
+                link.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${game.id}`;
                 link.innerText = game.name;
                 link.style.display = "block";
                 gameContainer.appendChild(link);
@@ -68,7 +62,7 @@ document.getElementById('createGameBtn').addEventListener('click', async () => {
 
     if (!gameName) return;
 
-    const res = await fetch(`${CONFIG.API_URL}/api/games`, {
+    const res = await fetch(`${window.CONFIG.API_URL}/api/games`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

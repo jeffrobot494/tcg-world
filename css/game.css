@@ -1,0 +1,480 @@
+/* Game page styles */
+.game-page body {
+  font-family: Arial, sans-serif;
+  max-width: 1200px; /* Increased from 800px to accommodate wider table */
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.5;
+}
+
+.game-page .container {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: left;
+  margin: 0 0 25px 0;
+}
+
+.game-page h1, .game-page h2 {
+  color: #333;
+}
+
+.game-page button {
+  padding: 8px 16px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.game-page button:hover {
+  background-color: #3367d6;
+}
+
+.game-page a {
+  color: #4285f4;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.game-page a:hover {
+  text-decoration: underline;
+}
+
+#cardCount {
+  font-weight: bold;
+  color: #4285f4;
+}
+
+/* Card table styles */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.action-link {
+  background-color: #4285f4;
+  color: white !important;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+}
+
+.action-link:hover {
+  background-color: #3367d6;
+  text-decoration: none;
+}
+
+.card-table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0;
+  overflow-x: auto; /* Allow horizontal scrolling for wider table */
+  max-width: 100%; /* Take up full width of container */
+  margin: 0 auto; /* Center the container */
+}
+
+.card-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1350px; /* Increased by 50% from 900px */
+}
+
+.card-table th, 
+.card-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+/* Actions column - keep buttons horizontal */
+.card-table th:last-child,
+.card-table td:last-child {
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.card-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.card-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.card-image-thumbnail {
+  width: 50px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.visibility-toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.visibility-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: .4s;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked + .toggle-slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Icon buttons for card actions */
+.icon-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 5px;
+  display: inline-block; /* Keep icons horizontal */
+  padding: 5px;
+}
+
+.icon-button:hover {
+  color: #333;
+}
+
+.edit-card {
+  color: #4285f4;
+}
+
+.delete-card {
+  color: #f44336;
+}
+
+/* Sheet mappings styles */
+.sheet-mappings {
+  margin: 15px 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.sheet-mapping {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.sheet-mapping:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sheet-url {
+  font-size: 0.9em;
+  color: #4285f4;
+  word-break: break-all;
+}
+
+.last-refreshed {
+  font-size: 0.8em;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Sheet sync styles */
+.sheet-mappings h4 {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 1em;
+  color: #555;
+}
+
+.sheet-mappings-list {
+  margin-bottom: 12px;
+}
+
+.sheet-actions {
+  padding: 10px;
+  background-color: #f0f8ff;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.sync-selector {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.sync-btn {
+  background-color: #4CAF50;
+}
+
+.sync-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.sync-status {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.sync-status .error {
+  color: #f44336;
+}
+
+.sync-status .success {
+  color: #4CAF50;
+}
+
+.sync-errors {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #fff0f0;
+  border-radius: 4px;
+  border-left: 3px solid #f44336;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background-color: #4CAF50;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.danger-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.danger-button:hover {
+  background-color: #c82333;
+}
+
+.danger-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal styles for the card modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  animation: modalOpen 0.3s;
+}
+
+@keyframes modalOpen {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.close-modal {
+  font-size: 24px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: #333;
+}
+
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.7;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button.active {
+  opacity: 1;
+  border-bottom-color: #4285f4;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+.notification.show {
+  opacity: 1;
+}
+.notification.info {
+  background-color: #2196F3;
+}
+.notification.success {
+  background-color: #4CAF50;
+}
+.notification.error {
+  background-color: #F44336;
+}
+.notification.warning {
+  background-color: #FFC107;
+  color: #333;
+}
+
+/* Help text styling */
+.help-text {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 10px;
+  border-left: 3px solid #4285f4;
+}
+
+/* Input group styling for form elements */
+.input-group {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.input-group input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}

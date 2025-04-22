@@ -188,12 +188,15 @@ p {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 0;
-  overflow: hidden;
+  overflow-x: auto; /* Allow horizontal scrolling for wider table */
+  max-width: 95%; /* Increase from default sizing */
+  margin: 0 auto; /* Center the container */
 }
 
 .card-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 900px; /* Ensure table is wide enough for all columns */
 }
 
 .card-table th, 

@@ -19,7 +19,7 @@ function renderCardTable(cards) {
   if (!cards || cards.length === 0) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="5" style="text-align: center; padding: 30px;">
+        <td colspan="6" style="text-align: center; padding: 30px;">
           No cards yet. Use the Uploader to add cards.
         </td>
       </tr>
@@ -34,6 +34,7 @@ function renderCardTable(cards) {
       </td>
       <td>${card.display_name}</td>
       <td>${card.file_name}</td>
+      <td>${card.type || '—'}</td>
       <td>
         <label class="visibility-toggle">
           <input type="checkbox" ${card.visible ? 'checked' : ''}>

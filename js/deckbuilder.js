@@ -295,7 +295,12 @@ function extractCardTypes() {
   const types = new Set();
   
   state.cards.forEach(card => {
-    if (card.data) {
+    // Check for direct type field
+    if (card.type) {
+      types.add(card.type.toString());
+    }
+    // Fallback to data object if type not directly on card
+    else if (card.data) {
       // Look for fields that might contain type information
       ['type', 'card_type', 'category'].forEach(field => {
         if (card.data[field]) {
@@ -343,15 +348,22 @@ function filterCards(nameSearch, typeFilter) {
     }
     
     // Check type filter
-    if (typeFilter && card.data) {
+    if (typeFilter) {
       matchesType = false; // Assume no match unless we find one
       
-      // Check common type fields
-      ['type', 'card_type', 'category'].forEach(field => {
-        if (card.data[field] && card.data[field].toString().toLowerCase() === typeFilter.toLowerCase()) {
-          matchesType = true;
-        }
-      });
+      // Check direct type field first
+      if (card.type && card.type.toString().toLowerCase() === typeFilter.toLowerCase()) {
+        matchesType = true;
+      }
+      // Fallback to data object
+      else if (card.data) {
+        // Check common type fields
+        ['type', 'card_type', 'category'].forEach(field => {
+          if (card.data[field] && card.data[field].toString().toLowerCase() === typeFilter.toLowerCase()) {
+            matchesType = true;
+          }
+        });
+      }
     }
     
     return matchesName && matchesType;

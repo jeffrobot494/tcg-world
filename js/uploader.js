@@ -203,7 +203,7 @@ async function uploadFiles() {
             
             // Add card type if provided
             if (cardType) {
-                payload.card_type = cardType;
+                payload.type = cardType;
             }
             
             // Save to our backend using the upload-card endpoint

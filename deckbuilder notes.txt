@@ -1,19 +1,51 @@
-Rules for building the deckbuilder:
-1) Use the proposal-review system we always use, where you propose changes and give me a full code review, and then I either give approval or make changes.
-2) We want the user's to be able to use their own css sheets. This means all styles will be kept in a separate, dedicated css sheet. 
-3) All important divs will have intuitively-named ids and/or classes.
-4) We will have a "default style" css sheet that each deckbuilder will use until the creator changes it. It will be clean and simple. 
+-get supplies
+	check
+-make kitty posters
+	check
+-outline finances
+	-$11k in debt
+	$6k in cash and Bitcoin
+	$500 in cash
+	If I spend $2500 per month, I will be flat broke in two months.
+-outline go to market strategy for app
+	My go to marketing strategy is reaching out to creators directly and forming partnerships with them to get them to use my platform. ie Hinchi is perfect. He's using TTS, he's actively marketing his game, etc.
+	Hinchi has his own website. He would probably want an "iframe" to embed in his website. 
+-outline app MVP-alpha
+	Basic Search: cost, type (if available)
+	Basic onboarding UX is up
+	Get local development server so I can make changes/test without affecting the live site.
+	assign type w img upload
+	when linking sheet preview, only show ones that didn't work.
+	MVP-beta:
+		Creator analytics
+		TTS tool
+		Advanced search
+		iFrame
+		cache cards in gameview so we dont have to download them everytime
+-work on app
+-outline therapy
+-outline life
+-get haircut
+	"check"
+-app analytics page
 
-Elements
-1) Header and Navbar
-2) Search bar
-3) Card display grid
-4) Decklist
+More notes:
+1) on the game page, show all the data we have for the card. make the table wider so we can fit all the data. so we can see that our type is working.
+2) Card type filter on deckbuilder needs to actually filter by card type.
+3) Visibility is on by default, so toggle should be green.
+4) Hide "advanced" toggler under collapsible bar
+5) add dark mode (default)
 
-1) The Header and navbar is very simple. Displays the game name and has buttons to take you back home, game page, or dashboard.
-
-2) The search bar is where users enter parameters to filter cards. It is between the header and the card display grid.
-
-3) Card Display Grid - this takes up 3/4 of the width of the page. Cards are displayed in rows of 5. There are 50 cards per page. The user scrolls to move the grid and view more cards. 
-
-4) The right quarter of the screen is where the the deck is displayed. The deckbuilder has a selection of buttons and labels at the top, like "save", "download", "import", etc. Below that is the list of the cards in the deck.
+The UX:
+1) they don't have a google spreadsheet, they just have folder(s) of cards. 
+	a) They navigate to the folders and optionally choose types and upload the cards. 
+	b) if type is present, it should display in the card list and be able to sort by it in the deckbuilder.
+		this falls under, "display all the properties of a card in the card list.
+	c) (Future) Editing directly from the deckbuilder so they can add searchable attributes to cards.
+	d) (Future) Creating spreadsheet templates for people to start their own spreadsheets.
+2) they do have a google spreadsheet:
+	a) the spreadsheet needs file_name column.
+	b) we need a way for them to copy and paste file names from the deckbuilder to their spreadsheet
+	c) other than that, we don't tell them what to do. Whatever columns are in their spreadsheet go directly into data in their database. 
+	d) We display all the data in the game card list
+	e) Advanced search automatically lets you do >, = , < on integer values, and search for strings in 	string values. You can type these things into the search bar, or there's a little modal menu that drops 	down to give you a gui for it.

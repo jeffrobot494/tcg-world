@@ -101,30 +101,34 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 0;
-  overflow-x: auto; /* Allow horizontal scrolling for wider table */
-  max-width: 100%; /* Take up full width of container */
+  overflow-x: hidden; /* Hide horizontal scrolling */
+  width: 100%; /* Take up full width */
   margin: 0 auto; /* Center the container */
 }
 
 .card-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1350px; /* Increased by 50% from 900px */
+  table-layout: fixed; /* Use fixed layout for predictable column sizing */
 }
 
 .card-table th, 
 .card-table td {
-  padding: 12px 15px;
+  padding: 8px 10px; /* Reduced padding */
   text-align: left;
   border-bottom: 1px solid #f1f1f1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
-/* Actions column - keep buttons horizontal */
-.card-table th:last-child,
-.card-table td:last-child {
-  white-space: nowrap;
-  min-width: 100px;
-}
+/* Column width distributions */
+.card-table th:nth-child(1), .card-table td:nth-child(1) { width: 8%; } /* Image */
+.card-table th:nth-child(2), .card-table td:nth-child(2) { width: 20%; } /* Card Name */
+.card-table th:nth-child(3), .card-table td:nth-child(3) { width: 20%; } /* File Name */
+.card-table th:nth-child(4), .card-table td:nth-child(4) { width: 15%; } /* Type */
+.card-table th:nth-child(5), .card-table td:nth-child(5) { width: 15%; } /* Visibility */
+.card-table th:nth-child(6), .card-table td:nth-child(6) { width: 12%; } /* Actions */
 
 .card-table th {
   background-color: #f8f8f8;
@@ -136,8 +140,8 @@
 }
 
 .card-image-thumbnail {
-  width: 50px;
-  height: 70px;
+  width: 40px;
+  height: 56px; /* Maintained aspect ratio */
   object-fit: cover;
   border-radius: 4px;
 }
@@ -145,8 +149,8 @@
 .visibility-toggle {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 24px;
+  width: 40px;
+  height: 20px;
 }
 
 .visibility-toggle input {
@@ -170,10 +174,10 @@
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 16px;
-  width: 16px;
-  left: 4px;
-  bottom: 4px;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
   border-radius: 50%;
   transition: .4s;
@@ -184,7 +188,7 @@ input:checked + .toggle-slider {
 }
 
 input:checked + .toggle-slider:before {
-  transform: translateX(26px);
+  transform: translateX(20px);
 }
 
 /* Icon buttons for card actions */
@@ -193,10 +197,10 @@ input:checked + .toggle-slider:before {
   border: none;
   color: #666;
   cursor: pointer;
-  font-size: 16px;
-  margin: 0 5px;
+  font-size: 14px;
+  margin: 0 3px;
   display: inline-block; /* Keep icons horizontal */
-  padding: 5px;
+  padding: 4px;
 }
 
 .icon-button:hover {

@@ -1,6 +1,7 @@
 // Set default configuration
 window.CONFIG = {
   API_URL: "https://tcg-world-backend-production.up.railway.app",
+  //API_URL: "http://localhost:3000",
   BASE_HTML_PATH: "", // Same directory for HTML files
   BASE_CSS_PATH: "../css/",   // Path to CSS directory 
   BASE_JS_PATH: "../js/"      // Path to JS directory
@@ -18,32 +19,30 @@ function fileExists(url) {
   }
 }
 
-// Wait until DOM is ready to ensure configs are loaded before other scripts run
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Config loader running, current configuration:', window.CONFIG);
+// Function to create and inject a script tag
+function injectScript(src) {
+  const script = document.createElement('script');
+  script.src = src;
+  
+  // Use onload to know when the script has loaded
+  script.onload = function() {
+    console.log(`Loaded configuration from: ${src}`);
+  };
+  
+  document.head.appendChild(script);
+}
 
-  // Function to create and inject a script tag
-  function injectScript(src) {
-    const script = document.createElement('script');
-    
-    // Use onload to know when the script has loaded
-    script.onload = function() {
-      console.log(`Loaded and merged configuration from: ${src}`);
-    };
-    
-    script.src = src;
-    document.head.appendChild(script);
-  }
+// IMMEDIATELY check for local config first, don't wait for DOMContentLoaded
+console.log('Config loader initializing, default configuration:', window.CONFIG);
 
-  // Check for local config first
-  if (fileExists('../config.local.js')) {
-    injectScript('../config.local.js');
+// Check for local config first
+if (fileExists('../config.local.js')) {
+  injectScript('../config.local.js');
+} else {
+  // Fall back to production config
+  if (fileExists('../config.js')) {
+    injectScript('../config.js');
   } else {
-    // Fall back to production config
-    if (fileExists('../config.js')) {
-      injectScript('../config.js');
-    } else {
-      console.warn('No configuration files found, using defaults');
-    }
+    console.warn('No configuration files found, using defaults');
   }
-});
+}

@@ -35,6 +35,7 @@ More notes:
 3) Visibility is on by default, so toggle should be green.
 4) Hide "advanced" toggler under collapsible bar
 5) add dark mode (default)
+6) Need an "export deck image for TTS" which composites the deck into an image, saves it to cloudinary, and returns the url. Then they can plug that into the TTS object. Also, the TTS object needs to define a card back.
 
 The UX:
 1) they don't have a google spreadsheet, they just have folder(s) of cards. 

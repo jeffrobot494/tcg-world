@@ -80,7 +80,7 @@ function updatePageElements() {
   
   // Update game link
   if (elements.gameLink) {
-    elements.gameLink.href = `${CONFIG.BASE_HTML_PATH}game.html?gameId=${state.gameId}`;
+    elements.gameLink.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${state.gameId}`;
   }
 }
 

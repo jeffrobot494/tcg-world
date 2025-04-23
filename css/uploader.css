@@ -200,8 +200,10 @@
 }
 
 #imagesTable img.image-thumbnail {
-    width: 60px;
-    height: 84px; /* Assuming 3:4 ratio for card images */
+    max-width: 80px; /* Maximum width */
+    max-height: 80px; /* Maximum height */
+    width: auto;    /* Allow natural width */
+    height: auto;   /* Allow natural height */
     object-fit: contain;
     border-radius: 4px;
     border: 1px solid #eee;

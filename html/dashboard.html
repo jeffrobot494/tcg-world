@@ -1,14 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dashboard – TCG World</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - TCG World</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
   <script src="../js/config-loader.js"></script>
 </head>
 <body>
-  <h1>Welcome to your dashboard!</h1>
-  <p id="email">Loading...</p>
-  <div id="games"></div>
-  <button id="createGameBtn">Create New Game</button>
+  <!-- Header and Navigation - Exactly like deckbuilder -->
+  <header id="mainHeader" class="site-header">
+    <h1 id="gameTitle" class="game-title">Dashboard</h1>
+    <nav id="mainNav" class="main-navigation">
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link" id="homeLink">Home</a></li>
+        <li><a href="game.html" class="nav-link" id="gameLink">Game Page</a></li>
+        <li><a href="#" class="nav-link" id="logoutLink">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Layout Container - Like deckbuilder -->
+  <div class="layout-container">
+    <!-- Main Container -->
+    <main id="mainContent" class="main-container">
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <h2 class="welcome-title">Welcome to Your Dashboard</h2>
+        <p class="user-email" id="email">Loading...</p>
+      </section>
+
+      <!-- Games Section -->
+      <section class="games-section">
+        <h3 class="games-title">Your Games</h3>
+        <div id="games" class="games-list">
+          <!-- Games will be dynamically loaded here -->
+        </div>
+      </section>
+
+      <!-- Create Game Button -->
+      <button id="createGameBtn" class="create-button">Create New Game</button>
+    </main>
+  </div>
+
   <script src="../js/dashboard.js"></script>
 </body>
 </html>

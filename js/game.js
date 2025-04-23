@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const gameId = params.get("gameId");
   
   const token = localStorage.getItem("token");
+  
+  // Update both deckbuilder links to include the gameId
+  // First, update the link in the navbar
+  const deckbuilderNavLink = document.getElementById('deckbuilderLink');
+  if (deckbuilderNavLink && gameId) {
+    deckbuilderNavLink.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${gameId}`;
+  }
+  
+  // We also need to update the deckbuilder link in the content area
+  const deckbuilderContentLink = document.querySelector('.header-actions .deck-link');
+  if (deckbuilderContentLink && gameId) {
+    deckbuilderContentLink.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${gameId}`;
+  }
   // Use global CONFIG from config-loader.js
   
   // Function to render the card table
@@ -171,11 +184,15 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("gameName").innerText = gameName;
       document.getElementById("cardCount").innerText = `Cards: ${cardCount}`;
       
-      // Update deckbuilder link with the current game ID
-      const deckbuilderLink = document.getElementById("deckbuilderLink");
-      if (deckbuilderLink) {
-        deckbuilderLink.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${gameId}`;
-      }
+      // Update the site header title
+      document.getElementById("gameTitle").innerText = `Game: ${gameName}`;
+      
+      // Update all deckbuilder links in the page with the current game ID
+      // There are two links - one in the navbar and one in the header actions
+      const deckbuilderLinks = document.querySelectorAll('#deckbuilderLink, .deck-link');
+      deckbuilderLinks.forEach(link => {
+        link.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${gameId}`;
+      });
       
       // Update uploader link with the current game ID
       const uploaderLink = document.getElementById("uploaderLink");

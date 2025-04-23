@@ -17,6 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Set up UI events
   setupCreateGameButton();
+  
+  // Add logout functionality
+  const logoutLink = document.getElementById('logoutLink');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      window.location.href = `${window.CONFIG.BASE_HTML_PATH}login.html`;
+    });
+  }
 });
 
 // Function to fetch user data
@@ -45,46 +55,76 @@ function fetchGames(token) {
   })
     .then(res => res.json())
     .then(data => {
+      const gamesContainer = document.getElementById('games');
+      
       if(data.length > 0) {
-        const gamesDiv = document.getElementById('games');
-        gamesDiv.innerHTML = "<h3>Your Games</h3>";
+        gamesContainer.innerHTML = ""; // Clear any previous content
         
         data.forEach(game => {
-          // Create a container for each game
-          const gameContainer = document.createElement("div");
+          // Create a game card element
+          const gameCard = document.createElement("div");
+          gameCard.className = "game-card";
           
-          // Game link
-          const link = document.createElement("a");
-          link.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${game.id}`;
-          link.innerText = game.name;
-          link.style.display = "block";
-          gameContainer.appendChild(link);
+          // Game title/link
+          const gameLink = document.createElement("a");
+          gameLink.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${game.id}`;
+          gameLink.className = "game-link";
+          gameLink.innerText = game.name;
+          gameCard.appendChild(gameLink);
           
-          // Game details line
-          const details = document.createElement("div");
+          // Game details
+          const gameDetails = document.createElement("div");
+          gameDetails.className = "game-details";
           
           // Format date if available
           let dateText = "";
           if (game.created_at) {
             const date = new Date(game.created_at);
-            dateText = `Created: ${date.toLocaleDateString()} • `;
+            dateText = `Created: ${date.toLocaleDateString()}`;
           }
           
           // Add card count if available
           const cardCount = typeof game.cardCount === 'number' ? game.cardCount : 0;
-          details.innerText = `${dateText}Cards: ${cardCount}`;
+          gameDetails.innerHTML = `
+            <span>${dateText}</span>
+            <span>Cards: ${cardCount}</span>
+          `;
+          gameCard.appendChild(gameDetails);
           
-          gameContainer.appendChild(details);
-          gamesDiv.appendChild(gameContainer);
+          // Action buttons
+          const actionButtons = document.createElement("div");
+          actionButtons.className = "game-actions";
+          
+          // Deckbuilder link
+          const deckbuilderLink = document.createElement("a");
+          deckbuilderLink.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${game.id}`;
+          deckbuilderLink.className = "action-button primary";
+          deckbuilderLink.innerText = "Deck Builder";
+          actionButtons.appendChild(deckbuilderLink);
+          
+          // Game details link
+          const detailsLink = document.createElement("a");
+          detailsLink.href = `${window.CONFIG.BASE_HTML_PATH}game.html?gameId=${game.id}`;
+          detailsLink.className = "action-button";
+          detailsLink.innerText = "Manage Game";
+          actionButtons.appendChild(detailsLink);
+          
+          gameCard.appendChild(actionButtons);
+          
+          // Add to the games container
+          gamesContainer.appendChild(gameCard);
         });
       } else {
-        const gamesDiv = document.getElementById('games');
-        gamesDiv.innerHTML = "<p>You don't have any games yet. Create one to get started!</p>";
+        gamesContainer.innerHTML = `
+          <div class="no-games-message">
+            You don't have any games yet. Create one to get started!
+          </div>
+        `;
       }
     })
     .catch(error => {
       console.error('Error fetching games:', error);
-      document.getElementById('games').innerHTML = '<p>Error loading games</p>';
+      document.getElementById('games').innerHTML = '<div class="no-games-message">Error loading games. Please try again later.</div>';
     });
 }
 

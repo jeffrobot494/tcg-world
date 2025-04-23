@@ -15,7 +15,7 @@
   --header-height: 60px;
   --footer-height: 40px;
   --card-width: 180px;
-  --card-aspect-ratio: 1.4; /* Standard card ratio */
+  /* No fixed aspect ratio - allow card images to display naturally */
   --card-spacing: 1px; /* Defined spacing variable for consistency */
 }
 
@@ -220,11 +220,12 @@ body {
 
 .card-image {
   width: 100%;
-  height: calc(var(--card-width) * var(--card-aspect-ratio));
+  aspect-ratio: auto; /* Let the image determine its own aspect ratio */
   object-fit: contain;
   border-radius: 0; /* Removed border radius */
   margin: 0; /* Ensure no margin */
   padding: 0; /* Ensure no padding */
+  max-height: 250px; /* Reasonable maximum height */
 }
 
 .card-name {

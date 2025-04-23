@@ -1,44 +1,63 @@
 <!DOCTYPE html>
-<html class="game-page">
+<html lang="en" class="game-page">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game – TCG World</title>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/game.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="../js/config-loader.js"></script>
 </head>
-<body>
-  <div class="game-header">
-    <div>
-      <h1 id="gameName">Game Name</h1>
-      <p id="cardCount">Cards: 0</p>
-    </div>
-    <div class="header-actions">
-      <a href="uploader.html" id="uploaderLink" class="action-link"><i class="fas fa-upload"></i> Uploader</a>
-      <a href="deckbuilder.html" id="deckbuilderLink" class="deck-link">Go to Deck Builder</a>
-      <button id="deleteAllCardsBtn" class="danger-button">
-        <i class="fas fa-trash-alt"></i> Delete All Cards
-      </button>
-    </div>
-  </div>
-  
-  <!-- Card Table -->
-  <div class="card-table-container">
-    <table id="cardTable" class="card-table">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Card Name</th>
-          <th>File Name</th>
-          <th>Type</th>
-          <th>Visibility</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Cards will be populated here by JavaScript -->
-      </tbody>
-    </table>
+<body class="game-page">
+  <!-- Header and Navigation - Just like deckbuilder and dashboard -->
+  <header id="mainHeader" class="site-header">
+    <h1 id="gameTitle" class="game-title">Game Page</h1>
+    <nav id="mainNav" class="main-navigation">
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link" id="homeLink">Home</a></li>
+        <li><a href="dashboard.html" class="nav-link" id="dashboardLink">Dashboard</a></li>
+        <li><a href="deckbuilder.html" class="nav-link" id="deckbuilderLink">Deck Builder</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Layout Container -->
+  <div class="layout-container">
+    <main class="main-container">
+      <div class="game-header">
+        <div>
+          <h1 id="gameName">Game Name</h1>
+          <p id="cardCount">Cards: 0</p>
+        </div>
+        <div class="header-actions">
+          <a href="uploader.html" id="uploaderLink" class="action-link"><i class="fas fa-upload"></i> Uploader</a>
+          <a href="deckbuilder.html" id="deckbuilderLink" class="deck-link">Go to Deck Builder</a>
+          <button id="deleteAllCardsBtn" class="danger-button">
+            <i class="fas fa-trash-alt"></i> Delete All Cards
+          </button>
+        </div>
+      </div>
+      
+      <!-- Card Table -->
+      <div class="card-table-container">
+        <table id="cardTable" class="card-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Card Name</th>
+              <th>File Name</th>
+              <th>Type</th>
+              <th>Visibility</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Cards will be populated here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </main>
   </div>
   
   <!-- Add Card Modal -->

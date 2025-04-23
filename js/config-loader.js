@@ -1,7 +1,7 @@
 // Set default configuration
 window.CONFIG = {
-  API_URL: "https://tcg-world-backend-production.up.railway.app",
-  //API_URL: "http://localhost:3000",
+  //API_URL: "https://tcg-world-backend-production.up.railway.app",
+  API_URL: "http://localhost:3000",
   BASE_HTML_PATH: "", // Same directory for HTML files
   BASE_CSS_PATH: "../css/",   // Path to CSS directory 
   BASE_JS_PATH: "../js/"      // Path to JS directory

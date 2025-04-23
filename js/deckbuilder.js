@@ -63,7 +63,11 @@ function cacheDOMElements() {
     nameSearch: document.getElementById('nameSearch'),
     typeFilter: document.getElementById('typeFilter'),
     gameTitle: document.getElementById('gameTitle'),
-    gameLink: document.getElementById('gameLink')
+    gameLink: document.getElementById('gameLink'),
+    exportDeckBtn: document.getElementById('exportDeckBtn'),
+    clearDeckBtn: document.getElementById('clearDeckBtn'),
+    saveDeckBtn: document.getElementById('saveDeckBtn'),
+    importDeckBtn: document.getElementById('importDeckBtn')
   };
 }
 
@@ -123,6 +127,23 @@ function setupEventListeners() {
     elements.resetBtn.addEventListener('click', () => {
       resetFilters();
     });
+  }
+  
+  // Deck control buttons
+  if (elements.exportDeckBtn) {
+    elements.exportDeckBtn.addEventListener('click', exportDeckAsImage);
+  }
+  
+  if (elements.clearDeckBtn) {
+    elements.clearDeckBtn.addEventListener('click', clearDeck);
+  }
+  
+  if (elements.saveDeckBtn) {
+    elements.saveDeckBtn.addEventListener('click', saveDeck);
+  }
+  
+  if (elements.importDeckBtn) {
+    elements.importDeckBtn.addEventListener('click', importDeck);
   }
 }
 
@@ -590,6 +611,419 @@ function calculateTotalCards() {
 }
 
 /**
+ * Upload an image to Cloudinary via our backend
+ * @param {Blob} blob - The image blob to upload
+ * @param {string} fileName - Name for the file
+ * @returns {Promise<string>} URL of the uploaded image
+ */
+async function uploadToCloudinary(blob, fileName) {
+  // Create form data for the upload
+  const formData = new FormData();
+  formData.append('file', blob, fileName);
+  formData.append('gameId', state.gameId);
+  formData.append('type', 'deck'); // Mark as a deck image
+  
+  // Upload to our backend which will handle the Cloudinary API
+  const response = await fetch(`${window.CONFIG.API_URL}/api/upload/image`, {
+    method: 'POST',
+    body: formData
+  });
+  
+  if (!response.ok) {
+    throw new Error('Failed to upload image');
+  }
+  
+  // Parse response to get image URL
+  const data = await response.json();
+  
+  // Return the URL from the response
+  return data.url;
+}
+
+/**
+ * Display a dialog with the image URL and copy button
+ * @param {string} imageUrl - URL of the uploaded image
+ */
+function showImageUrlDialog(imageUrl) {
+  // Create dialog element
+  const dialog = document.createElement('div');
+  dialog.className = 'image-url-dialog';
+  
+  // Create content
+  dialog.innerHTML = `
+    <div class="dialog-header">
+      <h3>Deck Image URL</h3>
+      <button class="close-btn">×</button>
+    </div>
+    <div class="dialog-body">
+      <p>Your deck image has been uploaded. Copy this URL to use in Tabletop Simulator:</p>
+      <div class="url-container">
+        <input type="text" readonly value="${imageUrl}" class="url-input">
+        <button class="copy-btn">Copy</button>
+      </div>
+      <div class="preview">
+        <img src="${imageUrl}" alt="Deck Preview" class="preview-image">
+      </div>
+    </div>
+  `;
+  
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    .image-url-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 500px;
+      max-width: 90vw;
+      z-index: 1000;
+    }
+    .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .dialog-header h3 {
+      margin: 0;
+      font-weight: bold;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .dialog-body {
+      padding: 16px;
+    }
+    .url-container {
+      display: flex;
+      margin: 12px 0;
+    }
+    .url-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px 0 0 4px;
+      font-family: monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .copy-btn {
+      padding: 8px 16px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .preview {
+      margin-top: 16px;
+      text-align: center;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .preview-image {
+      max-width: 100%;
+      border: 1px solid #eee;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+  `;
+  
+  // Create backdrop overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  
+  // Add to DOM
+  document.body.appendChild(style);
+  document.body.appendChild(overlay);
+  document.body.appendChild(dialog);
+  
+  // Close dialog handler
+  const closeDialog = () => {
+    document.body.removeChild(style);
+    document.body.removeChild(overlay);
+    document.body.removeChild(dialog);
+  };
+  
+  // Add event listeners
+  dialog.querySelector('.close-btn').addEventListener('click', closeDialog);
+  overlay.addEventListener('click', closeDialog);
+  
+  // Copy URL functionality
+  const copyBtn = dialog.querySelector('.copy-btn');
+  const urlInput = dialog.querySelector('.url-input');
+  
+  copyBtn.addEventListener('click', async () => {
+    try {
+      // Try to use the modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(imageUrl);
+      } else {
+        // Fall back to the older method
+        urlInput.select();
+        document.execCommand('copy');
+      }
+      
+      // Show success feedback
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+      alert('Failed to copy URL. Please select and copy it manually.');
+    }
+  });
+}
+
+/**
+ * Clear the deck
+ */
+function clearDeck() {
+  if (state.deck.length === 0) return;
+  
+  if (confirm('Are you sure you want to clear your deck?')) {
+    state.deck = [];
+    renderDeck();
+    renderCards(); // Re-render to update card highlights
+  }
+}
+
+/**
+ * Export deck as an image
+ */
+async function exportDeckAsImage() {
+  if (state.deck.length === 0) {
+    alert('Your deck is empty. Add cards to create an exportable image.');
+    return;
+  }
+  
+  // Show loading state
+  const exportBtn = elements.exportDeckBtn;
+  const originalText = exportBtn.textContent;
+  exportBtn.disabled = true;
+  exportBtn.textContent = 'Exporting...';
+  
+  try {
+    // Get all card data needed for the export
+    const cardDetails = await fetchCardsForExport();
+    
+    // Create and download the image
+    generateDeckImage(cardDetails);
+  } catch (error) {
+    console.error('Error exporting deck:', error);
+    alert('Failed to export deck image. Please try again.');
+  } finally {
+    // Reset button state
+    exportBtn.disabled = false;
+    exportBtn.textContent = originalText;
+  }
+}
+
+/**
+ * Fetch full card details for export
+ * @returns {Promise<Array>} Card details for the deck
+ */
+async function fetchCardsForExport() {
+  // Create a map of card IDs to quantities for easy lookup
+  const cardQuantities = {};
+  state.deck.forEach(card => {
+    cardQuantities[card.id] = card.quantity;
+  });
+  
+  // Use cards from state if they're already loaded
+  const cardDetails = state.cards
+    .filter(card => cardQuantities[card.id])
+    .map(card => ({
+      ...card,
+      quantity: cardQuantities[card.id]
+    }));
+    
+  return cardDetails;
+}
+
+/**
+ * Generate and download a deck image
+ * @param {Array} cardDetails - Full card data for the deck
+ */
+function generateDeckImage(cardDetails) {
+  if (cardDetails.length === 0) {
+    alert('No cards to export.');
+    return;
+  }
+  
+  // Create canvas element
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Fixed grid dimensions as specified
+  const gridWidth = 10;  // Always 10 cards wide
+  const gridHeight = 7;  // Always 7 cards high
+  
+  // First, we need to determine card dimensions by loading the first card image
+  const firstCard = new Image();
+  firstCard.crossOrigin = 'Anonymous';
+  firstCard.onload = () => {
+    // Calculate the aspect ratio of the first card
+    const cardAspectRatio = firstCard.width / firstCard.height;
+    
+    // Determine card dimensions for the grid
+    const cardHeight = 140; // Base height
+    const cardWidth = Math.floor(cardHeight * cardAspectRatio);
+    
+    // Set canvas dimensions for the fixed 10x7 grid exactly
+    // No margins, no headers, just the grid
+    canvas.width = gridWidth * cardWidth;
+    canvas.height = gridHeight * cardHeight;
+    
+    // Load and draw all card images
+    let currentRow = 0;
+    let currentCol = 0;
+    
+    // Create a function to place each card copy on the grid
+    const placeCardOnGrid = (img, cardIndex) => {
+      // Calculate position in the 10x7 grid
+      const row = Math.floor(cardIndex / gridWidth);
+      const col = cardIndex % gridWidth;
+      
+      // Calculate pixel position - no margins
+      const x = col * cardWidth;
+      const y = row * cardHeight;
+      
+      // Draw card
+      ctx.drawImage(img, x, y, cardWidth, cardHeight);
+    };
+    
+    // Function to process each card
+    const processCard = (card, quantity) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => {
+          // Place each copy of the card in the grid
+          for (let i = 0; i < quantity; i++) {
+            const cardIndex = currentRow * gridWidth + currentCol;
+            
+            // Only place the card if it fits in our 10x7 grid
+            if (cardIndex < gridWidth * gridHeight) {
+              placeCardOnGrid(img, cardIndex);
+              
+              // Move to next position
+              currentCol++;
+              if (currentCol >= gridWidth) {
+                currentCol = 0;
+                currentRow++;
+              }
+            }
+          }
+          resolve();
+        };
+        
+        img.onerror = () => {
+          console.error(`Failed to load image: ${card.image_url}`);
+          resolve();
+        };
+        
+        img.src = card.image_url;
+      });
+    };
+    
+    // Process all cards and create the download link
+    let flattenedCards = [];
+    
+    // Create a flattened array of card/quantity pairs
+    cardDetails.forEach(card => {
+      for (let i = 0; i < card.quantity; i++) {
+        flattenedCards.push(card);
+      }
+    });
+    
+    // Limit to grid capacity (10x7 = 70 cards)
+    flattenedCards = flattenedCards.slice(0, gridWidth * gridHeight);
+    
+    // Process each card sequentially to maintain order
+    const processSequentially = async () => {
+      for (const card of flattenedCards) {
+        await processCard(card, 1);
+      }
+      
+      // Get game name for filename only
+      const gameName = state.gameData?.name || `Game${state.gameId}`;
+      const fileName = `${gameName.replace(/\s+/g, '_')}_deck.png`;
+      
+      // Convert canvas to blob then upload to Cloudinary
+      canvas.toBlob(async blob => {
+        try {
+          // Show uploading status
+          const exportBtn = elements.exportDeckBtn;
+          exportBtn.disabled = true;
+          exportBtn.textContent = 'Uploading...';
+          
+          try {
+            // Try to upload to Cloudinary via our backend API
+            const imageUrl = await uploadToCloudinary(blob, fileName);
+            
+            // Show URL in a dialog
+            showImageUrlDialog(imageUrl);
+          } catch (uploadError) {
+            console.error('Cloudinary upload failed, falling back to local download:', uploadError);
+            
+            // Fall back to local download
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            
+            // Clean up the object URL
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+            
+            // Show fallback message
+            alert('Online upload failed. The image has been downloaded to your device instead.');
+          }
+        } catch (error) {
+          console.error('Error uploading deck image:', error);
+          alert('Failed to upload deck image. Please try again.');
+        } finally {
+          // Reset button
+          const exportBtn = elements.exportDeckBtn;
+          exportBtn.disabled = false;
+          exportBtn.textContent = 'Export';
+        }
+      });
+    };
+    
+    processSequentially().catch(error => {
+      console.error('Error generating deck image:', error);
+      alert('Failed to generate deck image. Please try again.');
+    });
+  };
+  
+  firstCard.onerror = () => {
+    console.error('Failed to load first card image to determine dimensions');
+    alert('Failed to determine card dimensions. Please try again.');
+  };
+  
+  // Load the first card to determine dimensions
+  firstCard.src = cardDetails[0].image_url;
+}
+
+/**
  * Render the current deck
  */
 function renderDeck() {
@@ -638,6 +1072,209 @@ function removeCardFromDeck(cardId) {
   state.deck = state.deck.filter(card => card.id !== cardId);
   renderDeck();
   renderCards(); // Re-render to update highlights
+}
+
+/**
+ * Save the current deck to local storage
+ */
+function saveDeck() {
+  if (state.deck.length === 0) {
+    alert('Your deck is empty. Add cards before saving.');
+    return;
+  }
+  
+  // Get deck name from user
+  const deckName = prompt('Enter a name for your deck:', 
+    `${state.gameData?.name || 'Game'} Deck`);
+  
+  if (!deckName) return; // User cancelled
+  
+  // Create deck object to save
+  const deckToSave = {
+    name: deckName,
+    gameId: state.gameId,
+    createdAt: new Date().toISOString(),
+    cards: state.deck
+  };
+  
+  try {
+    // Get existing decks or initialize empty array
+    const savedDecks = JSON.parse(localStorage.getItem('tcgworld_saved_decks') || '[]');
+    
+    // Check if deck with same name exists
+    const existingDeckIndex = savedDecks.findIndex(deck => 
+      deck.name === deckName && deck.gameId === state.gameId);
+    
+    if (existingDeckIndex >= 0) {
+      // Confirm before overwriting
+      if (confirm(`A deck named "${deckName}" already exists. Overwrite it?`)) {
+        savedDecks[existingDeckIndex] = deckToSave;
+      } else {
+        return; // User cancelled overwrite
+      }
+    } else {
+      // Add new deck
+      savedDecks.push(deckToSave);
+    }
+    
+    // Save back to localStorage
+    localStorage.setItem('tcgworld_saved_decks', JSON.stringify(savedDecks));
+    alert(`Deck "${deckName}" saved successfully.`);
+    
+  } catch (error) {
+    console.error('Error saving deck:', error);
+    alert('Failed to save deck. Please try again.');
+  }
+}
+
+/**
+ * Import a saved deck
+ */
+function importDeck() {
+  try {
+    // Get saved decks
+    const savedDecks = JSON.parse(localStorage.getItem('tcgworld_saved_decks') || '[]');
+    
+    // Filter decks for current game
+    const gameDecks = savedDecks.filter(deck => deck.gameId === state.gameId);
+    
+    if (gameDecks.length === 0) {
+      alert('No saved decks found for this game.');
+      return;
+    }
+    
+    // Create deck selection UI
+    const deckSelection = document.createElement('div');
+    deckSelection.className = 'deck-selection';
+    deckSelection.innerHTML = `
+      <div class="deck-selection-header">
+        <h3>Select a deck to import</h3>
+        <button class="close-btn">×</button>
+      </div>
+      <div class="deck-selection-list">
+        ${gameDecks.map((deck, index) => `
+          <div class="saved-deck" data-index="${index}">
+            <span class="saved-deck-name">${deck.name}</span>
+            <span class="saved-deck-info">${deck.cards.reduce((sum, card) => sum + card.quantity, 0)} cards</span>
+            <span class="saved-deck-date">${new Date(deck.createdAt).toLocaleDateString()}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .deck-selection {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        width: 400px;
+        max-width: 90vw;
+        z-index: 1000;
+      }
+      .deck-selection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+      .deck-selection-header h3 {
+        margin: 0;
+      }
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .deck-selection-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 8px;
+      }
+      .saved-deck {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        background: #f8f9fa;
+      }
+      .saved-deck:hover {
+        background: #f1f3f4;
+      }
+      .saved-deck-name {
+        font-weight: bold;
+      }
+      .saved-deck-info, .saved-deck-date {
+        color: #666;
+        font-size: 0.9em;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+    `;
+    
+    // Create backdrop overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    
+    // Add to DOM
+    document.body.appendChild(style);
+    document.body.appendChild(overlay);
+    document.body.appendChild(deckSelection);
+    
+    // Close modal handler
+    const closeModal = () => {
+      document.body.removeChild(style);
+      document.body.removeChild(overlay);
+      document.body.removeChild(deckSelection);
+    };
+    
+    // Add event listeners
+    deckSelection.querySelector('.close-btn').addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+    
+    // Handle deck selection
+    deckSelection.querySelectorAll('.saved-deck').forEach(element => {
+      element.addEventListener('click', () => {
+        const index = parseInt(element.dataset.index);
+        const selectedDeck = gameDecks[index];
+        
+        // Confirm before replacing current deck
+        if (state.deck.length > 0) {
+          if (!confirm('This will replace your current deck. Continue?')) {
+            return; // User cancelled
+          }
+        }
+        
+        // Load the deck
+        state.deck = [...selectedDeck.cards]; // Clone the cards array
+        renderDeck();
+        renderCards(); // Update highlights
+        
+        // Close the modal
+        closeModal();
+      });
+    });
+    
+  } catch (error) {
+    console.error('Error importing deck:', error);
+    alert('Failed to import deck. Please try again.');
+  }
 }
 
 // Initialize the application when the DOM is ready

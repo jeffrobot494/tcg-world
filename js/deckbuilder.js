@@ -611,33 +611,37 @@ function calculateTotalCards() {
 }
 
 /**
- * Upload an image to Cloudinary via our backend
+ * Upload an image directly to Cloudinary
  * @param {Blob} blob - The image blob to upload
  * @param {string} fileName - Name for the file
  * @returns {Promise<string>} URL of the uploaded image
  */
 async function uploadToCloudinary(blob, fileName) {
-  // Create form data for the upload
-  const formData = new FormData();
-  formData.append('file', blob, fileName);
-  formData.append('gameId', state.gameId);
-  formData.append('type', 'deck'); // Mark as a deck image
+  // Create form data for direct Cloudinary upload
+  const cloudinaryFormData = new FormData();
+  cloudinaryFormData.append('file', blob, fileName);
+  cloudinaryFormData.append('upload_preset', 'TCG-World Unsigned');
   
-  // Upload to our backend which will handle the Cloudinary API
-  const response = await fetch(`${window.CONFIG.API_URL}/api/upload/image`, {
-    method: 'POST',
-    body: formData
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to upload image');
+  try {
+    // Upload directly to Cloudinary
+    const cloudinaryResponse = await fetch('https://api.cloudinary.com/v1_1/dmfjx6e7z/image/upload', {
+      method: 'POST',
+      body: cloudinaryFormData
+    });
+    
+    if (!cloudinaryResponse.ok) {
+      throw new Error(`Failed to upload to Cloudinary: ${cloudinaryResponse.statusText}`);
+    }
+    
+    // Parse the Cloudinary response
+    const cloudinaryData = await cloudinaryResponse.json();
+    
+    // Return the secure URL from Cloudinary
+    return cloudinaryData.secure_url;
+  } catch (error) {
+    console.error('Cloudinary upload error:', error);
+    throw error;
   }
-  
-  // Parse response to get image URL
-  const data = await response.json();
-  
-  // Return the URL from the response
-  return data.url;
 }
 
 /**

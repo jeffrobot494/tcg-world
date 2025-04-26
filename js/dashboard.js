@@ -99,7 +99,7 @@ function fetchGames(token) {
           const deckbuilderLink = document.createElement("a");
           deckbuilderLink.href = `${window.CONFIG.BASE_HTML_PATH}deckbuilder.html?gameId=${game.id}`;
           deckbuilderLink.className = "action-button primary";
-          deckbuilderLink.innerText = "Deck Builder";
+          deckbuilderLink.innerText = "View Deck Builder";
           actionButtons.appendChild(deckbuilderLink);
           
           // Game details link

@@ -1,33 +1,19 @@
--get supplies
-	check
--make kitty posters
-	check
--outline finances
-	-$11k in debt
-	$6k in cash and Bitcoin
-	$500 in cash
-	If I spend $2500 per month, I will be flat broke in two months.
--outline go to market strategy for app
-	My go to marketing strategy is reaching out to creators directly and forming partnerships with them to get them to use my platform. ie Hinchi is perfect. He's using TTS, he's actively marketing his game, etc.
-	Hinchi has his own website. He would probably want an "iframe" to embed in his website. 
--outline app MVP-alpha
-	Basic Search: cost, type (if available)
-	Basic onboarding UX is up
-	Get local development server so I can make changes/test without affecting the live site.
-	assign type w img upload
-	when linking sheet preview, only show ones that didn't work.
-	MVP-beta:
-		Creator analytics
-		TTS tool
-		Advanced search
-		iFrame
-		cache cards in gameview so we dont have to download them everytime
--work on app
--outline therapy
--outline life
--get haircut
-	"check"
--app analytics page
+Went to deckbuilder, tried to import cards. Totally missing the game page and uploader. Would have totally lost the user there. "You want to build cards, so go to the deck builder."
+
+Feedback: Doesn't like the idea of me having his cards in my database. Needs Terms of Service or rights explicitly laid out. 
+
+Error: a requested file or directory could not be found at the time an operation was processed.
+
+He's worried about compression of cards. 
+
+A digital TCG would not have "card images" assuming they have layers and images and stuff.
+
+Add more image types: .gif, .webp, etc
+
+Weirdo login/logout mechanics bother him
+
+Probably a lot of creators who aren't using spreadsheets.
+	stopgap: manually editing
 
 More notes:
 1) on the game page, show all the data we have for the card. make the table wider so we can fit all the data. so we can see that our type is working.

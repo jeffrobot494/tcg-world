@@ -801,11 +801,9 @@ function showImageUrlDialog(imageUrl) {
 function clearDeck() {
   if (state.deck.length === 0) return;
   
-  if (confirm('Are you sure you want to clear your deck?')) {
-    state.deck = [];
-    renderDeck();
-    renderCards(); // Re-render to update card highlights
-  }
+  state.deck = [];
+  renderDeck();
+  renderCards(); // Re-render to update card highlights
 }
 
 /**

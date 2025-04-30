@@ -1,3 +1,17 @@
+
+4/30/25
+In Edit Mode:
+1) Clicking the thumbnail lets you upload a new image
+2) You can change column names and types
+3) You can change strings and ints by typing
+4) You can change lists with dropdowns
+5) Cost is in integers for now, no mana types
+6) If you select-check-box multiple cards, any changes you then make to any of their fields are made to all their fields.
+7) A little "edit" icon appears next to the title of each column, which lets you change its name and type.
+8) When you change a column type, it saves/converts the values there if possible. ie strings become items in a list.
+9) New column "+" button appears
+10) New card "+" button appears at the bottom of the table.
+
 Went to deckbuilder, tried to import cards. Totally missing the game page and uploader. Would have totally lost the user there. "You want to build cards, so go to the deck builder."
 
 Feedback: Doesn't like the idea of me having his cards in my database. Needs Terms of Service or rights explicitly laid out. 
@@ -14,7 +28,7 @@ Weirdo login/logout mechanics bother him
 
 Probably a lot of creators who aren't using spreadsheets.
 	stopgap: manually editing
-
+juhki
 More notes:
 1) on the game page, show all the data we have for the card. make the table wider so we can fit all the data. so we can see that our type is working.
 2) Card type filter on deckbuilder needs to actually filter by card type.
